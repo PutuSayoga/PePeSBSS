@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[Siswa]
+(
+	Id INT,
+	KelasId INT,
+	Nis VARCHAR(20) NOT NULL,
+	Status VARCHAR(20) NOT NULL,
+	CONSTRAINT [PK_Siswa] PRIMARY KEY(Id),
+	CONSTRAINT [UNQ_Nis_Siswa] UNIQUE(Nis),
+	CONSTRAINT [FK_SiswaToKelas]
+		FOREIGN KEY (KelasId) REFERENCES Kelas(Id)
+)

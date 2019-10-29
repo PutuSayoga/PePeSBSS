@@ -1,0 +1,14 @@
+﻿CREATE TABLE [dbo].[Staff]
+(
+	Id INT NOT NULL,
+	Nip CHAR(18) NOT NULL,
+	NamaLengkap VARCHAR(50) NOT NULL,
+	Email VARCHAR(50) NOT NULL,
+	NoHp VARCHAR(20),
+	Jabatan VARCHAR(20) NOT NULL,
+	Username VARCHAR(20) NOT NULL,
+	Password VARCHAR(32) NOT NULL,
+	CONSTRAINT [PK_Staff] PRIMARY KEY (Id),
+	CONSTRAINT [UNQ_Nip_Staff] UNIQUE (Nip),
+	CONSTRAINT [UNQ_Username_Staff] UNIQUE (Username)
+)

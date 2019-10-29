@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[Panitia]
+(
+	StaffId	INT,
+	Acara VARCHAR(20) NOT NULL,
+	Divisi VARCHAR(20) NOT NULL,
+	CONSTRAINT [UNQ_StaffId_Panitia] UNIQUE (StaffId),
+	CONSTRAINT [FK_PanitiaToStaff]
+		FOREIGN KEY (StaffId) REFERENCES Staff(Id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+)
