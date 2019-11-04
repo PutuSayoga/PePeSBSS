@@ -1,4 +1,5 @@
-﻿@*@{
+﻿@model KelolaSoalModel
+@{
     ViewBag.Title = "Kelola Soal Akademik";
 }
 <div class="mb-4">
@@ -37,10 +38,10 @@ else
                         @foreach (var soalAkademik in Model.ListSoalAkademik)
                         {
                             <tr>
-                                <td>@soalAkademik.JudulSoal</td>
+                                <td>@soalAkademik.Judul</td>
                                 <td>@soalAkademik.Kategori</td>
-                                <td>@soalAkademik.WaktuPengerjaan menit</td>
-                                <td>@soalAkademik.ListPertanyann?.Count() dari @soalAkademik.MaxSoal</td>
+                                <td>@soalAkademik.BatasWaktu menit</td>
+                                <td>@soalAkademik.JumlahPertanyaan</td>
                                 <td>
                                     <a asp-controller="Admin" asp-action="RincianSoalAkademik" asp-route-id="@soalAkademik.Id"
                                        class="btn btn-info">
@@ -50,7 +51,7 @@ else
                                     Ubah</button>
                                     <form asp-controller="Admin" asp-action="HapusSoalAkademik" asp-route-id="@soalAkademik.Id"
                                           method="post" class="delete-button mt-1">
-                                        <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus Soal @soalAkademik.JudulSoal?')"
+                                        <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus Soal @soalAkademik.Judul?')"
                                                 class="btn btn-danger">
                                         Hapus</button>
                                     </form>
@@ -75,15 +76,9 @@ else
             <div class="modal-body">
                 <form asp-controller="Admin" asp-action="TambahSoalAkademik"  method="post">
                     <div class="form-group">
-                        <label asp-for="TambahSoalAkademik.JudulSoal" class="col-form-label"></label>
+                        <label asp-for="TambahSoalAkademik.Judul" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="TambahSoalAkademik.JudulSoal" class="form-control" placeholder="Judul soal" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="TambahSoalAkademik.KodeSoal" class="col-form-label"></label>
-                        <span class="text-danger">*</span>
-                        <input asp-for="TambahSoalAkademik.KodeSoal" class="form-control" placeholder="Kode soal" />
-                        <span asp-validation-for="TambahSoalAkademik.KodeSoal" class="text-danger"></span>
+                        <input asp-for="TambahSoalAkademik.Judul" class="form-control" placeholder="Judul soal" />
                     </div>
                     <div class="form-group">
                         <label asp-for="TambahSoalAkademik.Kategori" class="col-form-label"></label>
@@ -92,16 +87,10 @@ else
                         <span asp-validation-for="TambahSoalAkademik.Kategori" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TambahSoalAkademik.MaxSoal" class="col-form-label"></label>
-                        <input asp-for="TambahSoalAkademik.MaxSoal" class="form-control" placeholder="ex. 081234567891" />
-                        <span asp-validation-for="TambahSoalAkademik.MaxSoal" class="text-danger"></span>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label asp-for="TambahSoalAkademik.WaktuPengerjaan" class="col-form-label"></label>
+                        <label asp-for="TambahSoalAkademik.BatasWaktu" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="TambahSoalAkademik.WaktuPengerjaan" class="form-control" placeholder="Batas waktu pengerjaan soal" />
-                        <span asp-validation-for="TambahSoalAkademik.WaktuPengerjaan" class="text-danger"></span>
+                        <input asp-for="TambahSoalAkademik.BatasWaktu" class="form-control" placeholder="Batas waktu pengerjaan soal" />
+                        <span asp-validation-for="TambahSoalAkademik.BatasWaktu" class="text-danger"></span>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
@@ -111,4 +100,4 @@ else
             </div>
         </div>
     </div>
-</div>*@
+</div>

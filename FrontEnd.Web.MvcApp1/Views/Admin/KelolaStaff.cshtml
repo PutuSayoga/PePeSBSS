@@ -1,0 +1,83 @@
+﻿
+@*@{
+    ViewBag.title = "Kelola Staff";
+}
+
+<div class="mb-4">
+    <p>
+        Tempat mengelola staff dan kepanitiaan yang diikuti oleh staff tersebut. Untuk menambah staff baru bisa klik tombol tambah staff dibawah
+    </p>
+    <a asp-controller="Admin" asp-action="TambahStaff" class="btn btn-success btn-icon-split">
+        <span class="icon text-white"><i class="fas fa-pen"></i></span>
+        <span class="text">Tambah Staff</span>
+    </a>
+</div>
+@if (Model.Count() < 1)
+{
+    <div>Kosong</div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">List Staff</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
+                    <thead>
+                        <tr>
+                            <th><b>Nomor Induk Pegawai</b></th>
+                            <th><b>Nama Lengkap       </b></th>
+                            <th><b>Jabatan            </b></th>
+                            <th><b>Panitia            </b></th>
+                            <th><b>Aksi               </b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var staff in Model)
+                        {
+                            <tr>
+                                <td>@staff.Nip        </td>
+                                <td>@staff.NamaLengkap</td>
+                                <td>@staff.Jabatan    </td>
+                                <td>
+                                    @if (staff.Panitia != null)
+                                    {
+                                        @: @staff.Panitia.Acara sie @staff.Panitia.Divisi
+                                    }
+                                    else
+                                    {
+                                        @: -
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-controller="Admin" asp-action="RincianStaff" asp-route-id="@staff.Id" class="btn btn-info" style="display:inline-block">
+                                        Rincian
+                                    </a>
+                                    <form asp-controller="Admin" asp-action="HapusStaff" asp-route-id="@staff.Id" method="post" class="delete-button mt-1">
+                                        <button onclick="return confirm('Apa anda yakin ingin menghapus @staff.NamaLengkap dari daftar staff?')"
+                                                type="submit" class="btn btn-danger">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+     Additional script 
+    <script>
+    @if (ViewBag.Pesan != null)
+    {
+        @: alert("@ViewBag.Pesan");
+    }
+    </script>
+}*@

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BackEnd.Domains
+﻿namespace BackEnd.Domains
 {
-    public partial class Staff
+    public class Staff
     {
         public int Id { get; set; }
         public string Nip { get; set; }
@@ -14,6 +11,6 @@ namespace BackEnd.Domains
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public virtual Panitia Panitia { get; set; }
+        public Panitia APanitia { get; set; }
     }
 }

@@ -1,0 +1,56 @@
+﻿@*@{
+    ViewBag.Title = $"Rincian {Model.JudulSoal}";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        @if (Model.ListPertanyann.Count() < 1)
+        {
+            <div>Kosong</div>
+        }
+        else
+        {
+            int i = 1;
+            foreach (var pertanyaan in Model.ListPertanyann)
+            {
+                <div class="card shadow mb-4">
+                    <a href="#pertanyaan-@i" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                        <h6 class="m-0 font-weight-bold text-primary">Pertanyaan @i</h6>
+                    </a>
+                    <div class="collapse show" id="pertanyaan-@i">
+                        <div class="card-body">
+                            <div class="border mb-1">@pertanyaan.Pertanyaan</div>
+                            <div class="border mb-1">
+                                @foreach (var pilihan in pertanyaan.Pilihan)
+                                {
+                                    <div>@pilihan.Key</div>
+                                }
+                            </div>
+                            <div class="border mb-1 border-success">@pertanyaan.Pilihan.FirstOrDefault(benar => benar.Value == true).Key</div>
+                            <div class="fa-pull-right mb-2">
+                                <button class="btn btn-danger btn-sm">Hapus</button>
+                                <button class="btn btn-warning btn-sm">Ubah</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                i++;
+            }
+        }
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Keterangan</h6>
+            </div>
+            <div class="card-body">
+                <label asp-for="JudulSoal"></label> : <a>@Model.JudulSoal</a>
+            </div>
+        </div>
+    </div>
+</div>
+ Scroll to top 
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+ Modal*@ 

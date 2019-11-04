@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BackEnd.IServices;
+using BackEnd.Abstraction;
+using BackEnd.Helper;
 using BackEnd.Services;
-using FrontEnd.Web.Mvc.Models.Staff;
+using FrontEnd.Web.Mvc.Models.Admin;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -27,14 +28,18 @@ namespace FrontEnd.Web.Mvc
         {
             services.AddControllersWithViews();
 
-            services.AddScoped<IDbConnectionHelper, DbConnectionHelper>(
-                e => new DbConnectionHelper(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton(Configuration);
+
+            services.AddScoped<IDbConnectionHelper>(
+                _ => new DbConnectionHelper(Configuration.GetConnectionString("DefaultConnection"))
+                );
 
             services.AddScoped<IStaff, StaffService>();
+            services.AddScoped<ISoalPenerimaan, SoalPenerimaanService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -54,7 +59,7 @@ namespace FrontEnd.Web.Mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Admin}/{action=Index}/{Id?}");
+                    pattern: "{controller=Admin}/{action=Index}/{id?}");
             });
         }
     }

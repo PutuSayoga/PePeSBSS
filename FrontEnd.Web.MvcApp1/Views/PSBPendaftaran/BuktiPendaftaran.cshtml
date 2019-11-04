@@ -1,0 +1,35 @@
+﻿@{ 
+    ViewBag.Title = "Bukti Pendaftaran";
+}
+
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Bukti Pendaftaran</h6>
+            </div>
+            <div class="card-body">
+                <div>
+                    <label>No pendaftaran</label>:<label>00001</label>
+                </div>
+                <div>
+                    <label>Jalur Pendaftaran</label>:<label>Reguler</label>
+                </div>
+                <div>
+                    <label>Nama Lengkap</label>:<label>Chourol Imam</label>
+                </div>
+                <div>
+                    <label>Biaya Pendaftaran</label>:<label>Rp. 100.000,-</label>
+                </div>
+                <div>
+                    <label>Password</label>:<label>qwerty</label>
+                </div>
+                <div>
+                    <label>Tanggal Seleksi</label>:<label>02 Maret 2020</label>
+                </div>
+                <div class="fa-pull-right">
+                    <button class="btn btn-dark">Cetak</button>
+                    <a asp-controller="PSBPendaftaran" asp-action="ListDaftarBaru" class="btn btn-primary">Selesai</a>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -12,7 +12,7 @@ namespace BackEnd.Domains
 
         public int SoalId { get; set; }
         public byte IndexPertanyaan { get; set; }
-        public string Pertanyaan1 { get; set; }
+        public string BadanPertanyaan { get; set; }
         public string PathGambar { get; set; }
         public string Pilihan { get; set; }
         public byte? JawabanBenar { get; set; }

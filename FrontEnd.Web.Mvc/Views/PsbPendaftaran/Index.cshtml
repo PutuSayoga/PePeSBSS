@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Halaman Utama";
+}
+
+hello world
+
+@section Scripts{
+    <script>
+    @if (ViewBag.Pesan != null)
+    {
+        @: alert("@ViewBag.pesan");
+    }
+    </script>
+}

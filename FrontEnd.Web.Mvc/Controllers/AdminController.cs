@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using BackEnd.IServices;
+using BackEnd.Abstraction;
 using BackEnd.Domains;
 using System.Collections.Generic;
 using System.Linq;
-using FrontEnd.Web.Mvc.Models.Staff;
+using FrontEnd.Web.Mvc.Models.Admin;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
     public class AdminController : Controller
     {
         private readonly IStaff _staffServices;
-
-        public AdminController(IStaff staffServices)
+        private readonly ISoalPenerimaan _soalPenerimaanService;
+        public AdminController(IStaff staffServices, ISoalPenerimaan soalPenerimaanService)
         {
             _staffServices = staffServices;
+            _soalPenerimaanService = soalPenerimaanService;
         }
 
         public IActionResult Index()
@@ -22,148 +23,159 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
 
         #region Staff
-        public IActionResult KelolaStaff(KelolaStaffModel model)
+        public IActionResult KelolaStaff()
         {
-            var results = _staffServices.GetAllStaff();
-            List<MinimizeStaff> minimizeStaffs = new List<MinimizeStaff>();
-            foreach (var staff in results)
+            ViewBag.Pesan = TempData["Pesan"] as string;
+            var model = new KelolaStaffModel()
             {
-                minimizeStaffs.Add(new MinimizeStaff()
+                DaftarStaff = _staffServices.GetAllStaff()
+            };
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult TambahStaff() => View();
+        [HttpPost]
+        public IActionResult TambahStaff(TambahStaffModel model)
+        {
+            // Cek valid
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Pesan = "Gagal menambah staff. Data tidak valid";
+                return View();
+            }
+            else
+            {
+                var newStaff = new Staff()
                 {
-                    Id = staff.Id,
+                    Nip = model.Nip,
+                    NamaLengkap = model.NamaLengkap,
+                    Email = model.Email,
+                    NoHp = model.NoHp,
+                    Jabatan = model.Jabatan,
+                    Username = model.Username,
+                    Password = model.Password
+                };
+                string result = _staffServices.AddStaff(newStaff);
+
+                if (!result.Equals("Sukses"))
+                {
+                    ViewBag.Pesan = $"Gagal menambah staff. {result}";
+                    return View();
+                }
+                else
+                {
+                    TempData["Pesan"] = $"Berhasil menambah staff dengan NIP {newStaff.Nip}";
+                    return RedirectToAction(nameof(KelolaStaff));
+                }
+            }
+        }
+        public IActionResult RincianStaff(int id)
+        {
+            ViewBag.Pesan = TempData["Pesan"] as string;
+
+            var staff = _staffServices.DetailStaff(id);
+            var model = new RincianStaffModel()
+            {
+                Id = staff.Id,
+                Staff = new TambahStaffModel()
+                {
                     Nip = staff.Nip,
                     NamaLengkap = staff.NamaLengkap,
                     Jabatan = staff.Jabatan,
-                    Panitia = staff.Panitia == null ?
-                        "-" : $"{staff.Panitia.Acara} sie {staff.Panitia.Divisi}"
-                });
-            }
+                    Email = staff.Email,
+                    NoHp = staff.NoHp,
+                    Username = staff.Username
+                },
+                Panitia = new TambahPanitiaModel()
+                {
+                    Acara = staff.APanitia.Acara,
+                    Divisi = staff.APanitia.Divisi
+                }
+            };
 
-            model.DaftarStaff = minimizeStaffs;
             return View(model);
         }
+        [HttpPost]
+        public IActionResult UbahStaff(RincianStaffModel model)
+        {
+            // Cek valid
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = "Gagal mengubah staff. Data tidak valid";
+                return RedirectToAction(nameof(RincianStaff), new { id = model.Id });
+            }
+            else
+            {
+                // Petakan dari model
+                var dataBaru = new Staff()
+                {
+                    Id = model.Id,
+                    NamaLengkap = model.Staff.NamaLengkap,
+                    Email = model.Staff.Email,
+                    NoHp = model.Staff.NoHp,
+                    Jabatan = model.Staff.Jabatan,
+                    Password = model.Staff.Password
+                };
 
-        //[HttpGet]
-        //public IActionResult TambahStaff()
-        //{
-        //    return View();
-        //}
+                // Service ubah staff
+                _staffServices.UpdateStaff(dataBaru);
 
-        //[HttpPost]
-        //public IActionResult TambahStaff(Staff staffBaru)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        ViewBag.Pesan = $"Gagal menambah staff\nData tidak valid";
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        string result = _model.TambahStaff(staffBaru);
-        //        if (!result.Equals("Sukses"))
-        //        {
-        //            ViewBag.Pesan = $"Gagal menambah staff, {result}";
-        //            return View();
-        //        }
-        //        else
-        //        {
-        //            ViewBag.Pesan = "Berhasil menambah staff";
-        //            return RedirectToAction("KelolaStaff");
-        //        }
-        //    }
-        //}
+                TempData["Pesan"] = "Berhasil mengubah staff";
+                return RedirectToAction(nameof(RincianStaff), new { id = model.Id });
+            }
+        }
+        [HttpPost]
+        public IActionResult HapusStaff(int id, string nip)
+        {
+            // Service hapus staff
+            _staffServices.DeleteStaff(id);
 
-        //public IActionResult RincianStaff(int id)
-        //{
-        //    string pesan = TempData["Pesan"] as string;
-        //    if (pesan != null)
-        //    {
-        //        ViewBag.Pesan = pesan;
-        //    }
-        //    return View(_model.RincianStaff(id));
-        //}
+            TempData["Pesan"] = $"Berhasil menghapus staff dengan NIP {nip}";
+            return RedirectToAction(nameof(KelolaStaff));
+        }
+        [HttpPost]
+        public IActionResult TambahPanitia(RincianStaffModel model)
+        {
+            // Cek valid
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = "Gagal menambah panitia. Data tidak valid";
+                return RedirectToAction(nameof(RincianStaff), new { id = model.Id });
+            }
+            else
+            {
+                var id = model.Id;
+                var panitiaBaru = new Panitia()
+                {
+                    Acara = model.Panitia.Acara,
+                    Divisi = model.Panitia.Divisi
+                };
+                _staffServices.AddPanitiaToStaff(id, panitiaBaru);
 
-        //[HttpPost]
-        //public IActionResult UbahStaff(Staff dataBaru)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        TempData["Pesan"] = "Gagal mengubah staff";
-        //        return RedirectToAction("RincianStaff", new { id = dataBaru.Id });
-        //    }
-        //    else
-        //    {
-        //        if (_model.UbahStaff(dataBaru) != 1)
-        //        {
-        //            TempData["Pesan"] = "Gagal mengubah staff";
-        //            return RedirectToAction("RincianStaff", new { id = dataBaru.Id });
-        //        }
-        //        else
-        //        {
-        //            TempData["Pesan"] = "Berhasil mengubah staff";
-        //            return RedirectToAction("RincianStaff", new { id = dataBaru.Id });
-        //        }
-        //    }
-        //}
+                TempData["Pesan"] = "Berhasil menambahkan panitia";
+                return RedirectToAction(nameof(RincianStaff), new { id = model.Id });
+            }
+        }
+        [HttpPost]
+        public IActionResult HapusPanitia(int idStaff)
+        {
+            // Service hapus panitia
+            _staffServices.DeletePanitiaFromStaff(idStaff);
 
-        //[HttpPost]
-        //public IActionResult HapusStaff(int id)
-        //{
-        //    int rowAffected = _model.HapusStaff(id);
-        //    if (rowAffected != 1)
-        //    {
-        //        ViewBag.Pesan = "Gagal menghapus staff";
-        //        return RedirectToAction("KelolaStaff");
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Pesan = "Berhasil menghapus staff";
-        //        return RedirectToAction("KelolaStaff");
-        //    }
-        //}
-
-        //[HttpPost]
-        //public IActionResult TambahPanitia(int id, Panitia panitia, Staff staff)
-        //{
-        //    if (_model.TambahPanitia(id, panitia) != 1)
-        //    {
-        //        ViewBag.Pesan = "Gagal menambah panitia";
-        //        return RedirectToAction("RincianStaff", new { id = id });
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Pesan = "Berhasil menambah panitia";
-        //        return RedirectToAction("RincianStaff", new { id = id });
-        //    }
-        //}
-
-        //[HttpPost]
-        //public IActionResult HapusPanitia(int id)
-        //{
-        //    if (_model.HapusPanitia(id) != 1)
-        //    {
-        //        ViewBag.Pesan = "Gagal menghapus panitia";
-        //        return RedirectToAction("RincianStaff", new { id = id });
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Pesan = "Berhasil menghapus panitia";
-        //        return RedirectToAction("RincianStaff", new { id = id });
-        //    }
-        //}
+            ViewBag.Pesan = "Berhasil menghapus panitia";
+            return RedirectToAction(nameof(RincianStaff), new { id = idStaff });
+        }
         #endregion
 
-        //#region Soal Akademik
-        //public IActionResult KelolaSoalAkademik()
-        //{
+        #region Soal Akademik
+        public IActionResult KelolaSoalAkademik()
+        {
+            ViewBag.Pesan = TempData["Pesan"] as string;
 
-        //    var listSoalAkademik = _model.AmbilSemuaSoalAkademik();
+            var listSoalAkademik = _soalPenerimaanService.GetAllSoalAkademik();
 
-        //    return View(new KelolaSoalAkademikViewModel 
-        //    { 
-        //        ListSoalAkademik = listSoalAkademik
-        //    });
-        //}
+            return View();
+        }
 
         //[HttpPost]
         //public IActionResult TambahSoalAkademik(KelolaSoalAkademikViewModel soalAkademikBaru)
@@ -234,7 +246,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         //{
         //    return RedirectToAction("RincianSoalAkademik");
         //}
-        //#endregion
+        #endregion
 
         //#region Soal Wawancara
         //public IActionResult KelolaSoalWawancara()

@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Admin - @ViewBag.Title</title>
+
+    <environment include="Development">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="~/lib/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.css" rel="stylesheet" />
+        <link href="~/lib/startbootstrap-sb-admin-2/css/sb-admin-2.css" rel="stylesheet" />
+        <link href="~/css/site.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="=Development">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="~/lib/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+        <link href="~/lib/startbootstrap-sb-admin-2/css/sb-admin-2.min.css" rel="stylesheet" />
+    </environment>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <li class="nav-item bg-white">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center"
+                   asp-controller="Admin" asp-action="Index">
+                    <div class="sidebar-brand-icon">
+                        <img src="~/img/LogoSMABSS.Small.png" width="60" height="60"
+                             asp-append-version="true" />
+                    </div>
+                    <div class="sidebar-brand-text text-gray-700 small mx-1">SMA Brawijaya Smart School</div>
+                </a>
+            </li>
+            <li class="nav-item nav-link">
+                <a class="nav-link" asp-controller="Admin" asp-action="Index">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Halaman Utama</span>
+                </a>
+            </li>
+            <li><hr class="sidebar-divider" /></li>
+            <li class="sidebar-heading">Siswa</li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Admin" asp-action="DaftarSiswa">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>List Siswa</span>
+                </a>
+            </li>
+            <li><hr class="sidebar-divider" /></li>
+            <li class="sidebar-heading">Soal</li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Admin" asp-action="KelolaSoalAkademik">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Kelola Soal Akademik</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Admin" asp-action="KelolaSoalWawancara">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Kelola Soal Wawancara</span>
+                </a>
+            </li>
+            <li><hr class="sidebar-divider" /></li>
+            <li class="sidebar-heading">Panitia</li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Admin" asp-action="KelolaStaff">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Kelola Staff</span>
+                </a>
+            </li>
+            <li><hr class="sidebar-divider" /></li>
+            <li class="text-center d-none d-md-inline">
+                <button id="sidebarToggle" class="rounded-circle border-0"></button>
+            </li>
+        </ul>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="btn" href="#">
+                                Logout
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Content -->
+                <div class="container-fluid">
+                    <header class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+                    </header>
+                    <main class="mb-4">
+                        @RenderBody()
+                    </main>
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; Your Website @DateTime.Now.Year</span>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <environment include="Development">
+        <script src="~/lib/startbootstrap-sb-admin-2/vendor/jquery/jquery.js" type="text/javascript"></script>
+        <script src="~/lib/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.js" type="text/javascript"></script>
+        <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/startbootstrap-sb-admin-2/js/sb-admin-2.js" type="text/javascript"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js" type="text/javascript"></script>
+        <script src="~/lib/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/startbootstrap-sb-admin-2/js/sb-admin-2.min.js" type="text/javascript"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

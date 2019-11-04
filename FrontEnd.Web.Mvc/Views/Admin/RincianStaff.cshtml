@@ -1,9 +1,10 @@
-﻿@*@{
-    ViewBag.Title = Model.NamaLengkap;
+﻿@model RincianStaffModel
+@{
+    ViewBag.Title = Model.Staff.NamaLengkap;
 }
 <div class="mb-4">
     <p>
-        Pada halaman ini berisi rincian dari staff dengan nama @Model.NamaLengkap.<br />
+        Pada halaman ini berisi rincian dari staff dengan nama @Model.Staff.NamaLengkap.<br />
     </p>
 
     <div class="row">
@@ -14,12 +15,12 @@
                 </div>
                 <div class="card-body">
                     <div>
-                        <div><label asp-for="Nip"></label>:<label>@Model.Nip</label></div>
-                        <div><label asp-for="NamaLengkap"></label>:<label>@Model.NamaLengkap</label></div>
-                        <div><label asp-for="Email"></label>:<label>@Model.Email</label></div>
-                        <div><label asp-for="NoHp"></label>:<label>@Model.NoHp</label></div>
-                        <div><label asp-for="Jabatan"></label>:<label>@Model.Jabatan</label></div>
-                        <div><label asp-for="Username"></label>:<label>@Model.Username</label></div>
+                        <div><label asp-for="Staff.Nip"></label>:<label>@Model.Staff.Nip</label></div>
+                        <div><label asp-for="Staff.NamaLengkap"></label>:<label>@Model.Staff.NamaLengkap</label></div>
+                        <div><label asp-for="Staff.Email"></label>:<label>@Model.Staff.Email</label></div>
+                        <div><label asp-for="Staff.NoHp"></label>:<label>@Model.Staff.NoHp</label></div>
+                        <div><label asp-for="Staff.Jabatan"></label>:<label>@Model.Staff.Jabatan</label></div>
+                        <div><label asp-for="Staff.Username"></label>:<label>@Model.Staff.Username</label></div>
                         <div>
                             <button data-target="#ModalUbahStaff" data-toggle="modal"
                                     class="btn btn-warning fa-pull-right">
@@ -30,7 +31,7 @@
                 </div>
             </div>
         </div>
-        @if (Model.Panitia != null)
+        @if (Model.Panitia.Acara != null)
         {
             <div class="col-md-6 col-lg-5">
                 <div class="card shadow mb-4">
@@ -42,7 +43,7 @@
                             <div><label asp-for="Panitia.Acara"></label>:<label>@Model.Panitia.Acara</label></div>
                             <div><label asp-for="Panitia.Divisi"></label>:<label>@Model.Panitia.Divisi</label></div>
                             <div>
-                                <form asp-controller="Admin" asp-action="HapusPanitia" asp-route-id="@Model.Id" method="post">
+                                <form asp-controller="Admin" asp-action="HapusPanitia" asp-route-idStaff="@Model.Id" method="post">
                                     <button type="submit" class="btn btn-danger fa-pull-right"
                                             onclick="return confirm('Apa anda yakin ingin menghapus panitia dari staff ini?')">
                                         Hapus Panitia
@@ -71,7 +72,7 @@
         </a>
     </div>
 </div>
- Modal 
+@*Modal*@
 <div id="ModalTambahPanitia" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -80,7 +81,10 @@
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Admin" asp-action="TambahPanitia" asp-route-id="@Model.Id" method="post">
+                <form asp-controller="Admin" asp-action="TambahPanitia" method="post">
+                    <div>
+                        <input hidden asp-for="Id" />
+                    </div>
                     <div class="form-group">
                         <label asp-for="Panitia.Acara" class="col-form-label"></label>
                         <span class="text-danger">*</span>
@@ -117,59 +121,63 @@
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Admin" asp-action="UbahStaff" asp-route-id="@Model.Id" method="post" id="staff-form">
-                    <div class="form-group">
-                        <label asp-for="Nip" class="col-form-label"></label>
-                        <span class="text-danger">*</span>
-                        <input asp-for="Nip" class="form-control" readonly />
+                <form asp-controller="Admin" asp-action="UbahStaff"
+                      method="post" id="staff-form">
+                    <div>
+                        <input hidden asp-for="Id" />
                     </div>
                     <div class="form-group">
-                        <label asp-for="NamaLengkap" class="col-form-label"></label>
+                        <label asp-for="Staff.Nip" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="NamaLengkap" class="form-control" placeholder="Nama Lengkap" />
-                        <span asp-validation-for="NamaLengkap" class="text-danger"></span>
+                        <input asp-for="Staff.Nip" class="form-control" readonly />
                     </div>
                     <div class="form-group">
-                        <label asp-for="Email" class="col-form-label"></label>
+                        <label asp-for="Staff.NamaLengkap" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="Email" class="form-control" placeholder="ex. contoh@example.com" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <input asp-for="Staff.NamaLengkap" class="form-control" placeholder="Nama Lengkap" />
+                        <span asp-validation-for="Staff.NamaLengkap" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NoHp" class="col-form-label"></label>
-                        <input asp-for="NoHp" class="form-control" placeholder="ex. 081234567891" />
-                        <span asp-validation-for="NoHp" class="text-danger"></span>
+                        <label asp-for="Staff.Email" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <input asp-for="Staff.Email" class="form-control" placeholder="ex. contoh@example.com" />
+                        <span asp-validation-for="Staff.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Jabatan" class="col-form-label"></label>
+                        <label asp-for="Staff.NoHp" class="col-form-label"></label>
+                        <input asp-for="Staff.NoHp" class="form-control" placeholder="ex. 081234567891" />
+                        <span asp-validation-for="Staff.NoHp" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Staff.Jabatan" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <select asp-for="Jabatan" class="custom-select form-control">
+                        <select asp-for="Staff.Jabatan" class="custom-select form-control">
                             <option selected></option>
                             <option value="Admin">Admin</option>
                             <option value="Tata Usaha">Tata Usaha</option>
                             <option value="Waka Kesiswaan">Waka Kesiswaan</option>
                         </select>
-                        <span asp-validation-for="Jabatan" class="text-danger"></span>
+                        <span asp-validation-for="Staff.Jabatan" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Username" class="col-form-label"></label>
+                        <label asp-for="Staff.Username" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="Username" class="form-control" readonly />
+                        <input asp-for="Staff.Username" class="form-control" readonly />
                     </div>
                     <div class="form-group">
-                        <label asp-for="Password" class="col-form-label"></label>
+                        <label asp-for="Staff.Password" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="Password" class="form-control" placeholder="Masukkan password" type="password" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <input asp-for="Staff.Password" class="form-control" placeholder="Masukkan password" type="password" />
+                        <span asp-validation-for="Staff.Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="col-form-label"></label>
-                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Ulangi password" type="password" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        <label asp-for="Staff.ConfirmPassword" class="col-form-label"></label>
+                        <input asp-for="Staff.ConfirmPassword" class="form-control" placeholder="Ulangi password" type="password" />
+                        <span asp-validation-for="Staff.ConfirmPassword" class="text-danger"></span>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -185,4 +193,4 @@
         @: alert("@ViewBag.Pesan");
     }
     </script>
-}*@
+}
