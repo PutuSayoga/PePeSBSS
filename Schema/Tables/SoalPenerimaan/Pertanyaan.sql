@@ -1,12 +1,16 @@
 ﻿CREATE TABLE [dbo].[Pertanyaan]
 (
 	SoalId INT,
-	IndexPertanyaan TINYINT NOT NULL,
-	BadanPertanyaan VARCHAR(255) NOT NULL,
-	Pilihan VARCHAR(512),
-	JawabanBenar TINYINT,
+	Id INT IDENTITY(1,1) NOT NULL,
+	Isi TEXT NOT NULL,
+	OpsiA VARCHAR(255),
+	OpsiB VARCHAR(255),
+	OpsiC VARCHAR(255),
+	OpsiD VARCHAR(255),
+	OpsiE VARCHAR(255),
+	Jawaban CHAR(1),
 	CONSTRAINT [FK_PertanyaanToSoal]
 		FOREIGN KEY (SoalId) REFERENCES Soal(Id)
 		ON DELETE CASCADE,
-	CONSTRAINT [CK_Pertanyaan] PRIMARY KEY(SoalId, IndexPertanyaan)
+	CONSTRAINT [CK_Pertanyaan] PRIMARY KEY(SoalId, Id)
 )

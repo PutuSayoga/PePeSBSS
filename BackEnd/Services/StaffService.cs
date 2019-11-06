@@ -15,19 +15,25 @@ namespace BackEnd.Services
         public StaffService(IDbConnectionHelper connectionHelper)
             => _connectionHelper = connectionHelper;
 
-        public void AddPanitiaToStaff(int idStaff, Panitia newPanitia)
+        public IEnumerable<Staff> GetAllStaff()
         {
-            string sqlQuery = @"INSERT INTO Panitia(StaffId, Acara, Divisi) 
-                                VALUES(@StaffId, @Acara, @Divisi)";
+            string sqlQuery = @"SELECT * FROM Staff FULL JOIN Panitia 
+                                ON Staff.Id = Panitia.StaffId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                connection.Execute(sql: sqlQuery, param: new
-                {
-                    StaffId = idStaff,
-                    Acara = newPanitia.Acara,
-                    Divisi = newPanitia.Divisi
-                });
+
+                // Get data from database and map them using dapper
+                var result = connection.Query<Staff, Panitia, Staff>(
+                    sql: sqlQuery,
+                    map: (staff, panitia) =>
+                    {
+                        staff.APanitia = panitia;
+                        return staff;
+                    },
+                    splitOn: "StaffId").Distinct().ToList();
+
+                return result;
             }
         }
         public string AddStaff(Staff newStaff)
@@ -59,39 +65,15 @@ namespace BackEnd.Services
                 }
             }
         }
-        protected bool IsExistInStaff(string column, string value)
+        public void UpdateStaff(Staff newData)
         {
-            string sqlQuery = $"SELECT {column} FROM Staff WHERE {column} = @value";
+            string sqlQuery = @"UPDATE Staff 
+                                SET NamaLengkap = @NamaLengkap, Jabatan = @Jabatan, NoHp = @NoHp, Email = @Email, Password = @Password 
+                                WHERE Id = @Id";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                string result = connection.QueryFirstOrDefault<string>(
-                    sql: sqlQuery,
-                    param: new { value = value });
-
-                return result != null;
-            }
-        }
-        protected string Hashing(string plainText)
-        {
-            throw new NotImplementedException();
-        }
-        public void DeletePanitiaFromStaff(int staffId)
-        {
-            string sqlQuery = @"DELETE FROM Panitia WHERE StaffId = @StaffId";
-            using(var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                connection.Execute(sql: sqlQuery, param: new { StaffId = staffId });
-            }
-        }
-        public void DeleteStaff(int id)
-        {
-            string sqlQuery = @"DELETE FROM Staff WHERE Id = @Id";
-            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                connection.Execute(sql: sqlQuery, param: new { Id = id });
+                connection.Query(sql: sqlQuery, param: newData);
             }
         }
         public Staff DetailStaff(int id)
@@ -109,7 +91,6 @@ namespace BackEnd.Services
                    map: (staff, panitia) =>
                    {
                        staff.APanitia = panitia;
-
                        return staff;
                    },
                    splitOn: "StaffId",
@@ -118,38 +99,52 @@ namespace BackEnd.Services
                 return result;
             }
         }
-        public IEnumerable<Staff> GetAllStaff()
+        public void DeleteStaff(int id)
         {
-            string sqlQuery = @"SELECT * FROM Staff FULL JOIN Panitia 
-                                ON Staff.Id = Panitia.StaffId";
+            string sqlQuery = @"DELETE FROM Staff WHERE Id = @Id";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-
-                // Get data from database and map them using dapper
-                var result = connection.Query<Staff, Panitia, Staff>(
-                    sql: sqlQuery,
-                    map: (staff, panitia) =>
-                    {
-                        staff.APanitia = panitia;
-
-                        return staff;
-                    },
-                    splitOn: "StaffId").Distinct().ToList();
-
-                return result;
+                connection.Execute(sql: sqlQuery, param: new { Id = id });
             }
         }
-        public void UpdateStaff(Staff newData)
+
+        public void AddPanitiaToStaff(Panitia newPanitia)
         {
-            string sqlQuery = @"UPDATE Staff 
-                                SET NamaLengkap = @NamaLengkap, Jabatan = @Jabatan, NoHp = @NoHp, Email = @Email, Password = @Password 
-                                WHERE Id = @Id";
+            string sqlQuery = @"INSERT INTO Panitia(StaffId, Acara, Divisi) 
+                                VALUES(@StaffId, @Acara, @Divisi)";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                connection.Query(sql: sqlQuery, param: newData);
+                connection.Execute(sql: sqlQuery, param: newPanitia);
             }
+        }
+        public void DeletePanitiaFromStaff(int staffId)
+        {
+            string sqlQuery = @"DELETE FROM Panitia WHERE StaffId = @StaffId";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlQuery, param: new { StaffId = staffId });
+            }
+        }
+
+        public bool IsExistInStaff(string column, string value)
+        {
+            string sqlQuery = $"SELECT {column} FROM Staff WHERE {column} = @value";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                string result = connection.QueryFirstOrDefault<string>(
+                    sql: sqlQuery,
+                    param: new { value = value });
+
+                return result != null;
+            }
+        }
+        public string Hashing(string plainText)
+        {
+            throw new NotImplementedException();
         }
     }
 }

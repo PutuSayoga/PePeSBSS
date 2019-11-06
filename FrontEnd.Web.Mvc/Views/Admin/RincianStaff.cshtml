@@ -31,7 +31,16 @@
                 </div>
             </div>
         </div>
-        @if (Model.Panitia.Acara != null)
+        @if (Model.Panitia == null)
+        {
+            <div class="col-md-6 col-lg-5">
+                <p>
+                    Staff ini tidak terdaftar dalam kepanitiaan. Klik tombol di bawah untuk menambahkan panitia
+                </p>
+                <button data-target="#ModalTambahPanitia" data-toggle="modal" class="btn btn-success">Tambah Panitia</button>
+            </div>
+        }
+        else
         {
             <div class="col-md-6 col-lg-5">
                 <div class="card shadow mb-4">
@@ -43,7 +52,7 @@
                             <div><label asp-for="Panitia.Acara"></label>:<label>@Model.Panitia.Acara</label></div>
                             <div><label asp-for="Panitia.Divisi"></label>:<label>@Model.Panitia.Divisi</label></div>
                             <div>
-                                <form asp-controller="Admin" asp-action="HapusPanitia" asp-route-idStaff="@Model.Id" method="post">
+                                <form asp-controller="Admin" asp-action="HapusPanitia" asp-route-staffId="@Model.Id" method="post">
                                     <button type="submit" class="btn btn-danger fa-pull-right"
                                             onclick="return confirm('Apa anda yakin ingin menghapus panitia dari staff ini?')">
                                         Hapus Panitia
@@ -53,15 +62,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-        else
-        {
-            <div class="col-md-6 col-lg-5">
-                <p>
-                    Staff ini tidak terdaftar dalam kepanitiaan. Klik tombol di bawah untuk menambahkan panitia
-                </p>
-                <button data-target="#ModalTambahPanitia" data-toggle="modal" class="btn btn-success">Tambah Panitia</button>
             </div>
         }
     </div>

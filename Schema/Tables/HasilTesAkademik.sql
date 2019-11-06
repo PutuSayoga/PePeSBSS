@@ -3,7 +3,7 @@
 	AkunPendaftaranId INT,
 	NilaiMipa FLOAT,
 	NilaiIps FLOAT,
-	NilaiTpa Float,
+	NilaiTpa FLOAT,
 	CONSTRAINT [FK_HasilTesAkademikToAkunPendaftaran]
 		FOREIGN KEY (AkunPendaftaranId) REFERENCES AkunPendaftaran(Id)
 )

@@ -10,7 +10,7 @@ namespace BackEnd.Abstraction
         string AddStaff(Staff newStaff);
         void DeleteStaff(int id);
         void UpdateStaff(Staff newData);
-        void AddPanitiaToStaff(int staffId, Panitia newPanitia);
+        void AddPanitiaToStaff(Panitia newPanitia);
         void DeletePanitiaFromStaff(int staffId);
     }
 }

@@ -10,11 +10,11 @@ namespace FrontEnd.Web.Mvc.Controllers
     public class AdminController : Controller
     {
         private readonly IStaff _staffServices;
-        private readonly ISoalPenerimaan _soalPenerimaanService;
-        public AdminController(IStaff staffServices, ISoalPenerimaan soalPenerimaanService)
+        private readonly ISoalPenerimaan _soalService;
+        public AdminController(IStaff staffServices, ISoalPenerimaan soalService)
         {
             _staffServices = staffServices;
-            _soalPenerimaanService = soalPenerimaanService;
+            _soalService = soalService;
         }
 
         public IActionResult Index()
@@ -26,9 +26,10 @@ namespace FrontEnd.Web.Mvc.Controllers
         public IActionResult KelolaStaff()
         {
             ViewBag.Pesan = TempData["Pesan"] as string;
+            var listStaff = _staffServices.GetAllStaff();
             var model = new KelolaStaffModel()
             {
-                DaftarStaff = _staffServices.GetAllStaff()
+                DaftarStaff = listStaff
             };
             return View(model);
         }
@@ -85,13 +86,16 @@ namespace FrontEnd.Web.Mvc.Controllers
                     Email = staff.Email,
                     NoHp = staff.NoHp,
                     Username = staff.Username
-                },
-                Panitia = new TambahPanitiaModel()
+                }
+            };
+            if (staff.APanitia != null)
+            {
+                model.Panitia = new TambahPanitiaModel()
                 {
                     Acara = staff.APanitia.Acara,
                     Divisi = staff.APanitia.Divisi
-                }
-            };
+                };
+            }
 
             return View(model);
         }
@@ -144,26 +148,26 @@ namespace FrontEnd.Web.Mvc.Controllers
             }
             else
             {
-                var id = model.Id;
                 var panitiaBaru = new Panitia()
                 {
+                    StaffId = model.Id,
                     Acara = model.Panitia.Acara,
                     Divisi = model.Panitia.Divisi
                 };
-                _staffServices.AddPanitiaToStaff(id, panitiaBaru);
+                _staffServices.AddPanitiaToStaff(panitiaBaru);
 
                 TempData["Pesan"] = "Berhasil menambahkan panitia";
                 return RedirectToAction(nameof(RincianStaff), new { id = model.Id });
             }
         }
         [HttpPost]
-        public IActionResult HapusPanitia(int idStaff)
+        public IActionResult HapusPanitia(int staffId)
         {
             // Service hapus panitia
-            _staffServices.DeletePanitiaFromStaff(idStaff);
+            _staffServices.DeletePanitiaFromStaff(staffId);
 
-            ViewBag.Pesan = "Berhasil menghapus panitia";
-            return RedirectToAction(nameof(RincianStaff), new { id = idStaff });
+            TempData["Pesan"] = "Berhasil menghapus panitia";
+            return RedirectToAction(nameof(RincianStaff), new { id = staffId });
         }
         #endregion
 
@@ -172,135 +176,275 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             ViewBag.Pesan = TempData["Pesan"] as string;
 
-            var listSoalAkademik = _soalPenerimaanService.GetAllSoalAkademik();
+            var listSoalAkademik = _soalService.GetAllSoalAkademik();
+            var model = new KelolaSoalAkademikModel()
+            {
+                ListSoal = listSoalAkademik
+            };
 
-            return View();
+            return View(model);
         }
-
-        //[HttpPost]
-        //public IActionResult TambahSoalAkademik(KelolaSoalAkademikViewModel soalAkademikBaru)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        ViewBag.Pesan = $"Gagal menambah staff\nData tidak valid";
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        string result = _model.TambahSoalAkademik(soalAkademikBaru.TambahSoalAkademik);
-        //        if (!result.Equals("Sukses"))
-        //        {
-        //            ViewBag.Pesan = $"Gagal menambah staff, {result}";
-        //            return View();
-        //        }
-        //        else
-        //        {
-        //            ViewBag.Pesan = "Berhasil menambah staff";
-        //            return RedirectToAction("KelolaSoalAkademik");
-        //        }
-        //    }
-        //}
-
-        //[HttpPost]
-        //public IActionResult HapusSoalAkademik(int id)
-        //{
-        //    int rowAffected = _model.HapusSoalAkademik(id);
-        //    if (rowAffected != 1)
-        //    {
-        //        ViewBag.Pesan = "Gagal menghapus soal akademik";
-        //        return RedirectToAction("KelolaSoalAkademik");
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Pesan = "Berhasil menghapus soal akademik";
-        //        return RedirectToAction("KelolaSoalAkademik");
-        //    }
-        //}
-
-        //[HttpPost]
-        //public IActionResult UbahSoalAkademik()
-        //{
-        //    return RedirectToAction("KelolaSoalAkademik");
-        //}
-
-        //public IActionResult RincianSoalAkademik(int id)
-        //{
-        //    var model = _model.RincianSoalAkademik(id);
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public IActionResult TambahPertanyaanAkademik()
-        //{
-        //    return RedirectToAction("RincianSoalAkademik");
-        //}
-
-        //[HttpPost]
-        //public IActionResult UbahPertanyaanAkademik()
-        //{
-        //    return RedirectToAction("RincianSoalAkademik");
-        //}
-
-        //[HttpPost]
-        //public IActionResult HapusPertanyaanAkademik()
-        //{
-        //    return RedirectToAction("RincianSoalAkademik");
-        //}
+        [HttpPost]
+        public IActionResult TambahSoalAkademik(KelolaSoalAkademikModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = $"Gagal menambah soal\nData tidak valid";
+                return RedirectToAction(nameof(KelolaSoalAkademik));
+            }
+            else
+            {
+                var soalAkademikBaru = new Soal()
+                {
+                    Judul = model.SoalAkademik.Judul,
+                    BatasWaktu = model.SoalAkademik.BatasWaktu,
+                    Kategori = model.SoalAkademik.Kategori,
+                    Deskripsi = model.SoalAkademik.Deskripsi,
+                };
+                _soalService.AddSoal(soalAkademikBaru);
+                TempData["Pesan"] = "Soal berhasil ditambah";
+                return RedirectToAction(nameof(KelolaSoalAkademik));
+            }
+        }
+        [HttpPost]
+        public IActionResult HapusSoalAkademik(int id, string nama)
+        {
+            _soalService.DeleteSoal(id);
+            TempData["Pesan"] = $"Berhasil menghapus soal {nama}";
+            return RedirectToAction(nameof(KelolaSoalAkademik));
+        }
+        [HttpGet]
+        public IActionResult UbahSoalAkademik(int id)
+        {
+            var soal = _soalService.GetSimpleSoal(id);
+            var model = new CrudSoalAkademik()
+            {
+                Judul = soal.Judul,
+                Kategori = soal.Kategori,
+                BatasWaktu = soal.BatasWaktu,
+                Deskripsi = soal.Deskripsi
+            };
+            return Json(model);
+        }
+        [HttpPost]
+        public IActionResult UbahSoalAkademik(KelolaSoalAkademikModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = $"Gagal mengubah soal\nData tidak valid";
+                return RedirectToAction(nameof(KelolaSoalAkademik));
+            }
+            else
+            {
+                var dataBaru = new Soal()
+                {
+                    Judul = model.SoalAkademik.Judul,
+                    BatasWaktu = model.SoalAkademik.BatasWaktu,
+                    Kategori = model.SoalAkademik.Kategori,
+                    Deskripsi = model.SoalAkademik.Deskripsi,
+                };
+                _soalService.UpdateSoal(dataBaru);
+                TempData["Pesan"] = $"Soal {dataBaru.Judul} berhasil diubah";
+                return RedirectToAction(nameof(KelolaSoalAkademik));
+            }
+        }
+        public IActionResult RincianSoalAkademik(int id)
+        {
+            var soal = _soalService.GetDetailSoal(id);
+            var model = new RincianSoalAkademikModel()
+            {
+                Id = soal.Id,
+                JudulSoal = soal.Judul,
+                BatasWaktu = soal.BatasWaktu,
+                JumlahPertanyaan = soal.JumlahPertanyaan,
+                Kategori = soal.Kategori,
+                Deskripsi = soal.Deskripsi,
+                ListPertanyaanAkademik = soal.ListPertanyaan
+                    .Select(x => new CrudPertanyaanAkademikModel()
+                    {
+                        Id = x.Id,
+                        Isi = x.Isi,
+                        OpsiA = x.OpsiA,
+                        OpsiB = x.OpsiB,
+                        OpsiC = x.OpsiC,
+                        OpsiD = x.OpsiD,
+                        OpsiE = x.OpsiE,
+                        Jawaban = x.Jawaban
+                    }).ToList()
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult TambahPertanyaanAkademik(RincianSoalAkademikModel model)
+        {
+            var newPertanyaan = new Pertanyaan()
+            {
+                SoalId = model.Id,
+                Isi = model.CrudPertanyaanAkademik.Isi,
+                OpsiA = model.CrudPertanyaanAkademik.OpsiA,
+                OpsiB = model.CrudPertanyaanAkademik.OpsiB,
+                OpsiC = model.CrudPertanyaanAkademik.OpsiC,
+                OpsiD = model.CrudPertanyaanAkademik.OpsiD,
+                OpsiE = model.CrudPertanyaanAkademik.OpsiE,
+                Jawaban = model.CrudPertanyaanAkademik.Jawaban
+            };
+            _soalService.AddPertanyaan(newPertanyaan);
+            return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.Id });
+        }
+        [HttpPost]
+        public IActionResult UbahPertanyaanAkademik(RincianSoalAkademikModel model)
+        {
+            var newData = new Pertanyaan()
+            {
+                SoalId = model.Id,
+                Isi = model.CrudPertanyaanAkademik.Isi,
+                OpsiA = model.CrudPertanyaanAkademik.OpsiA,
+                OpsiB = model.CrudPertanyaanAkademik.OpsiB,
+                OpsiC = model.CrudPertanyaanAkademik.OpsiC,
+                OpsiD = model.CrudPertanyaanAkademik.OpsiD,
+                OpsiE = model.CrudPertanyaanAkademik.OpsiE,
+                Jawaban = model.CrudPertanyaanAkademik.Jawaban
+            };
+            _soalService.UpdatePertanyaan(newData);
+            return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.Id });
+        }
+        [HttpPost]
+        public IActionResult HapusPertanyaanAkademik(int soalId, int id)
+        {
+            _soalService.DeletePertanyaan(soalId, id);
+            return RedirectToAction(nameof(RincianSoalAkademik), new { id = soalId });
+        }
         #endregion
 
-        //#region Soal Wawancara
-        //public IActionResult KelolaSoalWawancara()
-        //{
-        //    return View();
-        //}
+        #region Soal Wawancara
+        public IActionResult KelolaSoalWawancara()
+        {
+            ViewBag.Pesan = TempData["Pesan"] as string;
 
-        //[HttpPost]
-        //public IActionResult TambahSoalWawancara()
-        //{
-        //    return RedirectToAction("KelolaSoalfWawancara");
-        //}
+            var listSoalWawancara = _soalService.GetAllSoalWawancara();
+            var model = new KelolaSoalWawancaraModel()
+            {
+                ListSoal = listSoalWawancara
+            };
 
-        //[HttpPost]
-        //public IActionResult HapusSoalWawancara(int id)
-        //{
-        //    return RedirectToAction("KelolaSoalWawancara");
-        //}
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult TambahSoalWawancara(KelolaSoalWawancaraModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = $"Gagal menambah soal\nData tidak valid";
+                return RedirectToAction(nameof(KelolaSoalWawancara));
+            }
+            else
+            {
+                var soalWawancaraBaru = new Soal()
+                {
+                    Judul = model.SoalWawancara.Judul,
+                    Kategori = model.SoalWawancara.Kategori,
+                    Jalur = model.SoalWawancara.Jalur,
+                    Target = model.SoalWawancara.Target,
+                    Deskripsi = model.SoalWawancara.Deskripsi,
+                };
+                _soalService.AddSoal(soalWawancaraBaru);
+                TempData["Pesan"] = "Soal berhasil ditambah";
+                return RedirectToAction(nameof(KelolaSoalWawancara));
+            }
+        }
+        [HttpPost]
+        public IActionResult HapusSoalWawancara(int id, string nama)
+        {
+            _soalService.DeleteSoal(id);
+            TempData["Pesan"] = $"Berhasil menghapus soal {nama}";
+            return RedirectToAction(nameof(KelolaSoalWawancara));
+        }
+        [HttpGet]
+        public IActionResult UbahSoalWawancara(int id)
+        {
+            var soal = _soalService.GetSimpleSoal(id);
+            var model = new CrudSoalWawancara()
+            {
+                Judul = soal.Judul,
+                Jalur = soal.Jalur,
+                Target = soal.Target,
+                Deskripsi = soal.Deskripsi
+            };
+            return Json(model);
+        }
+        [HttpPost]
+        public IActionResult UbahSoalWawancara(KelolaSoalWawancaraModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = $"Gagal mengubah soal\nData tidak valid";
+                return RedirectToAction(nameof(KelolaSoalWawancara));
+            }
+            else
+            {
+                var dataBaru = new Soal()
+                {
+                    Judul = model.SoalWawancara.Judul,
+                    Target = model.SoalWawancara.Target,
+                    Jalur = model.SoalWawancara.Jalur,
+                    Deskripsi = model.SoalWawancara.Deskripsi,
+                };
+                _soalService.UpdateSoal(dataBaru);
+                TempData["Pesan"] = $"Soal {dataBaru.Judul} berhasil diubah";
+                return RedirectToAction(nameof(KelolaSoalWawancara));
+            }
+        }
+        public IActionResult RincianSoalWawancara(int id)
+        {
+            var soal = _soalService.GetDetailSoal(id);
+            var model = new RincianSoalWawancaraModel()
+            {
+                Id = soal.Id,
+                JudulSoal = soal.Judul,
+                Jalur = soal.Jalur,
+                Target = soal.Target,
+                JumlahPertanyaan = soal.JumlahPertanyaan,
+                Deskripsi = soal.Deskripsi,
+                ListPertanyaanWawancara= soal.ListPertanyaan
+                    .Select(x => new CrudPertanyaanWawancaraModel()
+                    {
+                        Id = x.Id,
+                        Isi = x.Isi
+                    }).ToList()
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult TambahPertanyaanWawancara(RincianSoalWawancaraModel model)
+        {
+            var newPertanyaan = new Pertanyaan()
+            {
+                SoalId = model.Id,
+                Isi = model.CrudPertanyaanWawancara.Isi
+            };
+            _soalService.AddPertanyaan(newPertanyaan);
+            return RedirectToAction(nameof(RincianSoalWawancara), new { id = model.Id });
+        }
+        [HttpPost]
+        public IActionResult UbahPertanyaanAkademik(RincianSoalWawancaraModel model)
+        {
+            var newData = new Pertanyaan()
+            {
+                SoalId = model.Id,
+                Isi = model.CrudPertanyaanWawancara.Isi
+            };
+            _soalService.UpdatePertanyaan(newData);
+            return RedirectToAction(nameof(RincianSoalWawancara), new { id = model.Id });
+        }
+        [HttpPost]
+        public IActionResult HapusPertanyaanWawancara(int soalId, int id)
+        {
+            _soalService.DeletePertanyaan(soalId, id);
+            return RedirectToAction(nameof(RincianSoalWawancara), new { id = soalId });
+        }
+        #endregion
 
-        //[HttpPost]
-        //public IActionResult UbahSoalWawancara()
-        //{
-        //    return RedirectToAction("KelolaSoalWawancara");
-        //}
-
-        //public IActionResult RincianSoalWawancara(int id)
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public IActionResult TambahPertanyaanWawancara()
-        //{
-        //    return RedirectToAction("RincianSoalWawancara");
-        //}
-
-        //[HttpPost]
-        //public IActionResult UbahPertanyaanWawancara()
-        //{
-        //    return RedirectToAction("RincianSoalWawancara");
-        //}
-
-        //[HttpPost]
-        //public IActionResult HapusPertanyaanWawancara()
-        //{
-        //    return RedirectToAction("RincianSoalWawancara");
-        //}
-        //#endregion
-
-        //#region Siswa
-        //public IActionResult DaftarSiswa()
-        //{
-        //    return View();
-        //}
-        //#endregion
+        #region Siswa
+        #endregion
     }
 }

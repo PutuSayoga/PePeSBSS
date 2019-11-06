@@ -8,13 +8,16 @@ namespace BackEnd.Abstraction
     public interface ISoalPenerimaan
     {
         IEnumerable<Soal> GetAllSoalAkademik();
-        Soal GetDetailSoalAkademik(int id);
+        IEnumerable<Soal> GetAllSoalWawancara();
+
+        Soal GetDetailSoal(int id);
+        Soal GetSimpleSoal(int id);
         void AddSoal(Soal newSoal);
         void UpdateSoal(Soal newData);
         void DeleteSoal(int id);
 
-        void AddPertanyaan(int soalId, Pertanyaan newPertanyaan);
+        void AddPertanyaan(Pertanyaan newPertanyaan);
         void DeletePertanyaan(int soalId, int id);
-        void UpdatePertanyaan(int soalId, Pertanyaan newData);
+        void UpdatePertanyaan(Pertanyaan newData);
     }
 }

@@ -6,7 +6,7 @@ namespace BackEnd.Helper
     {
         private readonly string _connectionString;
 
-        public DbConnectionHelper(string connectionString) 
+        public DbConnectionHelper(string connectionString)
             => _connectionString = connectionString;
 
         public string GetConnectionString() => _connectionString;

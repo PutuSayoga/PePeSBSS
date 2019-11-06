@@ -83,6 +83,7 @@
     <Build Include="Tables\Kelas\Kelas.sql" />
     <Build Include="Tables\Siswa\MutasiKeluar.sql" />
     <Build Include="Tables\Jadi.sql" />
+    <Build Include="Tables\Jawaban.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema.publish.xml" />

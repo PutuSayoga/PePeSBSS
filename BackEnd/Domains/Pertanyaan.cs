@@ -5,19 +5,14 @@ namespace BackEnd.Domains
 {
     public partial class Pertanyaan
     {
-        public Pertanyaan()
-        {
-            HasilTesWawancara = new HashSet<HasilTesWawancara>();
-        }
-
         public int SoalId { get; set; }
-        public byte IndexPertanyaan { get; set; }
-        public string BadanPertanyaan { get; set; }
-        public string PathGambar { get; set; }
-        public string Pilihan { get; set; }
-        public byte? JawabanBenar { get; set; }
-
-        public virtual Soal Soal { get; set; }
-        public virtual ICollection<HasilTesWawancara> HasilTesWawancara { get; set; }
+        public byte Id { get; set; }
+        public string Isi { get; set; }
+        public string OpsiA { get; set; }
+        public string OpsiB { get; set; }
+        public string OpsiC { get; set; }
+        public string OpsiD { get; set; }
+        public string OpsiE { get; set; }
+        public char Jawaban { get; set; }
     }
 }

@@ -31,8 +31,7 @@ namespace FrontEnd.Web.Mvc
             services.AddSingleton(Configuration);
 
             services.AddScoped<IDbConnectionHelper>(
-                _ => new DbConnectionHelper(Configuration.GetConnectionString("DefaultConnection"))
-                );
+                _ => new DbConnectionHelper(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IStaff, StaffService>();
             services.AddScoped<ISoalPenerimaan, SoalPenerimaanService>();
