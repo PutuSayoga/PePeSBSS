@@ -7,6 +7,15 @@ namespace BackEnd.Abstraction
 {
     public interface ICalonSiswa
     {
-        CalonSiswa GetDetailCalonSiswa(int id);
+        void SaveDataDiri(string namaLengkap, DataDiri newData);
+        void SaveDataAkademikTerakhir(AkademikTerakhir newData);
+        void SaveDataPenunjang(Penunjang newData);
+        void SaveDataPenanggunjawab(List<Penanggungjawab> newData);
+        void SaveDataPrestasi(Prestasi newData);
+        void SaveDataRapor(List<Rapor> newData);
+
+        CalonSiswa GetDetail(int akunId);
+
+        string CekStatus(int akunId);
     }
 }

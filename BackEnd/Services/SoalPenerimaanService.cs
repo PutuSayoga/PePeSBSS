@@ -62,7 +62,7 @@ namespace BackEnd.Services
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                var soal = connection.Query<Soal>(sql: sqlQuery, param: new { Id = id }).FirstOrDefault();
+                var soal = connection.Query<Soal>(sql: sqlQuery, param: new { Id = id }).First();
                 return soal;
             }
         }

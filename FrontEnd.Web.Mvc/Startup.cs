@@ -33,8 +33,10 @@ namespace FrontEnd.Web.Mvc
             services.AddScoped<IDbConnectionHelper>(
                 _ => new DbConnectionHelper(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IStaff, StaffService>();
+            services.AddScoped<IStaffSMA, StaffSMAService>();
             services.AddScoped<ISoalPenerimaan, SoalPenerimaanService>();
+            services.AddScoped<IPendaftaran, PendaftaranService>();
+            services.AddScoped<ICalonSiswa, CalonSiswaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,16 +51,14 @@ namespace FrontEnd.Web.Mvc
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Admin}/{action=Index}/{id?}");
+                    pattern: "{controller=PsbPendaftaran}/{action=Index}/{id?}");
             });
         }
     }

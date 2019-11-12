@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace BackEnd.Domains
 {
-    public partial class DataDiri
+    public class DataDiri
     {
-        public int? CalonSiswaId { get; set; }
+        public int CalonSiswaId { get; set; }
         public string NamaPanggilan { get; set; }
         public bool IsPerempuan { get; set; }
         public string TempatLahir { get; set; }
@@ -32,6 +32,6 @@ namespace BackEnd.Domains
         public string RiwayatSakit { get; set; }
         public string KelainanJasmani { get; set; }
 
-        public virtual CalonSiswa CalonSiswa { get; set; }
+        public CalonSiswa CalonSiswa { get; set; }
     }
 }

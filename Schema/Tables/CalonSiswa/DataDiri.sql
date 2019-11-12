@@ -6,7 +6,7 @@
 	TempatLahir VARCHAR(20) NOT NULL,
 	TanggalLahir DATE NOT NULL,
 	Alamat VARCHAR(100) NOT NULL,
-	Agama VARCHAR(20),
+	Agama VARCHAR(20) NOT NULL,
 	Rt VARCHAR(5),
 	Rw VARCHAR(5),
 	Dusun_Desa_Lurah VARCHAR(20),

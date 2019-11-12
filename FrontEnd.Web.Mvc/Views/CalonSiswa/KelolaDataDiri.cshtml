@@ -1,0 +1,279 @@
+﻿@model KelolaDataDiriModel
+@{
+    ViewBag.Title = "Data Diri";
+}
+<div class="col-11">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Form data diri</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="All" class="alert-danger text-danger mb-4"></div>
+            <form asp-controller="CalonSiswa" asp-action="KelolaDataDiri" method="post">
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NamaLengkap"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="NamaLengkap" class="form-control" placeholder="Nama lengap sesuai KK" />
+                        <span asp-validation-for="NamaLengkap" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NoPendaftaran"></label>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="NoPendaftaran" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="JalurPendaftaran"></label>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="JalurPendaftaran" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NamaPanggilan"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="NamaPanggilan" class="form-control" placeholder="Bagaimana kami memanggilmu" />
+                        <span asp-validation-for="NamaPanggilan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="IsPerempuan"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <div class="radio">
+                            <input type="radio" value="false" asp-for="IsPerempuan" />
+                            Laki-Laki
+                        </div>
+                        <div class="radio">
+                            <input type="radio" value="true" asp-for="IsPerempuan" />
+                            Perempuan
+                        </div>
+                        <span asp-validation-for="IsPerempuan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="TempatLahir"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="TempatLahir" class="form-control" placeholder="Tempat lahir sesuai KK" />
+                        <span asp-validation-for="TempatLahir" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="TanggalLahir"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="TanggalLahir" class="form-control" type="date" />
+                        <span asp-validation-for="TanggalLahir" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Agama"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Agama" class="form-control" placeholder="Agama kepercayaan" />
+                        <span asp-validation-for="Agama" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Alamat"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <textarea asp-for="Alamat" class="form-control" placeholder="Alamat rumah"></textarea>
+                        <span asp-validation-for="Alamat" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Rt"></label>
+                    </div>
+                    <div class="col-md-2">
+                        <input asp-for="Rt" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Rw"></label>
+                    </div>
+                    <div class="col-md-2">
+                        <input asp-for="Rw" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="DusunDesaLurah"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="DusunDesaLurah" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Kecamatan"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="Kecamatan" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="KotaKabupaten"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="KotaKabupaten" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="KodePos"></label>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="KodePos" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NoTelp"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="NoTelp" class="form-control" placeholder="Nomor telepon rumah" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NoHp"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="NoHp" class="form-control" placeholder="Nomor handphone yang bisa dihubungi" />
+                        <span asp-validation-for="NoHp" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Email"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="Email" class="form-control" placeholder="Alamat email yang aktif" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="AnakKe"></label>
+                    </div>
+                    <div class="col-md-2">
+                        <input asp-for="AnakKe" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="JumlahSaudara"></label>
+                    </div>
+                    <div class="col-md-2">
+                        <input asp-for="JumlahSaudara" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="StatusDalamKeluarga"></label>
+                    </div>
+                    <div class="col-md-3">
+                        <select asp-for="StatusDalamKeluarga" class="custom-select form-control mr-sm-2">
+                            <option value="Anak Kandung" selected>Anak Kandung</option>
+                            <option value="Anak Tiri">Anak Angkat</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="TinggiBadan"></label>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="TinggiBadan" class="col-md-2 form-control" placeholder="" />
+                        <span asp-validation-for="TinggiBadan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="BeratBadan"></label>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="BeratBadan" class="col-md-2 form-control" placeholder="" />
+                        <span asp-validation-for="BeratBadan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="GolDarah"></label>
+                    </div>
+                    <div class="col-md-2">
+                        <select asp-for="GolDarah" class="custom-select form-control mr-sm-2">
+                            <option value="" selected></option>
+                            <option value="O">O</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="AB">AB</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="CitaCita"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="CitaCita" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Hobi"></label>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="Hobi" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="RiwayatSakit"></label>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="RiwayatSakit" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="KelainanJasmani"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <input asp-for="KelainanJasmani" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="my-1 fa-pull-right">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

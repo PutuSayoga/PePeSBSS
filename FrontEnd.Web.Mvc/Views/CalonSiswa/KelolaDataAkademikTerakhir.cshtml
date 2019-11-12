@@ -1,0 +1,114 @@
+﻿@model KelolaDataAkademikTerakhir
+@{
+    ViewBag.Title = "Data Akademik Terakhir";
+}
+<div class="col-11">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Form data akademik terakhir</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="All" class="alert-danger text-danger mb-4"></div>
+            <form asp-controller="CalonSiswa" asp-action="KelolaDataAkademikTerakhir" method="post">
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NamaSekolah"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="NamaSekolah" class="form-control" placeholder="Nama sekolah sebelumnya" />
+                        <span asp-validation-for="NamaSekolah" class="text-danger"></span>
+                    </div>
+                </div>
+                @if (true)
+                {
+                    <div class="form-group row">
+                        <div class="col-md-3 col-form-label">
+                            <label asp-for="JenisSekolah"></label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-md">
+                            <select asp-for="JenisSekolah" class="col-md-2 form-control">
+                                <option value="" selected></option>
+                                <option value="SMP">SMP</option>
+                                <option value="MTs">Mts</option>
+                            </select>
+                            <span asp-validation-for="JenisSekolah" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group row">
+                        <div class="col-md-3 col-form-label">
+                            <label asp-for="JenisSekolah"></label>
+                            <span class="text-danger">*</span>
+                        </div>
+                        <div class="col-md">
+                            <select asp-for="JenisSekolah" class="col-md-2 form-control">
+                                <option value="" selected></option>
+                                <option value="SMA">SMA</option>
+                                <option value="SMK">SMK</option>
+                                <option value="MA">MA</option>
+                            </select>
+                            <span asp-validation-for="JenisSekolah" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="StatusSekolah"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <select asp-for="StatusSekolah" class="col-md-2 form-control">
+                            <option value="" selected></option>
+                            <option value="Negeri">Negeri</option>
+                            <option value="Swasta">Swasta</option>
+                        </select>
+                        <span asp-validation-for="StatusSekolah" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="AlamatSekolah"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <textarea asp-for="AlamatSekolah" class="form-control" placeholder="Alamat sekolah sebelumnya"></textarea>
+                        <span asp-validation-for="AlamatSekolah" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NoPesertaUn"></label>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="NoPesertaUn" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NoSeriSkhun"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="NoSeriSkhun" class="form-control" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NoSeriIjazah"></label>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="NoSeriIjazah" class="form-control" type="date" />
+                        <span asp-validation-for="NoSeriIjazah" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="my-1 fa-pull-right">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

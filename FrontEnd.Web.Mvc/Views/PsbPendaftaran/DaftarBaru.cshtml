@@ -1,40 +1,74 @@
-﻿@{ 
+﻿@model DaftarBaruModel
+@{ 
     ViewBag.Title = "Pendaftaran Siswa Baru";
 }
 
 <div>
-    <form>
-        <div>
-            <label></label>
-            <span class="text-danger">*</span>
-            <input />
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Form tambah staff</h6>
         </div>
-        <div>
-            <label></label>
-            <span class="text-danger">*</span>
-            <input />
+        <div class="card-body">
+            <div asp-validation-summary="All" class="alert-danger text-danger mb-4"></div>
+            <form asp-controller="PsbPendaftaran" asp-action="DaftarBaru" method="post">
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-3 col-form-label">
+                        <label asp-for="JalurPendaftaran"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-lg-10 col-md-9">
+                        <select asp-for="JalurPendaftaran" class="custom-select form-control mr-sm-2">
+                            <option value="Reguler" selected>Jalur Reguler</option>
+                            <option value="Khusus">Jalur Khusus</option>
+                            <option value="Prestasi">Jalur Prestasi</option>
+                            <option value="Mitra">Jalur Mitra</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-3 col-form-label">
+                        <label asp-for="NamaLengkap"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-lg-10 col-md-9">
+                        <input asp-for="NamaLengkap" class="form-control" placeholder="Nama Lengkap" />
+                        <span asp-validation-for="NamaLengkap" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-3 col-form-label">
+                        <label asp-for="Nik"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-lg-10 col-md-9">
+                        <input asp-for="Nik" class="form-control" placeholder="nomor induk keluarga" />
+                        <span asp-validation-for="Nik" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-3 col-form-label">
+                        <label asp-for="Nisn"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-lg-10 col-md-9">
+                        <input asp-for="Nisn" class="form-control" placeholder="nomor induk siswa nasional" />
+                        <span asp-validation-for="Nisn" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2 col-md-3 col-form-label">
+                        <label asp-for="JadwalTes"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-lg-6 col-md-9">
+                        <input asp-for="JadwalTes" type="date" class="form-control"/>
+                        <span asp-validation-for="JadwalTes" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="my-1 fa-pull-right">
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+            </form>
         </div>
-        <div>
-            <label></label>
-            <span class="text-danger">*</span>
-            <input />
-        </div>
-        <div>
-            <label></label>
-            <span class="text-danger">*</span>
-            <input />
-        </div>
-        <div>
-            <label></label>
-            <span class="text-danger">*</span>
-            <input />
-        </div>
-        <div>
-            <label></label>
-            <input type="checkbox" />
-        </div>
-        <div class="fa-pull-right">
-            <button type="submit" class="btn btn-primary">Simpan</button>
-        </div>
-    </form>
+    </div>
 </div>

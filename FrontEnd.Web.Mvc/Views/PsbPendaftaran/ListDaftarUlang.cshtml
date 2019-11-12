@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ListDaftarUlangModel
 @{
+    ViewBag.Title = "List Daftar Ulang";
 }
+
+@if (Model.ListDaftarUlang.Count() < 1)
+{
+    <div>Kosong</div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">List Calon Siswa</h6>
+        </div>
+        <div class="card-body">
+            <hr />
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
+                    <thead>
+                        <tr>
+                            <th><b>No Pendaftaran   </b></th>
+                            <th><b>Nama Lengkap     </b></th>
+                            <th><b>Jalur Pendaftaran</b></th>
+                            <th><b>AsalSekolah      </b></th>
+                            <th><b>Aksi             </b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var akunPendaftaran in Model.ListDaftarUlang)
+                        {
+                            <tr>
+                                <td>@akunPendaftaran.NoPendaftaran</td>
+                                <td>@akunPendaftaran.ACalonSiswa.NamaLengkap</td>
+                                <td>@akunPendaftaran.JalurPendaftaran</td>
+                                <td>@akunPendaftaran.ACalonSiswa.AAkademikTerakhir.NamaSekolah</td>
+                                <td>
+                                    <a href="#">Rincian</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Modal -->

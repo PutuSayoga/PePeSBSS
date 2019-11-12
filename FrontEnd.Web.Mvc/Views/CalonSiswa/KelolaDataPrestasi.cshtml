@@ -1,0 +1,95 @@
+﻿@model KelolaDataPrestasiModel
+@{
+    ViewBag.Title = "Data Prestasi";
+}
+@if (true)
+{
+    <div>
+        prestasi yang dapat dicantumkan <b>BUKAN</b> prestasi yang sama saat dipakai mendaftar pada Jalur Prestasi
+    </div>
+}
+<div class="col-11">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Form data akademik terakhir</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="All" class="alert-danger text-danger mb-4"></div>
+            <form asp-controller="CalonSiswa" asp-action="KelolaDataAkademikTerakhir" method="post">
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="NamaKejuaraan"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <input asp-for="NamaKejuaraan" class="form-control" placeholder="Nama kejuaraan yang diikuti" />
+                        <span asp-validation-for="NamaKejuaraan" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Jenis"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                            <select asp-for="Jenis" class="col-md-3 form-control">
+                                <option value="" selected></option>
+                                <option value="Akademik">Akademik</option>
+                                <option value="Non Akademik">Non Akademik</option>
+                            </select>
+                        <span asp-validation-for="Jenis" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Tingkat"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md">
+                        <select asp-for="Tingkat" class="col-md-3 form-control">
+                            <option value="" selected></option>
+                            <option value="Internasional">Internasional</option>
+                            <option value="Nasional">Nasional</option>
+                            <option value="Kabupaten">Kabupaten</option>
+                            <option value="Kota">Kota</option>
+                            <option value="Kecamatan">Kecamatan</option>
+                        </select>
+                        <span asp-validation-for="Tingkat" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Peringkat"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Peringkat" class="form-control" placeholder="Peringkat yang diraih" />
+                        <span asp-validation-for="Tingkat" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Tahun"></label>
+                        <span class="text-danger">*</span>
+                    </div>
+                    <div class="col-md-4">
+                        <input asp-for="Tahun" class="form-control" type="date" />
+                        <span asp-validation-for="Tingkat" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-3 col-form-label">
+                        <label asp-for="Penyelenggara"></label>
+                    </div>
+                    <div class="col-md-7">
+                        <input asp-for="Penyelenggara" class="form-control" placeholder="Yang menyelenggarakan kejuaraan" />
+                        <span asp-validation-for="Penyelenggara" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="my-1 fa-pull-right">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

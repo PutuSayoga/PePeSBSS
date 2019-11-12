@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [dbo].[CalonSiswa]
 (
-	Id INT,
+	Id INT IDENTITY(1,1),
 	Nik CHAR(16) NOT NULL,
 	Nisn CHAR(10) NOT NULL,
-	NamaLengkap VARCHAR NOT NULL,
+	NamaLengkap VARCHAR(50) NOT NULL,
 	CONSTRAINT [PK_CalonSiswa] PRIMARY KEY (Id),
 	CONSTRAINT [UNQ_Nik_CalonSiswa] UNIQUE(Nik),
 	CONSTRAINT [UNQ_Nisn_CalonSiswa] UNIQUE(Nisn)

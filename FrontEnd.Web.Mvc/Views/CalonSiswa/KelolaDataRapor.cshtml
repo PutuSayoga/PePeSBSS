@@ -1,0 +1,154 @@
+﻿@model KelolaDataRaporModel
+@{
+    ViewBag.Title = "Data Rapor";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Nilai Rapor Jenjang Sebelumnya</h6>
+    </div>
+    <div class="card-body">
+        <form asp-controller="CalonSiswa" asp-action="KelolaDataRapor" method="post">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-info text-dark">
+                        <tr>
+                            <th>Mata Pelajaran</th>
+                            <th>Semester 1</th>
+                            <th>Semester 2</th>
+                            <th>Semester 3</th>
+                            <th>Semester 4</th>
+                            <th>Semester 5</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Pendidikan Agama
+                                <input hidden asp-for="ListRapor[0].MataPelajaran" value="Pendidikan Agama" />
+                            </td>
+                            <td><input asp-for="ListRapor[0].Semester1" class="form-control" type="number"/></td>
+                            <td><input asp-for="ListRapor[0].Semester2" class="form-control" type="number"/></td>
+                            <td><input asp-for="ListRapor[0].Semester3" class="form-control" type="number"/></td>
+                            <td><input asp-for="ListRapor[0].Semester4" class="form-control" type="number"/></td>
+                            <td><input asp-for="ListRapor[0].Semester5" class="form-control" type="number"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Pendidikan Kewarganegaraan
+                                <input hidden asp-for="ListRapor[1].MataPelajaran" value="Pendidikan Kewarganegaraan" />
+                            </td>
+                            <td><input asp-for="ListRapor[1].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[1].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[1].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[1].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[1].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Bahasa Indonesia
+                                <input hidden asp-for="ListRapor[2].MataPelajaran" value="Bahasa Indonesia" />
+                            </td>
+                            <td><input asp-for="ListRapor[2].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[2].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[2].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[2].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[2].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Bahasa Inggris
+                                <input hidden asp-for="ListRapor[3].MataPelajaran" value="Bahasa Inggris" />
+                            </td>
+                            <td><input asp-for="ListRapor[3].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[3].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[3].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[3].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[3].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Matematika
+                                <input hidden asp-for="ListRapor[4].MataPelajaran" value="Matematika" />
+                            </td>
+                            <td><input asp-for="ListRapor[4].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[4].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[4].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[4].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[4].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ilmu Pengetahuan Alam
+                                <input hidden asp-for="ListRapor[5].MataPelajaran" value="Ilmu Pengetahuan Alam" />
+                            </td>
+                            <td><input asp-for="ListRapor[5].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[5].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[5].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[5].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[5].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ilmu Pengetahuan Sosial
+                                <input hidden asp-for="ListRapor[6].MataPelajaran" value="Ilmu Pengetahuan Sosial" />
+                            </td>
+                            <td><input asp-for="ListRapor[6].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[6].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[6].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[6].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[6].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Seni Budaya
+                                <input hidden asp-for="ListRapor[7].MataPelajaran" value="Seni Budaya" />
+                            </td>
+                            <td><input asp-for="ListRapor[7].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[7].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[7].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[7].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[7].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Pendidikan Jasmani & Olahraga
+                                <input hidden asp-for="ListRapor[8].MataPelajaran" value="Pendidikan Jasmani & Olahraga" />
+                            </td>
+                            <td><input asp-for="ListRapor[8].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[8].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[8].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[8].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[8].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Prakarya
+                                <input hidden asp-for="ListRapor[9].MataPelajaran" value="Prakarya" />
+                            </td>
+                            <td><input asp-for="ListRapor[9].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[9].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[9].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[9].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[9].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Muatan Lokal (Bahasa Daerah)
+                                <input hidden asp-for="ListRapor[10].MataPelajaran" value="Muatan Lokal (Bahasa Daerah)" />
+                            </td>
+                            <td><input asp-for="ListRapor[10].Semester1" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[10].Semester2" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[10].Semester3" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[10].Semester4" class="form-control" type="number" /></td>
+                            <td><input asp-for="ListRapor[10].Semester5" class="form-control" type="number" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="my-1 fa-pull-right">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -14,6 +14,8 @@
   <ItemGroup>
     <Folder Include="Views\TesWawancara\" />
     <Folder Include="Views\TesAkademik\" />
+    <Folder Include="wwwroot\lib\Quixlab\plugins\jqvmap\js\maps\" />
+    <Folder Include="wwwroot\lib\Quixlab\plugins\summernote\css\" />
   </ItemGroup>
 
 </Project>

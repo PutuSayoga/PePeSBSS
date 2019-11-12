@@ -9,9 +9,9 @@ namespace FrontEnd.Web.Mvc.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly IStaff _staffServices;
+        private readonly IStaffSMA _staffServices;
         private readonly ISoalPenerimaan _soalService;
-        public AdminController(IStaff staffServices, ISoalPenerimaan soalService)
+        public AdminController(IStaffSMA staffServices, ISoalPenerimaan soalService)
         {
             _staffServices = staffServices;
             _soalService = soalService;
@@ -189,7 +189,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Pesan"] = $"Gagal menambah soal\nData tidak valid";
+                TempData["Pesan"] = "Gagal menambah soal\nData tidak valid";
                 return RedirectToAction(nameof(KelolaSoalAkademik));
             }
             else

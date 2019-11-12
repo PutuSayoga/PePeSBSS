@@ -4,7 +4,7 @@
 	Pembiaya VARCHAR(20) NOT NULL,
 	StatusTempatTinggal VARCHAR(20),
 	DayaListrik INT,
-	JarakTempuh TINYINT,
+	JarakTempuh FLOAT,
 	WaktuTempuh TINYINT,
 	Transportasi VARCHAR(20),
 	CONSTRAINT [UNQ_CalonSiswaId_Penunjang] UNIQUE (CalonSiswaId),

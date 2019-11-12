@@ -1,4 +1,5 @@
-﻿@{ 
+﻿@model BuktiPendaftaranModel
+@{ 
     ViewBag.Title = "Bukti Pendaftaran";
 }
 
@@ -9,22 +10,22 @@
             </div>
             <div class="card-body">
                 <div>
-                    <label>No pendaftaran</label>:<label>00001</label>
+                    <label asp-for="@Model.NoPendaftaran"></label>:<label>@Model.NoPendaftaran</label>
                 </div>
                 <div>
-                    <label>Jalur Pendaftaran</label>:<label>Reguler</label>
+                    <label asp-for="@Model.JalurPendaftaran"></label>:<label>@Model.JalurPendaftaran</label>
                 </div>
                 <div>
-                    <label>Nama Lengkap</label>:<label>Chourol Imam</label>
+                    <label asp-for="@Model.NamaLengkap"></label>:<label>@Model.NamaLengkap</label>
                 </div>
                 <div>
-                    <label>Biaya Pendaftaran</label>:<label>Rp. 100.000,-</label>
+                    <label asp-for="@Model.Biaya"></label>:<label>Rp. @Model.Biaya (@Model.BiayaTerbilang)</label>
                 </div>
                 <div>
-                    <label>Password</label>:<label>qwerty</label>
+                    <label asp-for="@Model.Password"></label>:<label>@Model.Password</label>
                 </div>
                 <div>
-                    <label>Tanggal Seleksi</label>:<label>02 Maret 2020</label>
+                    <label asp-for="@Model.JadwalTes"></label>:<label>@Model.JadwalTes</label>
                 </div>
                 <div class="fa-pull-right">
                     <button class="btn btn-dark">Cetak</button>

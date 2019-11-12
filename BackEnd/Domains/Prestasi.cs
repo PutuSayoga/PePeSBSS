@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BackEnd.Domains
 {
-    public partial class Prestasi
+    public class Prestasi
     {
         public int? CalonSiswaId { get; set; }
         public string NamaKejuaraan { get; set; }
@@ -13,6 +13,6 @@ namespace BackEnd.Domains
         public DateTime Tahun { get; set; }
         public string Penyelenggara { get; set; }
 
-        public virtual CalonSiswa CalonSiswa { get; set; }
+        public CalonSiswa ACalonSiswa { get; set; }
     }
 }
