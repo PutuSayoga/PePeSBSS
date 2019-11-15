@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace BackEnd.Abstraction
 {
-    public interface IStaffSMA
+    public interface IStaffSma
     {
+        bool IsLogin(string username, string password, string role);
         IEnumerable<Staff> GetAllStaff();
         Staff DetailStaff(int id);
         string AddStaff(Staff newStaff);

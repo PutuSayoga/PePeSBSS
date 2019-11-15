@@ -6,8 +6,10 @@ using BackEnd.Abstraction;
 using BackEnd.Helper;
 using BackEnd.Services;
 using FrontEnd.Web.Mvc.Models.Admin;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,14 +28,19 @@ namespace FrontEnd.Web.Mvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.LoginPath = new PathString("/Auth/LoginCalonSiswa");
+                    options.AccessDeniedPath = new PathString("/Error/{403}");
+                });
             services.AddControllersWithViews();
-
             services.AddSingleton(Configuration);
-
             services.AddScoped<IDbConnectionHelper>(
                 _ => new DbConnectionHelper(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddScoped<IStaffSMA, StaffSMAService>();
+            services.AddScoped<IStaffSma, StaffSmaService>();
             services.AddScoped<ISoalPenerimaan, SoalPenerimaanService>();
             services.AddScoped<IPendaftaran, PendaftaranService>();
             services.AddScoped<ICalonSiswa, CalonSiswaService>();
@@ -48,7 +55,7 @@ namespace FrontEnd.Web.Mvc
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithRedirects("/Error/{0}");
             }
             app.UseStaticFiles();
             app.UseRouting();
@@ -58,7 +65,7 @@ namespace FrontEnd.Web.Mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=PsbPendaftaran}/{action=Index}/{id?}");
+                    pattern: "{controller=Auth}/{action=Index}/{id?}");
             });
         }
     }

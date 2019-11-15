@@ -9,10 +9,10 @@ using System.Data;
 
 namespace BackEnd.Services
 {
-    public class StaffSMAService : IStaffSMA
+    public class StaffSmaService : IStaffSma
     {
         private readonly IDbConnectionHelper _connectionHelper;
-        public StaffSMAService(IDbConnectionHelper connectionHelper)
+        public StaffSmaService(IDbConnectionHelper connectionHelper)
             => _connectionHelper = connectionHelper;
 
         public IEnumerable<Staff> GetAllStaff()
@@ -145,6 +145,48 @@ namespace BackEnd.Services
         public string Hashing(string plainText)
         {
             throw new NotImplementedException();
+        }
+
+        public bool IsLogin(string username, string password, string role)
+        {
+            Object result;
+            if (role.Contains("PSB"))
+            {
+                string sqlQuery = @"SELECT s.Username FROM Staff s FULL JOIN Panitia p ON s.Id = p.StaffId 
+                                    WHERE p.Divisi=@Divisi AND s.Username=@username AND s.Password=@password";
+                var divisi = role.Split(" ")[1];
+                using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    result = connection.ExecuteScalar(
+                        sql: sqlQuery,
+                        param: new
+                        {
+                            Username = username,
+                            Password = password,
+                            Divisi = divisi
+                        });
+                }
+            }
+            else
+            {
+                string sqlQuery = @"SELECT Username FROM Staff  
+                                    WHERE Jabatan=@Jabatan AND Username=@username AND Password=@password";
+                using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+                {
+                    connection.Open();
+                    result = connection.ExecuteScalar(
+                        sql: sqlQuery,
+                        param: new
+                        {
+                            Username = username,
+                            Password = password,
+                            Jabatan = role
+                        });
+                }
+            }
+
+            return result != null;
         }
     }
 }

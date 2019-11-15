@@ -7,6 +7,7 @@ namespace BackEnd.Abstraction
 {
     public interface ICalonSiswa
     {
+        bool IsLogin(string noPendaftaran, string password);
         void SaveDataDiri(string namaLengkap, DataDiri newData);
         void SaveDataAkademikTerakhir(AkademikTerakhir newData);
         void SaveDataPenunjang(Penunjang newData);

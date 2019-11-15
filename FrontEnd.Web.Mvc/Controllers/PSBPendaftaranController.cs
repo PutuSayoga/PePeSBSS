@@ -6,13 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    public class PSBPendaftaranController : Controller
+    [Authorize(Roles = "PSB Pendaftaran")]
+    public class PsbPendaftaranController : Controller
     {
         private IPendaftaran _calonSiswaService;
-        public PSBPendaftaranController(IPendaftaran calonSiswaService)
+        public PsbPendaftaranController(IPendaftaran calonSiswaService)
         {
             _calonSiswaService = calonSiswaService;
         }
@@ -29,6 +31,12 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpPost]
         public IActionResult DaftarBaru(DaftarBaruModel model)
         {
+            if(!model.JalurPendaftaran.Equals("Reguler"))
+                if(!((model.JadwalTes >= DateTime.Now) && 
+                    (model.JadwalTes <= DateTime.Now.AddDays(3))))
+                    ModelState.AddModelError(nameof(DaftarBaruModel.JadwalTes),
+                        "Jadwal tes maksimal dilaksanakan 3 hari setelah daftar baru");
+
             if (!ModelState.IsValid)
             {
                 ViewBag.Pesan = $"Gagal menambah akun\nData tidak valid";

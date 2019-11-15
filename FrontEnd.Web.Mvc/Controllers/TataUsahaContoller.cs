@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [Authorize(Roles = "PSB Tes")]
-    public class PsbTesController : Controller
+    [Authorize(Roles = "Tata Usaha")]
+    public class TataUsahaContoller : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

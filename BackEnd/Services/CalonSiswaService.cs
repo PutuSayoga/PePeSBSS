@@ -35,6 +35,20 @@ namespace BackEnd.Services
             throw new NotImplementedException();
         }
 
+        public bool IsLogin(string noPendaftaran, string password)
+        {
+            string sqlQuery = @"SELECT NoPendaftaran FROM AkunPendaftaran 
+                                WHERE NoPendaftaran = @NoPendaftaran AND Password = @Password";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var result = connection.ExecuteScalar(
+                    sql: sqlQuery, 
+                    param: new { NoPendaftaran = noPendaftaran, Password = password });
+                return result != null;
+            }
+        }
+
         public void SaveDataAkademikTerakhir(AkademikTerakhir newData)
         {
             throw new NotImplementedException();

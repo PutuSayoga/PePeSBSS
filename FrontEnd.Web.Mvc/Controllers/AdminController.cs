@@ -4,14 +4,16 @@ using BackEnd.Domains;
 using System.Collections.Generic;
 using System.Linq;
 using FrontEnd.Web.Mvc.Models.Admin;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly IStaffSMA _staffServices;
+        private readonly IStaffSma _staffServices;
         private readonly ISoalPenerimaan _soalService;
-        public AdminController(IStaffSMA staffServices, ISoalPenerimaan soalService)
+        public AdminController(IStaffSma staffServices, ISoalPenerimaan soalService)
         {
             _staffServices = staffServices;
             _soalService = soalService;

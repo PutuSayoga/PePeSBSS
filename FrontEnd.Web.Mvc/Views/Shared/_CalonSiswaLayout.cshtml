@@ -51,7 +51,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Sesi:</h6>
                         <a class="collapse-item" asp-controller="CalonSiswa" asp-action="KelolaDataDiri">Data Diri</a>
-                        <a class="collapse-item" asp-controller="CalonSiswa" asp-action="KelolaDataAkademikTerakhir">Data Sekolah Terakhir</a>
+                        <a class="collapse-item" asp-controller="CalonSiswa" asp-action="KelolaDataAkademikTerakhir">Data Akademik Terakhir</a>
                         <a class="collapse-item" asp-controller="CalonSiswa" asp-action="KelolaDataRapor">Data Rapor</a>
                         <a class="collapse-item" asp-controller="CalonSiswa" asp-action="KelolaDataPrestasi">Data Prestasi</a>
                         <a class="collapse-item" asp-controller="CalonSiswa" asp-action="KelolaDataOrangTua">Data Orang Tua & Wali</a>
@@ -87,7 +87,7 @@
                     </button>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="btn" href="#">
+                            <a class="btn" asp-controller="Auth" asp-action="Logout">
                                 Logout
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400"></i>
                             </a>

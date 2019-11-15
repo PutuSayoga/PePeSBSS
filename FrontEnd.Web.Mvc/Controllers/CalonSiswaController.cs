@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FrontEnd.Web.Mvc.Models.CalonSiswa;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
+    [Authorize(Roles = "Calon Siswa")]
     public class CalonSiswaController : Controller
     {
         private readonly ICalonSiswa _calonSiswaService;

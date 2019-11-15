@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [Authorize(Roles = "PSB Tes")]
-    public class PsbTesController : Controller
+    [Authorize(Roles = "Calon Siswa, Admin")]
+    public class TesAkademikController : Controller
     {
-        public IActionResult Index()
+        public IActionResult TesAkademik()
         {
             return View();
         }
