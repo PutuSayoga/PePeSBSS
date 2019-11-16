@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Models.Authentication
 {
-    public class LoginStaffModel
+    public class LoginTesAkademikModel
     {
         [Required]
-        public string Username { get; set; }
+        public string NoPendaftaran { get; set; }
         [Required]
-        public string Password { get; set; }
-        [Required]
-        public string Role { get; set; }
+        public string Kode { get; set; }
     }
 }

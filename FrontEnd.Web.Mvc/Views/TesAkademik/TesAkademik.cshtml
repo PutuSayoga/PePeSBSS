@@ -1,39 +1,52 @@
-﻿@{ 
+﻿@{
     ViewBag.Title = "Tes Akademik";
 }
-@*Header*@
-<div>
-    <div>
-        logout
-    </div>
-</div>
+@*Topbar*@
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="btn" asp-controller="Auth" asp-action="Logout">
+                Logout
+                <i class="fas fa-sign-out-alt fa-sm fa-fw text-gray-400"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
 
 @*Body*@
-@*Content*@
-<div>
-    <div>
-        no
-        pertanyaan
-    </div>
-    <div>
-        Jawaban
-    </div>
-    <div>
-        sebelumnya
-        ragu
-        selanjutnya
-    </div>
-</div>
+<div class="row">
 
-@*SideMap*@
-<div>
-    <div>
-        Map
+    @*Content*@
+    <div class="col-lg-9">
+        <div class="card shadow mb-4">
+            <div class="d-block card-header py-3">
+                <h3 class="m-0 font-weight-bold text-primary">Pertanyaan </h3>
+                <h4 class="d-block card-header py-3 pull-right">09.11</h4>
+            </div>
+            <div class="card-body">
+                <div class="border mb-1">soal</div>
+                <div class="border mb-1">
+                    <div>Opsi A:</div>
+                    <div>Opsi B:</div>
+                    <div>Opsi C:</div>
+                    <div>Opsi D:</div>
+                    <div>Opsi E:</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        no pertanyaan
-    </div>
-    <div>
-        waktu
+
+    @*SideMap*@
+    <div class="col-lg-3">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h3 class="m-0 font-weight-bold text-primary">Map Soal</h3>
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
     </div>
 </div>

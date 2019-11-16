@@ -17,23 +17,27 @@ namespace FrontEnd.Web.Mvc.Controllers
     {
         private readonly ICalonSiswa _calonSiswaService;
         private readonly IStaffSma _staffSmaService;
+        private readonly ITesAkademik _tesAkademikService;
 
-        public AuthController(ICalonSiswa calonSiswaService, IStaffSma staffSmaService)
+        public AuthController(ICalonSiswa calonSiswaService, IStaffSma staffSmaService, ITesAkademik tesAkademikService)
         {
             _calonSiswaService = calonSiswaService;
             _staffSmaService = staffSmaService;
+            _tesAkademikService = tesAkademikService;
         }
-        
+
         public IActionResult Index()
         {
             if (User.Identity.IsAuthenticated)
             {
-                if(User.IsInRole("Calon Siswa"))
+                if (User.IsInRole("Calon Siswa"))
                     return RedirectToAction("Index", "CalonSiswa");
+                else if (User.IsInRole("Tes Akademik"))
+                    return RedirectToAction("Index", "TesAkademik");
                 else if (User.IsInRole("Admin"))
                     return RedirectToAction("Index", "Admin");
                 else if (User.IsInRole("Waka Kesiswaan"))
-                    return RedirectToAction("Index", "Waka Kesiswaan");
+                    return RedirectToAction("Index", "WakaKesiswaan");
                 else if (User.IsInRole("Tata Usaha"))
                     return RedirectToAction("Index", "TataUsaha");
                 else if (User.IsInRole("PSB Pendaftaran"))
@@ -133,7 +137,44 @@ namespace FrontEnd.Web.Mvc.Controllers
                 }
             }
         }
-        
+
+        [HttpGet]
+        public IActionResult LoginTesAkademik()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult LoginTesAkademik(LoginTesAkademikModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            else
+            {
+                bool isLogin = _tesAkademikService.IsLogin(model.NoPendaftaran, model.Kode);
+                if (!isLogin)
+                {
+                    return View();
+                }
+                else
+                {
+                    var userClaims = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.Name, model.NoPendaftaran),
+                        new Claim(ClaimTypes.Role, "Tes Akademik")
+                    };
+                    var userIdentity = new ClaimsIdentity(userClaims, "LoginTes");
+                    var userPrincipal = new ClaimsPrincipal(userIdentity);
+                    HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        userPrincipal);
+
+                    return RedirectToAction("Index");
+                }
+            }
+        }
+
         public IActionResult Logout()
         {
             if (User.IsInRole("Calon Siswa"))

@@ -22,6 +22,7 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
         public string NoTelpAyah { get; set; }
         [Required]
         public string NoHpAyah { get; set; }
+        [Required]
         public string EmailAyah { get; set; }
         public string StatusDalamKeluargaAyah { get; set; }
         public string KeteranganAyah { get; set; }

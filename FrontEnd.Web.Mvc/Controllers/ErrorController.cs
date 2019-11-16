@@ -17,12 +17,17 @@ namespace FrontEnd.Web.Mvc.Controllers
                     ViewBag.Message = "Maaf Halaman tidak ditemukan";
                     break;
                 case 403:
-                    ViewBag.Message = "Maaf anda tidak bisa mengakses halaman ini";
+                    ViewBag.Message = "Maaf anda tidak boleh lewat";
                     break;
-                default:
+                case 500:
                     ViewBag.Message = "Terjadi kesalahan pada server.\nSilahkan coba lagi nanti";
                     break;
             }
+            return View();
+        }
+        [Route("/Error/AccessDenied")]
+        public IActionResult ErrorAccessDenied()
+        {
             return View();
         }
     }

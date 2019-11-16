@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [Authorize(Roles = "Calon Siswa, Admin")]
+    //[Authorize(Roles = "Calon Siswa, Admin")]
+    [AllowAnonymous]
     public class TesAkademikController : Controller
     {
         public IActionResult TesAkademik()

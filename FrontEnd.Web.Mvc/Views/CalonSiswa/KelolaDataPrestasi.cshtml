@@ -32,11 +32,12 @@
                         <span class="text-danger">*</span>
                     </div>
                     <div class="col-md">
-                            <select asp-for="Jenis" class="col-md-3 form-control">
-                                <option value="" selected></option>
-                                <option value="Akademik">Akademik</option>
-                                <option value="Non Akademik">Non Akademik</option>
-                            </select>
+                        <select asp-for="Jenis" class="col-md-3 form-control">
+                            <option value="" selected></option>
+                            <option value="Akademik">Akademik</option>
+                            <option value="Non Akademik">Non Akademik</option>
+                        </select>
+                        <span asp-validation-for="Jenis" class="text-danger"></span>
                         <span asp-validation-for="Jenis" class="text-danger"></span>
                     </div>
                 </div>
@@ -55,6 +56,7 @@
                             <option value="Kecamatan">Kecamatan</option>
                         </select>
                         <span asp-validation-for="Tingkat" class="text-danger"></span>
+                        <span asp-validation-for="Tingkat" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -64,7 +66,7 @@
                     </div>
                     <div class="col-md-4">
                         <input asp-for="Peringkat" class="form-control" placeholder="Peringkat yang diraih" />
-                        <span asp-validation-for="Tingkat" class="text-danger"></span>
+                        <span asp-validation-for="Peringkat" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -74,12 +76,13 @@
                     </div>
                     <div class="col-md-4">
                         <input asp-for="Tahun" class="form-control" type="date" />
-                        <span asp-validation-for="Tingkat" class="text-danger"></span>
+                        <span asp-validation-for="Tahun" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3 col-form-label">
                         <label asp-for="Penyelenggara"></label>
+                        <span class="text-danger">*</span>
                     </div>
                     <div class="col-md-7">
                         <input asp-for="Penyelenggara" class="form-control" placeholder="Yang menyelenggarakan kejuaraan" />

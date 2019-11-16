@@ -34,7 +34,7 @@ namespace FrontEnd.Web.Mvc
                 options =>
                 {
                     options.LoginPath = new PathString("/Auth/LoginCalonSiswa");
-                    options.AccessDeniedPath = new PathString("/Error/{403}");
+                    options.AccessDeniedPath = new PathString("/Error/403");
                 });
             services.AddControllersWithViews();
             services.AddSingleton(Configuration);
@@ -44,6 +44,7 @@ namespace FrontEnd.Web.Mvc
             services.AddScoped<ISoalPenerimaan, SoalPenerimaanService>();
             services.AddScoped<IPendaftaran, PendaftaranService>();
             services.AddScoped<ICalonSiswa, CalonSiswaService>();
+            services.AddScoped<ITesAkademik, TesAkademikService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +56,7 @@ namespace FrontEnd.Web.Mvc
             }
             else
             {
-                app.UseStatusCodePagesWithRedirects("/Error/{0}");
+                app.UseStatusCodePagesWithRedirects("/Error/404");
             }
             app.UseStaticFiles();
             app.UseRouting();
@@ -65,7 +66,7 @@ namespace FrontEnd.Web.Mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Auth}/{action=Index}/{id?}");
+                    pattern: "{controller=TesAkademik}/{action=TesAkademik}/{id?}");
             });
         }
     }

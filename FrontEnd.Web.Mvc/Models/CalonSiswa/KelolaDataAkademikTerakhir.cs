@@ -15,6 +15,5 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
         public string NoPesertaUn { get; set; }
         public string NoSeriSkhun { get; set; }
         public string NoSeriIjazah { get; set; }
-        public string JalurPendaftaran { get; set; }
     }
 }

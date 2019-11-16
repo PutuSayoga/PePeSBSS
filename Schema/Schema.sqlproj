@@ -62,6 +62,7 @@
     <Folder Include="Tables\SoalPenerimaan" />
     <Folder Include="Tables\Siswa" />
     <Folder Include="Tables\Kelas" />
+    <Folder Include="View" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\StaffSMA\Panitia.sql" />
@@ -84,6 +85,7 @@
     <Build Include="Tables\Siswa\MutasiKeluar.sql" />
     <Build Include="Tables\Jadi.sql" />
     <Build Include="Tables\Jawaban.sql" />
+    <Build Include="View\CalonSiswaFull.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema.publish.xml" />
