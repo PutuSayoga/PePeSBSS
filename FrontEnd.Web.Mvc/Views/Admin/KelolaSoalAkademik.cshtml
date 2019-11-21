@@ -25,7 +25,7 @@ else
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
-                    <thead>
+                    <thead class="table-warning text-dark">
                         <tr>
                             <th><b>Judul Soal      </b></th>
                             <th><b>Kategori        </b></th>
@@ -85,7 +85,12 @@ else
                     <div class="form-group">
                         <label asp-for="SoalAkademik.Kategori" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalAkademik.Kategori" class="form-control" placeholder="Kategori" />
+                        <select asp-for="SoalAkademik.Kategori" class="form-control" placeholder="Kategori">
+                            <option selected></option>
+                            <option value="MIPA">MIPA</option>
+                            <option value="IPS">IPS</option>
+                            <option value="TPA">TPA</option>
+                        </select>
                         <span asp-validation-for="SoalAkademik.Kategori" class="text-danger"></span>
                     </div>
                     <div class="form-group">

@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FrontEnd.Web.Mvc.Models.Authentication
+namespace FrontEnd.Web.Mvc.Models.Auth
 {
-    public class LoginTesAkademikModel
+    public class LoginCalonSiswaModel
     {
         [Required]
         public string NoPendaftaran { get; set; }
         [Required]
-        public string Kode { get; set; }
+        public string Password { get; set; }
     }
 }

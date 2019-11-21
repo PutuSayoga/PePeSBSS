@@ -1,36 +1,82 @@
 ﻿@model LoginCalonSiswaModel
 <!DOCTYPE html>
+
 <html>
 <head>
-    <title>Login</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Login Calon Siswa</title>
+
+    <environment include="Development">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="~/lib/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.css" rel="stylesheet" />
+        <link href="~/lib/startbootstrap-sb-admin-2/css/sb-admin-2.css" rel="stylesheet" />
+    </environment>
+    <environment exclude="Development">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="~/lib/startbootstrap-sb-admin-2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+        <link href="~/lib/startbootstrap-sb-admin-2/css/sb-admin-2.min.css" rel="stylesheet" />
+    </environment>
 </head>
-<body>
+<body id="page-top" class="bg-gradient-primary">
     <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <h2><strong>Login Page </strong></h2><br />
-                <form asp-controller="Auth" asp-action="LoginCalonSiswa" asp-route-returnUrl="@ViewBag.ReturnUrl" method="post">
-                    <div class="form-group">
-                        <label asp-for="NoPendaftaran"></label>
-                        <div>
-                            <input class="form-control" asp-for="NoPendaftaran" placeholder="Enter user name" />
-                            <span class="text-danger" asp-validation-for="NoPendaftaran"></span>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 pt-5">
+                <div class="card shadow mb-4">
+                    <div class="card-body p-3">
+                        <div class="row justify-content-center">
+                            <div class="col-md-3 d-none d-lg-block">
+                                <img src="~/img/LogoSMABSS.Small.png" width="130" height="130"
+                                     asp-append-version="true" />
+                            </div>
+                            <div class="col">
+                                <h2><b>SMA Brawijaya Smart School</b></h2>
+                                <h3>Penerimaan Calon Siswa</h3>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-11 p-3">
+                                <form asp-controller="Auth" asp-action="LoginCalonSiswa" asp-route-returnUrl="@ViewBag.ReturnUrl" method="post">
+                                    <div class="form-group">
+                                        <label asp-for="NoPendaftaran"></label>
+                                        <div>
+                                            <input class="form-control" asp-for="NoPendaftaran" placeholder="Enter user name" />
+                                            <span class="text-danger" asp-validation-for="NoPendaftaran"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Password"></label>
+                                        <div>
+                                            <input type="password" class="form-control" asp-for="Password" placeholder="Enter user name" />
+                                            <span class="text-danger" asp-validation-for="Password"></span>
+                                        </div>
+                                    </div>
+                                    <div class="fa-pull-right">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Password"></label>
-                        <div>
-                            <input type="password" class="form-control" asp-for="Password" placeholder="Enter user name" />
-                            <span class="text-danger" asp-validation-for="Password"></span>
-                        </div>
-                    </div>
-                    <div class="form-check">
-                        <button class="btn btn-info" type="reset">Reset</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
+    <environment include="Development">
+        <script src="~/lib/startbootstrap-sb-admin-2/vendor/jquery/jquery.js" type="text/javascript"></script>
+        <script src="~/lib/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.js" type="text/javascript"></script>
+        <script src="~/lib/jquery-validation/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/startbootstrap-sb-admin-2/js/sb-admin-2.js" type="text/javascript"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js" type="text/javascript"></script>
+        <script src="~/lib/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+        <script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/startbootstrap-sb-admin-2/js/sb-admin-2.min.js" type="text/javascript"></script>
+    </environment>
 </body>
 </html>

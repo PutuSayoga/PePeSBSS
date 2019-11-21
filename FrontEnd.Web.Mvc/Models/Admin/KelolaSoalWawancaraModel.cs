@@ -14,7 +14,6 @@ namespace FrontEnd.Web.Mvc.Models.Admin
     public class CrudSoalWawancara
     {
         public string Judul { get; set; }
-        public string Kategori { get; } = "Wawancara";
         public string Jalur { get; set; }
         public string Target { get; set; }
         public string Deskripsi { get; set; }

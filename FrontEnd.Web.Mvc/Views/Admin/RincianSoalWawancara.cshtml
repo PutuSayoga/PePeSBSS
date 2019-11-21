@@ -11,14 +11,14 @@
         }
         else
         {
-            int i = 1;
+            int i = 0;
             foreach (var pertanyaan in Model.ListPertanyaanWawancara)
             {
                 <div class="card shadow mb-4">
-                    <a href="#pertanyaan-@i" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                        <h6 class="m-0 font-weight-bold text-primary">Pertanyaan @i</h6>
+                    <a href="#pertanyaan-@(i+1)" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                        <h6 class="m-0 font-weight-bold text-primary">Pertanyaan @(i+1)</h6>
                     </a>
-                    <div class="collapse show" id="pertanyaan-@i">
+                    <div class="collapse show" id="pertanyaan-@(i+1)">
                         <div class="card-body">
                             <div class="border mb-1">@Html.Raw(pertanyaan.Isi)</div>
                             <div class="fa-pull-right mb-2">
@@ -27,7 +27,7 @@
                                 </button>
                                 <form asp-controller="Admin" asp-action="HapusPertanyaanAkademik" asp-route-id="@pertanyaan.Id" asp-route-soalId="@Model.Id"
                                       method="post" class="delete-button mt-1">
-                                    <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus pertanyaan nomor @i?')"
+                                    <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus pertanyaan nomor @(i+1)?')"
                                             class="btn btn-danger">
                                         Hapus
                                     </button>

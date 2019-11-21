@@ -1,0 +1,79 @@
+﻿@model KelolaPertanyaanAkademikModel
+@{
+    ViewBag.Title = "Tambah Pertanyaan Akademik ";
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tambah Pertanyaan</h6>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Admin" asp-action="TambahPertanyaanAkademik" method="post">
+            <div>
+                <input hidden asp-for="SoalId" value="@ViewBag.SoalId" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Isi" class="col-form-label"></label>
+                <span class="text-danger">*</span>
+                <textarea id="editor" asp-for="Isi" class="form-control"
+                          placeholder="Pertanyaan"></textarea>
+                <span asp-validation-for="Isi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpsiA" class="col-form-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="OpsiA" class="form-control" placeholder="Pilihan A" />
+                <span asp-validation-for="OpsiA" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpsiB" class="col-form-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="OpsiB" class="form-control" placeholder="Pilihan B" />
+                <span asp-validation-for="OpsiB" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpsiC" class="col-form-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="OpsiC" class="form-control" placeholder="Pilihan C" />
+                <span asp-validation-for="OpsiC" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpsiD" class="col-form-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="OpsiD" class="form-control" placeholder="Pilihan D" />
+                <span asp-validation-for="OpsiD" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OpsiE" class="col-form-label"></label>
+                <input asp-for="OpsiE" class="form-control" placeholder="Pilihan E" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Jawaban" class="col-form-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="Jawaban" class="form-control custom-select">
+                    <option selected></option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                </select>
+                <span asp-validation-for="Jawaban" class="text-danger"></span>
+            </div>
+            <div class="my-1 fa-pull-right">
+                <a asp-controller="Admin" asp-action="RincianSoalAkademik"
+                   asp-route-id="@ViewBag.SoalId" class="btn border">Batal</a>
+                <button type="submit" class="btn btn-primary">Tambah</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}

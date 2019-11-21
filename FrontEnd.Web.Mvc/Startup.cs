@@ -44,7 +44,7 @@ namespace FrontEnd.Web.Mvc
             services.AddScoped<ISoalPenerimaan, SoalPenerimaanService>();
             services.AddScoped<IPendaftaran, PendaftaranService>();
             services.AddScoped<ICalonSiswa, CalonSiswaService>();
-            services.AddScoped<ITesAkademik, TesAkademikService>();
+            services.AddScoped<ITesPenerimaan, TesPenerimaanService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +66,7 @@ namespace FrontEnd.Web.Mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=TesAkademik}/{action=TesAkademik}/{id?}");
+                    pattern: "{controller=TesAkademik}/{action=Index}/{id?}");
             });
         }
     }

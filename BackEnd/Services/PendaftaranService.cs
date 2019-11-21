@@ -62,7 +62,7 @@ namespace BackEnd.Services
 
         }
 
-        public void DaftarUlang(int id)
+        public void Re_Regis(int id)
         {
             throw new NotImplementedException();
         }

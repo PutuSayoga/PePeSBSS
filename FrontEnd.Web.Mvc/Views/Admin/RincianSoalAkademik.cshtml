@@ -11,14 +11,14 @@
         }
         else
         {
-            int i = 1;
+            int i = 0;
             foreach (var pertanyaan in Model.ListPertanyaanAkademik)
             {
                 <div class="card shadow mb-4">
-                    <a href="#pertanyaan-@i" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                        <h6 class="m-0 font-weight-bold text-primary">Pertanyaan @i</h6>
+                    <a href="#pertanyaan-@(i+1)" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                        <h6 class="m-0 font-weight-bold text-primary">Pertanyaan @(i+1)</h6>
                     </a>
-                    <div class="collapse show" id="pertanyaan-@i">
+                    <div class="collapse show" id="pertanyaan-@(i+1)">
                         <div class="card-body">
                             <div class="border mb-1">@Html.Raw(pertanyaan.Isi)</div>
                             <div class="border mb-1">
@@ -26,16 +26,21 @@
                                 <div>Opsi B:@pertanyaan.OpsiB</div>
                                 <div>Opsi C:@pertanyaan.OpsiC</div>
                                 <div>Opsi D:@pertanyaan.OpsiD</div>
-                                <div>Opsi E:@pertanyaan.OpsiE</div>
+                                @if (pertanyaan.OpsiE != null)
+                                {
+                                    <div>Opsi E:@pertanyaan.OpsiE</div>
+                                }
                             </div>
                             <div class="border mb-1 border-success">@pertanyaan.Jawaban</div>
                             <div class="fa-pull-right mb-2">
-                                <button data-target="#ModalUbahPertanyaanAkademik" data-toggle="modal" class="btn btn-warning">
+                                <a asp-controller="Admin" asp-action="UbahPertanyaanAkademik" 
+                                   asp-route-id="@pertanyaan.Id" asp-route-soalId="@pertanyaan.SoalId" class="btn btn-warning">
                                     Ubah
-                                </button>
-                                <form asp-controller="Admin" asp-action="HapusPertanyaanAkademik" asp-route-id="@pertanyaan.Id" asp-route-soalId="@Model.Id"
+                                </a>
+                                <form asp-controller="Admin" asp-action="HapusPertanyaanAkademik" 
+                                      asp-route-id="@pertanyaan.Id" asp-route-soalId="@pertanyaan.SoalId"
                                       method="post" class="delete-button mt-1">
-                                    <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus pertanyaan nomor @i?')"
+                                    <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus pertanyaan nomor @(i+1)?')"
                                             class="btn btn-danger">
                                         Hapus
                                     </button>
@@ -60,10 +65,11 @@
                 <div><label asp-for="BatasWaktu"></label> : <a>@Model.BatasWaktu</a></div>
                 <div><label asp-for="Deskripsi"></label> : <a>@Model.Deskripsi</a></div>
 
-                <button data-target="#ModalTambahPertanyaanAkademik" data-toggle="modal" class="btn btn-success btn-icon-split">
+                <a asp-controller="Admin" asp-action="TambahPertanyaanAkademik" 
+                   asp-route-soalId="@Model.Id" class="btn btn-success btn-icon-split">
                     <span class="icon text-white"><i class="fas fa-pen"></i></span>
                     <span class="text">Tambah Pertanyaan</span>
-                </button>
+                </a>
             </div>
         </div>
     </div>
@@ -72,118 +78,8 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-@*Modal*@
-<div id="ModalTambahPertanyaanAkademik" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Tambah Soal Akademik</h4>
-                <button class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form asp-controller="Admin" asp-action="TambahPertanyaanAkademik" method="post">
-                    <div>
-                        <input hidden asp-for="Id" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.Isi" class="col-form-label"></label>
-                        <textarea id="editor" asp-for="CrudPertanyaanAkademik.Isi" class="form-control" placeholder="Pertanyaan"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiA" class="col-form-label"></label>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiA" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiB" class="col-form-label"></label>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiB" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiC" class="col-form-label"></label>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiC" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiD" class="col-form-label"></label>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiD" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiE" class="col-form-label"></label>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiE" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.Jawaban" class="col-form-label"></label>
-                        <input asp-for="CrudPertanyaanAkademik.Jawaban" class="form-control" placeholder="Batas waktu pengerjaan soal" />
-                    </div>
-                    <div class="my-1 fa-pull-right">
-                        <button class="btn border" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="ModalUbahPertanyaanAkademik" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Tambah Soal Akademik</h4>
-                <button class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form asp-controller="Admin" asp-action="UbahPertanyaanAkademik" method="post">
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.Isi" class="col-form-label"></label>
-                        <span class="text-danger">*</span>
-                        <input asp-for="CrudPertanyaanAkademik.Isi" class="form-control" placeholder="Pertanyaan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiA" class="col-form-label"></label>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiA" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiB" class="col-form-label"></label>
-                        <span class="text-danger">*</span>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiB" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiC" class="col-form-label"></label>
-                        <span class="text-danger">*</span>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiC" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiD" class="col-form-label"></label>
-                        <span class="text-danger">*</span>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiD" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.OpsiE" class="col-form-label"></label>
-                        <span class="text-danger">*</span>
-                        <input asp-for="CrudPertanyaanAkademik.OpsiE" class="form-control" placeholder="Pilihan" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CrudPertanyaanAkademik.Jawaban" class="col-form-label"></label>
-                        <span class="text-danger">*</span>
-                        <input asp-for="CrudPertanyaanAkademik.Jawaban" class="form-control" placeholder="Batas waktu pengerjaan soal" />
-                    </div>
-                    <div class="my-1 fa-pull-right">
-                        <button class="btn border" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Scripts{
-    <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
     <script>
     @if (ViewBag.Pesan != null)
     {

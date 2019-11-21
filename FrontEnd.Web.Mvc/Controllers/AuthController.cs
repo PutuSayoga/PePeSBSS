@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using FrontEnd.Web.Mvc.Models.Authentication;
+using FrontEnd.Web.Mvc.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FrontEnd.Web.Mvc.Controllers
@@ -17,9 +17,9 @@ namespace FrontEnd.Web.Mvc.Controllers
     {
         private readonly ICalonSiswa _calonSiswaService;
         private readonly IStaffSma _staffSmaService;
-        private readonly ITesAkademik _tesAkademikService;
+        private readonly ITesPenerimaan _tesAkademikService;
 
-        public AuthController(ICalonSiswa calonSiswaService, IStaffSma staffSmaService, ITesAkademik tesAkademikService)
+        public AuthController(ICalonSiswa calonSiswaService, IStaffSma staffSmaService, ITesPenerimaan tesAkademikService)
         {
             _calonSiswaService = calonSiswaService;
             _staffSmaService = staffSmaService;
@@ -32,8 +32,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 if (User.IsInRole("Calon Siswa"))
                     return RedirectToAction("Index", "CalonSiswa");
-                else if (User.IsInRole("Tes Akademik"))
-                    return RedirectToAction("Index", "TesAkademik");
                 else if (User.IsInRole("Admin"))
                     return RedirectToAction("Index", "Admin");
                 else if (User.IsInRole("Waka Kesiswaan"))
@@ -54,6 +52,10 @@ namespace FrontEnd.Web.Mvc.Controllers
         public IActionResult LoginCalonSiswa(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             return View();
         }
         [HttpPost]
@@ -89,7 +91,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         return Redirect(returnUrl);
                     }
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
             }
         }
@@ -98,6 +100,10 @@ namespace FrontEnd.Web.Mvc.Controllers
         public IActionResult LoginStaff(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(Index));
+            }
             return View();
         }
         [HttpPost]
@@ -133,44 +139,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         return Redirect(returnUrl);
                     }
 
-                    return RedirectToAction("Index");
-                }
-            }
-        }
-
-        [HttpGet]
-        public IActionResult LoginTesAkademik()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult LoginTesAkademik(LoginTesAkademikModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-            else
-            {
-                bool isLogin = _tesAkademikService.IsLogin(model.NoPendaftaran, model.Kode);
-                if (!isLogin)
-                {
-                    return View();
-                }
-                else
-                {
-                    var userClaims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.Name, model.NoPendaftaran),
-                        new Claim(ClaimTypes.Role, "Tes Akademik")
-                    };
-                    var userIdentity = new ClaimsIdentity(userClaims, "LoginTes");
-                    var userPrincipal = new ClaimsPrincipal(userIdentity);
-                    HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        userPrincipal);
-
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
             }
         }

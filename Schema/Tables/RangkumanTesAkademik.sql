@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[HasilTesAkademik]
+﻿CREATE TABLE [dbo].[RangkumanTesAkademik]
 (
 	AkunPendaftaranId INT,
 	NilaiMipa FLOAT,

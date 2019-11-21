@@ -152,7 +152,7 @@ namespace BackEnd.Services
         public void UpdatePertanyaan(Pertanyaan newData)
         {
             string sqlQuery = @"UPDATE Pertanyaan 
-                                SET BadanPertanyaan = @BadanPertanyaan, OpsiA = @OpsiA, OpsiB = @OpsiB, OpsiC = @OpsiC, OpsiD = @OpsiD, OpsiE = @OpsiE, Jawaban = @Jawaban
+                                SET Isi = @Isi, OpsiA = @OpsiA, OpsiB = @OpsiB, OpsiC = @OpsiC, OpsiD = @OpsiD, OpsiE = @OpsiE, Jawaban = @Jawaban
                                 WHERE Id = @Id AND SoalId = @SoalId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
@@ -170,6 +170,20 @@ namespace BackEnd.Services
                 var result = connection.Execute(sql: sqlQuery, param: new { Id = id });
 
                 return result == 1;
+            }
+        }
+
+        public Pertanyaan GetPertanyaan(int id, int soalId)
+        {
+            string sqlQuery = @"SELECT * FROM Pertanyaan WHERE Id = @Id AND SoalId = @SoalId";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var pertanyaan = connection.Query<Pertanyaan>(
+                    sql: sqlQuery,
+                    param: new { Id = id, SoalId = soalId })
+                    .First();
+                return pertanyaan;
             }
         }
     }

@@ -13,18 +13,6 @@ namespace FrontEnd.Web.Mvc.Models.Admin
         public int JumlahPertanyaan { get; set; }
         public int BatasWaktu { get; set; }
         public string Deskripsi { get; set; }
-        public IEnumerable<CrudPertanyaanAkademikModel> ListPertanyaanAkademik { get; set; }
-        public CrudPertanyaanAkademikModel CrudPertanyaanAkademik { get; set; }
-    }
-    public class CrudPertanyaanAkademikModel
-    {
-        public int Id { get; set; }
-        public string Isi { get; set; }
-        public string OpsiA { get; set; }
-        public string OpsiB { get; set; }
-        public string OpsiC { get; set; }
-        public string OpsiD { get; set; }
-        public string OpsiE { get; set; }
-        public char Jawaban { get; set; }
+        public IEnumerable<KelolaPertanyaanAkademikModel> ListPertanyaanAkademik { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace BackEnd.Abstraction
     {
         IEnumerable<AkunPendaftaran> GetAllAkunPendaftaran();
         IEnumerable<AkunPendaftaran> GetAllDaftarUlang();
-        void DaftarUlang(int id);
+        void Re_Regis(int id);
         void AddAkunPendaftaran(AkunPendaftaran newAkun);
         AkunPendaftaran GetDetailAkunPendaftaran(int id);
     }

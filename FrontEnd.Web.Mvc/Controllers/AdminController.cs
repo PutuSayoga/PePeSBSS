@@ -262,9 +262,10 @@ namespace FrontEnd.Web.Mvc.Controllers
                 Kategori = soal.Kategori,
                 Deskripsi = soal.Deskripsi,
                 ListPertanyaanAkademik = soal.ListPertanyaan
-                    .Select(x => new CrudPertanyaanAkademikModel()
+                    .Select(x => new KelolaPertanyaanAkademikModel()
                     {
                         Id = x.Id,
+                        SoalId = x.SoalId,
                         Isi = x.Isi,
                         OpsiA = x.OpsiA,
                         OpsiB = x.OpsiB,
@@ -276,39 +277,65 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
             return View(model);
         }
+        [HttpGet]
+        public IActionResult TambahPertanyaanAkademik(int soalId)
+        {
+            ViewBag.SoalId = soalId;
+            return View();
+        }
+
         [HttpPost]
-        public IActionResult TambahPertanyaanAkademik(RincianSoalAkademikModel model)
+        public IActionResult TambahPertanyaanAkademik(KelolaPertanyaanAkademikModel model)
         {
             var newPertanyaan = new Pertanyaan()
             {
-                SoalId = model.Id,
-                Isi = model.CrudPertanyaanAkademik.Isi,
-                OpsiA = model.CrudPertanyaanAkademik.OpsiA,
-                OpsiB = model.CrudPertanyaanAkademik.OpsiB,
-                OpsiC = model.CrudPertanyaanAkademik.OpsiC,
-                OpsiD = model.CrudPertanyaanAkademik.OpsiD,
-                OpsiE = model.CrudPertanyaanAkademik.OpsiE,
-                Jawaban = model.CrudPertanyaanAkademik.Jawaban
+                SoalId = model.SoalId,
+                Isi = model.Isi,
+                OpsiA = model.OpsiA,
+                OpsiB = model.OpsiB,
+                OpsiC = model.OpsiC,
+                OpsiD = model.OpsiD,
+                OpsiE = model.OpsiE,
+                Jawaban = model.Jawaban
             };
             _soalService.AddPertanyaan(newPertanyaan);
-            return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.Id });
+            return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.SoalId });
+        }
+        [HttpGet]
+        public IActionResult UbahPertanyaanAkademik(int id, int soalId)
+        {
+            var pertanyaanAkademik = _soalService.GetPertanyaan(id, soalId);
+            var model = new KelolaPertanyaanAkademikModel()
+            {
+                Id = pertanyaanAkademik.Id,
+                SoalId = pertanyaanAkademik.SoalId,
+                Isi = pertanyaanAkademik.Isi,
+                OpsiA = pertanyaanAkademik.OpsiA,
+                OpsiB = pertanyaanAkademik.OpsiB,
+                OpsiC = pertanyaanAkademik.OpsiC,
+                OpsiD = pertanyaanAkademik.OpsiD,
+                OpsiE = pertanyaanAkademik.OpsiE,
+                Jawaban = pertanyaanAkademik.Jawaban
+            };
+            return View(model);
         }
         [HttpPost]
-        public IActionResult UbahPertanyaanAkademik(RincianSoalAkademikModel model)
+        public IActionResult UbahPertanyaanAkademik(KelolaPertanyaanAkademikModel model)
         {
             var newData = new Pertanyaan()
             {
-                SoalId = model.Id,
-                Isi = model.CrudPertanyaanAkademik.Isi,
-                OpsiA = model.CrudPertanyaanAkademik.OpsiA,
-                OpsiB = model.CrudPertanyaanAkademik.OpsiB,
-                OpsiC = model.CrudPertanyaanAkademik.OpsiC,
-                OpsiD = model.CrudPertanyaanAkademik.OpsiD,
-                OpsiE = model.CrudPertanyaanAkademik.OpsiE,
-                Jawaban = model.CrudPertanyaanAkademik.Jawaban
+                SoalId = model.SoalId,
+                Id = model.Id,
+                Isi = model.Isi,
+                OpsiA = model.OpsiA,
+                OpsiB = model.OpsiB,
+                OpsiC = model.OpsiC,
+                OpsiD = model.OpsiD,
+                OpsiE = model.OpsiE,
+                Jawaban = model.Jawaban
             };
             _soalService.UpdatePertanyaan(newData);
-            return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.Id });
+            return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.SoalId });
         }
         [HttpPost]
         public IActionResult HapusPertanyaanAkademik(int soalId, int id)
@@ -344,7 +371,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 var soalWawancaraBaru = new Soal()
                 {
                     Judul = model.SoalWawancara.Judul,
-                    Kategori = model.SoalWawancara.Kategori,
+                    Kategori = "Wawancara",
                     Jalur = model.SoalWawancara.Jalur,
                     Target = model.SoalWawancara.Target,
                     Deskripsi = model.SoalWawancara.Deskripsi,
@@ -428,7 +455,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             return RedirectToAction(nameof(RincianSoalWawancara), new { id = model.Id });
         }
         [HttpPost]
-        public IActionResult UbahPertanyaanAkademik(RincianSoalWawancaraModel model)
+        public IActionResult UbahPertanyaanWawancara(RincianSoalWawancaraModel model)
         {
             var newData = new Pertanyaan()
             {

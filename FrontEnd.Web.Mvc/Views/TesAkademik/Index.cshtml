@@ -1,0 +1,55 @@
+﻿<h1 class="text-dark mb-4">Seleksi Penerimaan Siswa</h1>
+
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="card shadow mb-4">
+            <div class="d-block card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Daftar Tes</h6>
+            </div>
+            <div class="card-body">
+                <div>
+                    <p class="mb-3">
+                        Berikut merupakan Tes yang harus dijawab calon siswa.<br />
+                        Klik tombol dibawauh untuk memulai Tes.
+                    </p>
+                    @if (ViewBag.SoalIdMipa != null)
+                    {
+                        <hr />
+                        <div class="mb-3">
+                            <h4>Matematika & Ilmu Pengetahuan Alam</h4>
+                            <a asp-controller="TesAkademik" asp-action="Seleksi" asp-route-soalId="@ViewBag.SoalIdMipa"
+                               class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
+                                <span class="text text-white">Mulai Tes MIPA</span>
+                            </a>
+                        </div>
+                    }
+                    @if (ViewBag.SoalIdIps != null)
+                    {
+                        <hr />
+                        <div class="mb-3">
+                            <h4>Ilmu Pengetahuan Sosial</h4>
+                            <a asp-controller="TesAkademik" asp-action="Seleksi" asp-route-soalId="@ViewBag.SoalIdIps"
+                               class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
+                                <span class="text text-white">Mulai Tes IPS</span>
+                            </a>
+                        </div>
+                    }
+                    @if (ViewBag.SoalIdTpa != null)
+                    {
+                        <hr />
+                        <div class="mb-3">
+                            <h4>Tes Potensi Akademik</h4>
+                            <a asp-controller="TesAkademik" asp-action="Seleksi" asp-route-soalId="@ViewBag.SoalIdTpa"
+                               class="btn btn-primary btn-icon-split">
+                                <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
+                                <span class="text text-white">Mulai Tes TPA</span>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

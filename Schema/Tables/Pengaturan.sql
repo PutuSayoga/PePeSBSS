@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[Pengaturan]
+(
+	Id INT IDENTITY(1,1),
+	Periode INT DEFAULT 0 NOT NULL,
+	TanggalMulai DATE,
+	SoalMipaKhusus INT,
+	SoalIpsKhusus INT,
+	SoalTpaKhusus INT,
+	SoalWawancaraKhusus INT,
+	SoalWawancaraOrtuKhusus INT,
+	SoalMipaReguler INT,
+	SoalIpsReguler INT,
+	SoalTpaReguler INT,
+	SoalWawancaraReguler INT,
+	SoalWawancaraOrtuReguler INT,
+	SoalMipaMutasi INT,
+	SoalIpsMutasi INT,
+	SoalTpaMutasi INT,
+	SoalWawancaraMutasi INT,
+	SoalWawancaraOrtuMutasi INT,
+	SoalWawancaraPresatasi INT,
+	SoalWawancaraOrtuPrestasi INT,
+	SoalWawancaraMitra INT,
+	SoalWawancaraOrtuMitra INT,
+	CONSTRAINT [PK_Pengaturan] PRIMARY KEY (Id)
+)

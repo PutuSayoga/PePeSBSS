@@ -25,7 +25,7 @@ else
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
-                    <thead>
+                    <thead class="table-warning text-dark">
                         <tr>
                             <th><b>Judul Soal       </b></th>
                             <th><b>Jalur Pendaftaran</b></th>
@@ -81,17 +81,29 @@ else
                         <label asp-for="SoalWawancara.Judul" class="col-form-label"></label>
                         <span class="text-danger">*</span>
                         <input asp-for="SoalWawancara.Judul" class="form-control" placeholder="Judul soal" />
+                        <span asp-validation-for="SoalWawancara.Judul" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="SoalWawancara.Jalur" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalWawancara.Jalur" class="form-control" placeholder="Kategori" />
+                        <select asp-for="SoalWawancara.Jalur" class="form-control">
+                            <option selected></option>
+                            <option value="Reguler">Reguler</option>
+                            <option value="Khusus">Khusus</option>
+                            <option value="Prestasi">Prestasi</option>
+                            <option value="Mitra">Mitra</option>
+                            <option value="Mutasi">Mutasi</option>
+                        </select>
                         <span asp-validation-for="SoalWawancara.Jalur" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="SoalWawancara.Target" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalWawancara.Target" class="form-control" placeholder="Batas waktu pengerjaan soal" />
+                        <select asp-for="SoalWawancara.Target" class="form-control">
+                            <option selected></option>
+                            <option value="Calon Siswa">Calon Siswa</option>
+                            <option value="Orang Tua">Orang Tua</option>
+                        </select>
                         <span asp-validation-for="SoalWawancara.Target" class="text-danger"></span>
                     </div>
                     <div class="form-group">

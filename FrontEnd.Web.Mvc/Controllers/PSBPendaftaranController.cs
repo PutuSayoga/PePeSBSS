@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [Authorize(Roles = "PSB Pendaftaran")]
+    [Authorize(Roles = "PSB Pendaftaran, Admin")]
     public class PsbPendaftaranController : Controller
     {
         private IPendaftaran _calonSiswaService;
