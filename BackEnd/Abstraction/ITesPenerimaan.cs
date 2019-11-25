@@ -7,7 +7,7 @@ namespace BackEnd.Abstraction
 {
     public interface ITesPenerimaan
     {
-        List<int> GetSoalIdPengerjaan(string noPendaftaran);
+        IEnumerable<int> GetSoalIdPengerjaan(string noPendaftaran);
         void Submit(IEnumerable<HasilTes> listJawaban, string noPendataran);
     }
 }

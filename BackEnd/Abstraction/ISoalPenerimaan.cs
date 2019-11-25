@@ -16,9 +16,9 @@ namespace BackEnd.Abstraction
         void UpdateSoal(Soal newData);
         void DeleteSoal(int id);
 
-        Pertanyaan GetPertanyaan(int id, int soalId);
+        Pertanyaan GetPertanyaan(int pertanyaanId, int soalId);
         void AddPertanyaan(Pertanyaan newPertanyaan);
-        void DeletePertanyaan(int soalId, int id);
+        void DeletePertanyaan(int soalId, int pertanyaanId);
         void UpdatePertanyaan(Pertanyaan newData);
     }
 }

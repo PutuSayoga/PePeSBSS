@@ -9,13 +9,13 @@ using System.Linq;
 
 namespace BackEnd.Services
 {
-    public class TesPenerimaanService : ITesPenerimaan
+    public class TestPenerimaanService : ITesPenerimaan
     {
         private readonly IDbConnectionHelper _connectionHelper;
-        public TesPenerimaanService(IDbConnectionHelper connectionHelper)
+        public TestPenerimaanService(IDbConnectionHelper connectionHelper)
             => _connectionHelper = connectionHelper;
 
-        public List<int> GetSoalIdPengerjaan(string noPendaftaran)
+        public IEnumerable<int> GetSoalIdPengerjaan(string noPendaftaran)
         {
             //cek jalur pendaftaran
             string sqlQuery = @"SELECT JalurPendaftaran FROM AkunPendaftaran WHERE NoPendaftaran=@NoPendaftaran";
@@ -138,9 +138,9 @@ namespace BackEnd.Services
                 x.AkunPendaftaranId = akunPendaftaranId;
                 return x;
             }).ToList();
+            soalId = tempHasilTes[0].SoalId;
             SaveAnswers(tempHasilTes);
             CheckTest(tempHasilTes);
-            soalId = tempHasilTes[0].SoalId;
             RecapSoal(akunPendaftaranId, soalId);
         }
     }

@@ -1,0 +1,45 @@
+﻿@model SeleksiJalurPrestasiModel
+@{
+    ViewBag.Title = "Penentuan Jalur Prestasi";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Seleksi jalur khusus</h6>
+    </div>
+    <div class="card-body">
+        @*@if (Model.ListJalurPrestasi.Count() < 1)
+        {
+            @: kosong
+        }
+        else
+        {*@
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
+                    <thead class="table-warning text-dark">
+                        <tr>
+                            <th>No Pendaftaran  </th>
+                            <th>Nama Lengkap    </th>
+                            <th>Rapor           </th>
+                            <th>Tes Wawancara   </th>
+                            <th>Aksi            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*@foreach (var akun in Model.ListJalurPrestasi)
+                        {
+                        <tr>
+                            <td>@akun.NoPendaftaran</td>
+                            <td>@akun.NamaLengkap</td>
+                            <td></td>
+                            <td class="text-center"><button class="btn btn-info">Lihat</button></td>
+                            <td class="text-center"><button class="btn btn-info">Lihat</button></td>
+                            <td><button>Update Status</button></td>
+                        </tr>
+                        }*@
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

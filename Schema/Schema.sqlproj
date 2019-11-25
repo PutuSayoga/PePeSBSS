@@ -79,7 +79,6 @@
     <Build Include="Tables\HasilTes.sql" />
     <Build Include="Tables\RangkumanTesAkademik.sql" />
     <Build Include="Tables\CalonSiswa\AkunPendaftaran.sql" />
-    <Build Include="Tables\Tes.sql" />
     <Build Include="Tables\Siswa\Siswa.sql" />
     <Build Include="Tables\Kelas\Kelas.sql" />
     <Build Include="Tables\Siswa\MutasiKeluar.sql" />
@@ -87,6 +86,7 @@
     <Build Include="Tables\Jawaban.sql" />
     <Build Include="View\CalonSiswaFull.sql" />
     <Build Include="Tables\Pengaturan.sql" />
+    <Build Include="Tables\Ujian.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema.publish.xml" />

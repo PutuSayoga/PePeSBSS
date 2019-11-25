@@ -474,6 +474,10 @@ namespace FrontEnd.Web.Mvc.Controllers
         #endregion
 
         #region Siswa
+        public IActionResult DaftarSiswa()
+        {
+            return View();
+        }
         #endregion
     }
 }

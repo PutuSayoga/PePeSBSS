@@ -25,15 +25,12 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         [HttpGet]
         public IActionResult DaftarBaru()
-        {
-            return View();
-        }
+            => View();
         [HttpPost]
         public IActionResult DaftarBaru(DaftarBaruModel model)
         {
             if(!model.JalurPendaftaran.Equals("Reguler"))
-                if(!((model.JadwalTes >= DateTime.Now) && 
-                    (model.JadwalTes <= DateTime.Now.AddDays(3))))
+                if(!((model.JadwalTes >= DateTime.Now) && (model.JadwalTes <= DateTime.Now.AddDays(3))))
                     ModelState.AddModelError(nameof(DaftarBaruModel.JadwalTes),
                         "Jadwal tes maksimal dilaksanakan 3 hari setelah daftar baru");
 
@@ -55,8 +52,9 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Nisn = model.Nisn
                     }
                 };
-                _calonSiswaService.AddAkunPendaftaran(newAkun);
-                return View();
+                int akunId = _calonSiswaService.AddNewAkunPendaftaran(newAkun);
+
+                return RedirectToAction(nameof(BuktiPendaftaran), new { id = akunId });
             }
         }
 
@@ -73,14 +71,14 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult BuktiPendaftaran(int id)
         {
-            var result = _calonSiswaService.GetDetailAkunPendaftaran(id);
+            var detailAkun = _calonSiswaService.GetDetailAkunPendaftaran(id);
             var model = new BuktiPendaftaranModel()
             {
-                NoPendaftaran = result.NoPendaftaran,
-                NamaLengkap = result.ACalonSiswa.NamaLengkap,
-                JalurPendaftaran = result.JalurPendaftaran,
-                Password = result.Password,
-                JadwalTes = result.JadwalTes
+                NoPendaftaran = detailAkun.NoPendaftaran,
+                NamaLengkap = detailAkun.ACalonSiswa.NamaLengkap,
+                JalurPendaftaran = detailAkun.JalurPendaftaran,
+                Password = detailAkun.Password,
+                JadwalTes = detailAkun.JadwalTes
                     .ToString("dddd, dd MMMM yyyy", new System.Globalization.CultureInfo("id-ID"))
             };
             return View(model);

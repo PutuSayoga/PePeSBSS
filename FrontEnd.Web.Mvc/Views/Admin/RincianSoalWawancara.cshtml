@@ -25,7 +25,7 @@
                                 <button data-target="#ModalUbahPertanyaanAkademik" data-toggle="modal" class="btn btn-warning">
                                     Ubah
                                 </button>
-                                <form asp-controller="Admin" asp-action="HapusPertanyaanAkademik" asp-route-id="@pertanyaan.Id" asp-route-soalId="@Model.Id"
+                                <form asp-controller="Admin" asp-action="HapusPertanyaanWawancara" asp-route-id="@pertanyaan.Id" asp-route-soalId="@Model.Id"
                                       method="post" class="delete-button mt-1">
                                     <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus pertanyaan nomor @(i+1)?')"
                                             class="btn btn-danger">

@@ -15,51 +15,73 @@ namespace BackEnd.Services
         public PendaftaranService(IDbConnectionHelper connectionHelper)
             => _connectionHelper = connectionHelper;
 
-        public void AddAkunPendaftaran(AkunPendaftaran newAkun)
+        public int AddNewAkunPendaftaran(AkunPendaftaran newAkun)
         {
             // Cek apa calon siswa sudah pernah mendaftar
-            if (false)
+            bool exist = IsExistCalonSiswa(newAkun.ACalonSiswa.Nik);
+            if (!exist)
             {
-                // Jika sudah pernah mendaftar
+                SaveCalonSiswa(newAkun.ACalonSiswa);
             }
-            else
+            string noPendaftaran = SaveAkunPendaftaran(newAkun);
+            return GetIdAkunPendaftaran(noPendaftaran);
+        }
+
+        public int GetIdAkunPendaftaran(string noPedaftaran)
+        {
+            string sqlGetAkunId = @"SELECT Id FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
-                // Jika belum pernah
-                string sqlQuery = @"INSERT INTO CalonSiswa(Nik, Nisn, NamaLengkap) 
-                                    VALUES(@Nik, @Nisn, @NamaLengkap)";
-                string sqlQuery2 = @"INSERT INTO AkunPendaftaran(CalonSiswaId, NoPendaftaran, Password, JalurPendaftaran, JadwalTes) 
-                                     VALUES(@CalonSiswaId, @NoPendaftaran, @Password, @JalurPendaftaran, @JadwalTes)";
-                // Create Pass
-                newAkun.Password = "1234";
-                using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    using(var trans = connection.BeginTransaction())
-                    {
-                        try
-                        {
-                            connection.Execute(sql: sqlQuery, param: newAkun.ACalonSiswa, transaction: trans);
-                            newAkun.CalonSiswaId = connection.QueryFirst<int>(
-                                sql: "SELECT Id FROM CalonSiswa WHERE Nik = @Nik",
-                                param: new { Nik = newAkun.ACalonSiswa.Nik },
-                                transaction: trans);
-                            newAkun.NoPendaftaran = connection.QueryFirst<string>(
-                                sql: @"SELECT MAX(NoPendaftaran)+1 FROM AkunPendaftaran
-                                   WHERE JalurPendaftaran = @JalurPendaftaran",
-                                param: new { JalurPendaftaran = newAkun.JalurPendaftaran },
-                                transaction: trans);
-                            connection.Execute(sql: sqlQuery2, param: newAkun, transaction: trans);
-                            trans.Commit();
-                        }
-                        catch
-                        {
-                            trans.Rollback();
-                            throw;
-                        }
-                    }
-                }
+                connection.Open();
+                int akunId = connection.QueryFirstOrDefault<int>(
+                    sql: sqlGetAkunId, param: new { NoPendaftaran = noPedaftaran });
+                return akunId;
+            } 
+        }
+        public void SaveCalonSiswa(CalonSiswa newCalonSiswa)
+        {
+            string sqlInsertCalonSIswa = @"INSERT INTO CalonSiswa(Nik, Nisn, NamaLengkap) 
+                VALUES(@Nik, @Nisn, @NamaLengkap)";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlInsertCalonSIswa, param: newCalonSiswa);
+            }
+        }
+        public string SaveAkunPendaftaran(AkunPendaftaran newAkun)
+        {
+            string sqlInsertAkun = @"INSERT INTO AkunPendaftaran(CalonSiswaId, NoPendaftaran, Password, JalurPendaftaran, JadwalTes) 
+                VALUES(@CalonSiswaId, @NoPendaftaran, @Password, @JalurPendaftaran, @JadwalTes)";
+            string sqlCreateNoPendaftaran = @"SELECT MAX(NoPendaftaran)+1 FROM AkunPendaftaran 
+                WHERE JalurPendaftaran = @JalurPendaftaran";
+            string sqlGetCalonSiswaId = @"SELECT Id FROM CalonSiswa WHERE Nik = @Nik";
+
+            string passCreated = SecurityRelateService.GeneratePassword();
+            newAkun.Password = SecurityRelateService.Encrypt(passCreated);
+
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                newAkun.CalonSiswaId = connection.QueryFirst<int>(
+                    sql: sqlGetCalonSiswaId, param: new { Nik = newAkun.ACalonSiswa.Nik });
+                newAkun.NoPendaftaran = connection.QueryFirst<string>(
+                    sql: sqlCreateNoPendaftaran, param: new { JalurPendaftaran = newAkun.JalurPendaftaran });
+
+                connection.Execute(sql: sqlInsertAkun, param: newAkun);
+
+                return newAkun.NoPendaftaran;
             }
 
+        }
+        public bool IsExistCalonSiswa(string nik)
+        {
+            string sqlQuery = @"SELECT Nik FROM CalonSiswa WHERE Nik = @Nik";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var exist = connection.QueryFirstOrDefault<string>(sql: sqlQuery, new { @Nik = nik });
+                return exist != null;
+            }
         }
 
         public void Re_Regis(int id)
@@ -69,23 +91,24 @@ namespace BackEnd.Services
 
         public AkunPendaftaran GetDetailAkunPendaftaran(int id)
         {
-            string sqlQuery = @"SELECT a.NoPendaftaran, a.JalurPendaftaran, a.Password, a.JadwalTes, cs.NamaLengkap 
-                                FROM AkunPendaftaran a FULL JOIN CalonSiswa cs ON a.CalonSiswaId = cs.Id
-                                WHERE a.Id = @Id AND a.Status != 'Admin'";
+            string sqlGetDetailAkun = @"SELECT a.NoPendaftaran, a.JalurPendaftaran, a.Password, a.JadwalTes, cs.NamaLengkap 
+                FROM AkunPendaftaran a FULL JOIN CalonSiswa cs ON a.CalonSiswaId = cs.Id
+                WHERE a.Id = @Id AND a.Status != 'Admin'";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-
                 // Get data from database and map them using dapper
                 var result = connection.Query<AkunPendaftaran, CalonSiswa, AkunPendaftaran>(
-                    sql: sqlQuery,
+                    sql: sqlGetDetailAkun,
                     map: (akunPendaftaran, calonSiswa) =>
                     {
                         akunPendaftaran.ACalonSiswa = calonSiswa;
                         return akunPendaftaran;
                     },
                     splitOn: "NamaLengkap",
-                    param: new { Id = id }).First();
+                    param: new { Id = id }).FirstOrDefault();
+
+                result.Password = SecurityRelateService.Decrypt(result.Password);
 
                 return result;
             }
