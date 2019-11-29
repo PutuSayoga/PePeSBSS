@@ -7,11 +7,7 @@ namespace BackEnd.Abstraction
 {
     public interface ISeleksiPenerimaan
     {
-        IEnumerable<AkunPendaftaran> GetAllJalurKhusus();
-        IEnumerable<AkunPendaftaran> GetAllJalurReguler();
-        IEnumerable<AkunPendaftaran> GetAllJalurMitra();
-        IEnumerable<AkunPendaftaran> GetAllJalurPrestasi();
-
-
+        IEnumerable<AkunPendaftaran> GetAllWithJalur(string jalur);
+        void SelectionNonReguler(int akunId, bool isLolos);
     }
 }

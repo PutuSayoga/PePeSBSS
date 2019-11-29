@@ -8,6 +8,7 @@ namespace BackEnd.Abstraction
     public interface ISiswa
     {
         IEnumerable<Siswa> GetAllSiswa();
-        int RegisterToKelas(int siswaId, int kelasId);
+        void AddSiswa(Siswa newSiswa);
+        Siswa CreateNewSiswa(int calonSiswaId);
     }
 }

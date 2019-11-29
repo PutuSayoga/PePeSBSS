@@ -16,12 +16,12 @@ else
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
-                    <thead>
+                    <thead class="table-warning text-dark">
                         <tr>
                             <th><b>No Pendaftaran   </b></th>
                             <th><b>Nama Lengkap     </b></th>
                             <th><b>Jalur Pendaftaran</b></th>
-                            <th><b>Status           </b></th>
+                            <th><b>Asal Sekolah     </b></th>
                             <th><b>Bukti Pendaftaran</b></th>
                             <th><b>Aksi             </b></th>
                         </tr>
@@ -31,7 +31,7 @@ else
                         {
                         <tr>
                             <td>@akunPendaftaran.NoPendaftaran</td>
-                            <td>@akunPendaftaran.ACalonSiswa.NamaLengkap</td>
+                            <td>@akunPendaftaran.NamaLengkap</td>
                             <td>@akunPendaftaran.JalurPendaftaran</td>
                             @if (akunPendaftaran.Status.Equals("Daftar Baru"))
                             {

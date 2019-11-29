@@ -63,7 +63,14 @@ namespace FrontEnd.Web.Mvc.Controllers
             var listAkun = _calonSiswaService.GetAllAkunPendaftaran();
             var model = new ListDaftarBaruModel()
             {
-                ListAkun = listAkun
+                ListAkun = listAkun.Select(x => new AkunDaftarBaru()
+                {
+                    Id = x.Id,
+                    JalurPendaftaran = x.JalurPendaftaran,
+                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
+                    NoPendaftaran = x.NoPendaftaran,
+                    Status = x.Status
+                })
             };
 
             return View(model);
@@ -71,7 +78,7 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult BuktiPendaftaran(int id)
         {
-            var detailAkun = _calonSiswaService.GetDetailAkunPendaftaran(id);
+            var detailAkun = _calonSiswaService.GetAkunPendaftaran(id);
             var model = new BuktiPendaftaranModel()
             {
                 NoPendaftaran = detailAkun.NoPendaftaran,
@@ -84,9 +91,32 @@ namespace FrontEnd.Web.Mvc.Controllers
             return View(model);
         }
 
-        public IActionResult DaftarUlang()
+        public IActionResult DaftarUlang(string noPendaftaran)
         {
+            if (noPendaftaran != null)
+            {
+                int id = _calonSiswaService.GetIdAkunPendaftaran(noPendaftaran);
+                var akun = _calonSiswaService.GetAkunPendaftaran(id);
+                var model = new DaftarUlangModel()
+                {
+                    Id = akun.Id,
+                    JalurPendaftaran = akun.JalurPendaftaran,
+                    NamaLengkap = akun.ACalonSiswa.NamaLengkap,
+                    NoPendaftaran = akun.NoPendaftaran,
+                    Status = akun.Status
+                };
+                return View(model);
+            }
+
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult DaftarUlang(int id)
+        {
+            _calonSiswaService.ReRegist(id);
+
+            return View(null);
         }
 
         public IActionResult ListDaftarUlang()
@@ -94,7 +124,14 @@ namespace FrontEnd.Web.Mvc.Controllers
             var listAkun = _calonSiswaService.GetAllDaftarUlang();
             var model = new ListDaftarUlangModel()
             {
-                ListDaftarUlang = listAkun
+                ListDaftarUlang = listAkun.Select(x => new AkunDaftarUlang()
+                {
+                    Id = x.Id,
+                    NoPendaftaran = x.NoPendaftaran,
+                    AsalSekolah = x.ACalonSiswa.AAkademikTerakhir.NamaSekolah,
+                    JalurPendaftaran = x.JalurPendaftaran,
+                    NamaLengkap = x.ACalonSiswa.NamaLengkap
+                })
             };
 
             return View(model);

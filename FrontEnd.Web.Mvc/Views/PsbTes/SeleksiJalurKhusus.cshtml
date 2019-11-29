@@ -1,14 +1,14 @@
-﻿@model SeleksiJalurKhususModel
+﻿@model SeleksiModel
 @{
     ViewBag.Title = "Penentuan Jalur Khusus";
 }
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Seleksi jalur khusus</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Sudah ujian</h6>
     </div>
     <div class="card-body">
-        @if (Model.ListJalurKhusus.Count() < 1)
+        @if (Model.ListAkun.Count() < 1)
         {
             @: kosong
         }
@@ -30,7 +30,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var akun in Model.ListJalurKhusus)
+                        @foreach (var akun in Model.ListAkun)
                         {
                             <tr>
                                 <td>@akun.NoPendaftaran</td>
@@ -39,21 +39,24 @@
                                 <td>@akun.NilaiIps</td>
                                 <td>@akun.NilaiTpa</td>
                                 <td>@akun.SkorAkhir</td>
-                                @if (akun.Keterangan.Equals("Lolos"))
+                                @if (akun.Keterangan)
                                 {
                                     <td class="text-center">
-                                        <p class="card bg-success text-white">@akun.Keterangan</p>
+                                        <p class="card bg-success text-white">Lolos</p>
                                     </td>
                                 }
-                                else if (akun.Keterangan.Equals("Tidak Lolos"))
+                                else
                                 {
                                     <td class="text-center">
-                                        <p class="card bg-danger text-white">@akun.Keterangan</p>
+                                        <p class="card bg-danger text-white">Tidak Lolos</p>
                                     </td>
                                 }
                                 <td class="text-center"><button class="btn btn-info">Lihat</button></td>
-                                <td>
-                                    <form asp-controller="PsbTes" asp-action="SeleksiJalurKhusus" asp-route-id="@akun.Id">
+                                <td class="text-center">
+                                    <form asp-controller="PsbTes" asp-action="SeleksiNonReguler">
+                                        <input type="hidden" name="id" value="@akun.Id" />
+                                        <input type="hidden" name="jalur" value="@akun.JalurPendaftaran" />
+                                        <input type="hidden" name="isLolos" value="@akun.Keterangan" />
                                         <button class="btn btn-primary" type="submit">Perbarui Status</button>
                                     </form>
                                 </td>

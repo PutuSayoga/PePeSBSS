@@ -11,7 +11,7 @@ namespace BackEnd.Domains
         public string Jawaban { get; set; }
         public bool Nilai { get; set; }
 
-        public AkunPendaftaran AkunPendaftaran { get; set; }
-        public Pertanyaan Pertanyaan { get; set; }
+        public AkunPendaftaran AAkunPendaftaran { get; set; }
+        public Pertanyaan APertanyaan { get; set; }
     }
 }

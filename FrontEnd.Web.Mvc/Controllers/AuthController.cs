@@ -17,9 +17,9 @@ namespace FrontEnd.Web.Mvc.Controllers
     {
         private readonly ICalonSiswa _calonSiswaService;
         private readonly IStaffSma _staffSmaService;
-        private readonly ITesPenerimaan _tesAkademikService;
+        private readonly IUjian _tesAkademikService;
 
-        public AuthController(ICalonSiswa calonSiswaService, IStaffSma staffSmaService, ITesPenerimaan tesAkademikService)
+        public AuthController(ICalonSiswa calonSiswaService, IStaffSma staffSmaService, IUjian tesAkademikService)
         {
             _calonSiswaService = calonSiswaService;
             _staffSmaService = staffSmaService;

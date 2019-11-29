@@ -3,15 +3,17 @@ using System.Collections.Generic;
 
 namespace BackEnd.Domains
 {
-    public partial class Siswa
+    public class Siswa
     {
         public int Id { get; set; }
+        public int CalonSiswaId { get; set; }
+        public DateTime TanggalMasuk { get; set; }
         public int? KelasId { get; set; }
         public string Nis { get; set; }
         public string Status { get; set; }
 
-        public virtual Kelas Kelas { get; set; }
-        public virtual Jadi Jadi { get; set; }
-        public virtual MutasiKeluar MutasiKeluar { get; set; }
+        public Kelas AKelas { get; set; }
+        public CalonSiswa ACalonSiswa { get; set; }
+        public MutasiKeluar AMutasiKeluar { get; set; }
     }
 }

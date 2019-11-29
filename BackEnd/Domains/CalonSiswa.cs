@@ -12,11 +12,10 @@ namespace BackEnd.Domains
 
         public AkademikTerakhir AAkademikTerakhir { get; set; }
         public DataDiri ADataDiri { get; set; }
-        public Jadi AJadi { get; set; }
         public Penunjang APenunjang { get; set; }
+        public Prestasi APrestasi { get; set; }
         public ICollection<AkunPendaftaran> AkunPendaftaranS { get; set; }
         public ICollection<Penanggungjawab> PenanggungjawabS { get; set; }
-        public Prestasi APrestasi { get; set; }
         public ICollection<Rapor> RaporS { get; set; }
     }
 }

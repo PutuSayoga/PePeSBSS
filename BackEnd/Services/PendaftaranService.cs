@@ -1,4 +1,5 @@
 ﻿using BackEnd.Abstraction;
+using BackEnd.Helper;
 using BackEnd.Domains;
 using Dapper;
 using System;
@@ -12,8 +13,12 @@ namespace BackEnd.Services
     public class PendaftaranService : IPendaftaran
     {
         private readonly IDbConnectionHelper _connectionHelper;
-        public PendaftaranService(IDbConnectionHelper connectionHelper)
-            => _connectionHelper = connectionHelper;
+        private readonly ISecurityRelate _securityRelateHelper;
+        public PendaftaranService(IDbConnectionHelper connectionHelper, ISecurityRelate securityRelateHelper)
+        {
+            _connectionHelper = connectionHelper;
+            _securityRelateHelper = securityRelateHelper;
+        }
 
         public int AddNewAkunPendaftaran(AkunPendaftaran newAkun)
         {
@@ -38,7 +43,7 @@ namespace BackEnd.Services
                 return akunId;
             } 
         }
-        public void SaveCalonSiswa(CalonSiswa newCalonSiswa)
+        private void SaveCalonSiswa(CalonSiswa newCalonSiswa)
         {
             string sqlInsertCalonSIswa = @"INSERT INTO CalonSiswa(Nik, Nisn, NamaLengkap) 
                 VALUES(@Nik, @Nisn, @NamaLengkap)";
@@ -48,7 +53,7 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlInsertCalonSIswa, param: newCalonSiswa);
             }
         }
-        public string SaveAkunPendaftaran(AkunPendaftaran newAkun)
+        private string SaveAkunPendaftaran(AkunPendaftaran newAkun)
         {
             string sqlInsertAkun = @"INSERT INTO AkunPendaftaran(CalonSiswaId, NoPendaftaran, Password, JalurPendaftaran, JadwalTes) 
                 VALUES(@CalonSiswaId, @NoPendaftaran, @Password, @JalurPendaftaran, @JadwalTes)";
@@ -56,8 +61,8 @@ namespace BackEnd.Services
                 WHERE JalurPendaftaran = @JalurPendaftaran";
             string sqlGetCalonSiswaId = @"SELECT Id FROM CalonSiswa WHERE Nik = @Nik";
 
-            string passCreated = SecurityRelateService.GeneratePassword();
-            newAkun.Password = SecurityRelateService.Encrypt(passCreated);
+            string passCreated = _securityRelateHelper.GeneratePassword();
+            newAkun.Password = _securityRelateHelper.Encrypt(passCreated);
 
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
@@ -73,7 +78,7 @@ namespace BackEnd.Services
             }
 
         }
-        public bool IsExistCalonSiswa(string nik)
+        private bool IsExistCalonSiswa(string nik)
         {
             string sqlQuery = @"SELECT Nik FROM CalonSiswa WHERE Nik = @Nik";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -84,16 +89,21 @@ namespace BackEnd.Services
             }
         }
 
-        public void Re_Regis(int id)
+        public void ReRegist(int akunId)
         {
-            throw new NotImplementedException();
+            string sqlReRegist = @"UPDATE AkunPendaftaran SET Status = 'Daftar Ulang' WHERE Id = @Id";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlReRegist, param: new { Id = akunId });
+            }
         }
 
-        public AkunPendaftaran GetDetailAkunPendaftaran(int id)
+        public AkunPendaftaran GetAkunPendaftaran(int akunId)
         {
-            string sqlGetDetailAkun = @"SELECT a.NoPendaftaran, a.JalurPendaftaran, a.Password, a.JadwalTes, cs.NamaLengkap 
-                FROM AkunPendaftaran a FULL JOIN CalonSiswa cs ON a.CalonSiswaId = cs.Id
-                WHERE a.Id = @Id AND a.Status != 'Admin'";
+            string sqlGetDetailAkun = @"SELECT ap.*, cs.Nik, cs.Nisn, cs.NamaLengkap 
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                WHERE ap.Id = @Id AND ap.Status != 'Admin'";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -105,10 +115,10 @@ namespace BackEnd.Services
                         akunPendaftaran.ACalonSiswa = calonSiswa;
                         return akunPendaftaran;
                     },
-                    splitOn: "NamaLengkap",
-                    param: new { Id = id }).FirstOrDefault();
+                    splitOn: "Nik",
+                    param: new { Id = akunId }).FirstOrDefault();
 
-                result.Password = SecurityRelateService.Decrypt(result.Password);
+                result.Password = _securityRelateHelper.Decrypt(result.Password);
 
                 return result;
             }
@@ -139,10 +149,10 @@ namespace BackEnd.Services
 
         public IEnumerable<AkunPendaftaran> GetAllDaftarUlang()
         {
-            string sqlQuery = @"SELECT a.Id, a.NoPendaftaran, a.JalurPendaftaran, cs.NamaLengkap, csat.NamaSekolah
-                                FROM AkunPendaftaran a FULL JOIN CalonSiswa cs ON a.CalonSiswaId = cs.Id
-                                FULL JOIN AkademikTerakhir csat ON cs.Id = csat.CalonSiswaId
-                                WHERE a.status = 'Daftar Ulang'";
+            string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, cs.NamaLengkap, csat.NamaSekolah
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                FULL JOIN AkademikTerakhir csat ON cs.Id = csat.CalonSiswaId
+                WHERE ap.status = 'Daftar Ulang'";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();

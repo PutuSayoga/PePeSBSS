@@ -10,8 +10,7 @@ namespace FrontEnd.Web.Mvc.Models.PsbPendaftaran
         public string NoPendaftaran { get; set; }
         public string NamaLengkap { get; set; }
         public string JalurPendaftaran { get; set; }
-        public int Biaya { get; } = 100000;
-        public string BiayaTerbilang { get; } = "Seratus Ribu Rupiah";
+        public bool isLunas { get; set; } = true;
         public string Password { get; set; }
         public string JadwalTes { get; set; }
     }

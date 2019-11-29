@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BackEnd\BackEnd.csproj" />
+    <ProjectReference Include="..\FrontEnd.Web.Mvc\FrontEnd.Web.Mvc.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,15 @@
 ﻿@model DaftarUlangModel
-@{ 
+@{
     ViewBag.Title = "Daftar Ulang";
 }
 
-<div>
+<div class="mb-5">
     <p>Cari nomor pendaftaran</p>
-    <form>
-        <div class="input-group">
-            <input class="form-control" >
+    <form asp-controller="PsbPendaftaran" asp-action="DaftarUlang" method="get">
+        <div class="input-group col-md-6">
+            <input class="form-control" name="noPendaftaran">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" type="submit" onclick="SearchAkun">
                     <i class="fas fa-search fa-sm"></i>
                 </button>
             </div>
@@ -17,16 +17,26 @@
     </form>
 </div>
 <!-- Search Result -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Form tambah staff</h6>
-    </div>
-    <div class="card-body">
-        <div>
-            <label asp-for="NoPendaftaran"></label>:<label>@Model.NoPendaftaran</label>
-            <label asp-for="JalurPendaftaran"></label>:<label>@Model.JalurPendaftaran</label>
-            <label asp-for="NamaLengkap"></label>:<label>@Model.NamaLengkap</label>
-            <label asp-for="Status"></label>:<label>@Model.Status</label>
+@if (Model != null)
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Akun Pendaftaran</h6>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-controller="PsbPendaftaran" asp-action="DaftarUlang">
+                <label asp-for="NoPendaftaran"></label>:<label>@Model.NoPendaftaran</label><br />
+                <label asp-for="JalurPendaftaran"></label>:<label>@Model.JalurPendaftaran</label><br />
+                <label asp-for="NamaLengkap"></label>:<label>@Model.NamaLengkap</label><br />
+                <label asp-for="Status"></label>:<label>@Model.Status</label><br />
+                @if (Model.Status.Equals("Lolos"))
+                {
+                    <div class="pull-right">
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-success">Daftar Ulang</button>
+                    </div>
+                }
+            </form>
         </div>
     </div>
-</div>
+}

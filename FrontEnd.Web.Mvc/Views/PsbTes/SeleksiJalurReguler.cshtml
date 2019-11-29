@@ -1,19 +1,19 @@
-﻿@model SeleksiJalurPrestasiModel
+﻿@model SeleksiModel
 @{
     ViewBag.Title = "Penentuan Jalur Reguler";
 }
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Seleksi jalur Reguler</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Sudah ujian</h6>
     </div>
     <div class="card-body">
-        @*@if (Model.ListJalurPrestasi.Count() < 1)
+        @if (Model.ListAkun.Count() < 1)
         {
             @: kosong
         }
         else
-        {*@
+        {
             <form method="post">
                 <p>
                     <a class="text-dark"><b>Calon siswa lolos sampai peringkat</b></a>
@@ -38,17 +38,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @*@foreach (var akun in Model.ListJalurPrestasi)
+                        @foreach (var akun in Model.ListAkun)
                         {
-                            <tr>
-                                <td>@akun.NoPendaftaran</td>
-                                <td>@akun.NamaLengkap</td>
-                                <td></td>
-                                <td class="text-center"><button class="btn btn-info">Lihat</button></td>
-                                <td class="text-center"><button class="btn btn-info">Lihat</button></td>
-                                <td><button>Update Status</button></td>
-                            </tr>
-                        }*@
+                            int i = 0;
+                        <tr>
+                            <td>@akun.NoPendaftaran</td>
+                            <td>@akun.NamaLengkap</td>
+                            <td>@akun.NilaiMipa</td>
+                            <td>@akun.NilaiIps</td>
+                            <td>@akun.NilaiTpa</td>
+                            <td>@akun.SkorAkhir</td>
+                            <td>@(i+1)</td>
+                            <td class="text-center"><button class="btn btn-info">Lihat</button></td>
+                            <td class="text-center"><button class="btn btn-info">Lihat</button></td>
+                            <td><button>Update Status</button></td>
+                        </tr>
+                            i++;
+                        }
                     </tbody>
                 </table>
             </div>

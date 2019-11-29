@@ -8,5 +8,7 @@ namespace BackEnd.Abstraction
     public interface IKelas
     {
         IEnumerable<Kelas> GetAllKelas();
+        void InsertIntoKelas(int calonSiswaId);
+
     }
 }

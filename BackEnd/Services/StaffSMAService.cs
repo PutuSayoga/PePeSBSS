@@ -12,13 +12,16 @@ namespace BackEnd.Services
     public class StaffSmaService : IStaffSma
     {
         private readonly IDbConnectionHelper _connectionHelper;
-        public StaffSmaService(IDbConnectionHelper connectionHelper)
-            => _connectionHelper = connectionHelper;
+        private readonly ISecurityRelate _securityRelateHelper;
+        public StaffSmaService(IDbConnectionHelper connectionHelper, ISecurityRelate securityRelateHelper)
+        {
+            _connectionHelper = connectionHelper;
+            _securityRelateHelper = securityRelateHelper;
+        }
 
         public IEnumerable<Staff> GetAllStaff()
         {
-            string sqlQuery = @"SELECT * FROM Staff FULL JOIN Panitia 
-                                ON Staff.Id = Panitia.StaffId";
+            string sqlQuery = @"SELECT * FROM Staff FULL JOIN Panitia ON Staff.Id = Panitia.StaffId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -50,8 +53,7 @@ namespace BackEnd.Services
             }
             else
             {
-                // Hashing
-                //newStaff.Password = Hashing(newStaff.Password);
+                newStaff.Password = _securityRelateHelper.Encrypt(newStaff.Password);
 
                 // Save
                 string sqlQuery = @"INSERT INTO Staff(Nip, NamaLengkap, Email, NoHp, Jabatan, Username, Password) 
@@ -68,8 +70,8 @@ namespace BackEnd.Services
         public void UpdateStaff(Staff newData)
         {
             string sqlQuery = @"UPDATE Staff 
-                                SET NamaLengkap = @NamaLengkap, Jabatan = @Jabatan, NoHp = @NoHp, Email = @Email, Password = @Password 
-                                WHERE Id = @Id";
+                SET NamaLengkap = @NamaLengkap, Jabatan = @Jabatan, NoHp = @NoHp, Email = @Email, Password = @Password 
+                WHERE Id = @Id";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -79,8 +81,7 @@ namespace BackEnd.Services
         public Staff DetailStaff(int id)
         {
             string sqlQuery = @"SELECT * FROM Staff FULL JOIN Panitia 
-                                ON Staff.Id = Panitia.StaffId
-                                WHERE Staff.Id = @Id";
+                ON Staff.Id = Panitia.StaffId WHERE Staff.Id = @Id";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -129,61 +130,46 @@ namespace BackEnd.Services
             }
         }
 
-        public bool IsExistInStaff(string column, string value)
+        private bool IsExistInStaff(string column, string value)
         {
-            string sqlQuery = $"SELECT {column} FROM Staff WHERE {column} = @value";
+            string sqlQuery = $"SELECT {column} FROM Staff WHERE {column} = @Value";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                string result = connection.QueryFirstOrDefault<string>(
-                    sql: sqlQuery,
-                    param: new { value = value });
+                string result = connection.QueryFirstOrDefault<string>(sql: sqlQuery, param: new { Value = value });
 
                 return result != null;
             }
         }
-        public string Hashing(string plainText)
-        {
-            throw new NotImplementedException();
-        }
 
         public bool IsLogin(string username, string password, string role)
         {
-            Object result;
+            password = _securityRelateHelper.Encrypt(password);
+            string result, sqlQuery, divisi = "";
+
             if (role.Contains("PSB"))
             {
-                string sqlQuery = @"SELECT s.Username FROM Staff s FULL JOIN Panitia p ON s.Id = p.StaffId 
-                                    WHERE p.Divisi=@Divisi AND s.Username=@username AND s.Password=@password";
-                var divisi = role.Split(" ")[1];
-                using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    result = connection.ExecuteScalar(
-                        sql: sqlQuery,
-                        param: new
-                        {
-                            Username = username,
-                            Password = password,
-                            Divisi = divisi
-                        });
-                }
+                sqlQuery = @"SELECT s.Username FROM Staff s FULL JOIN Panitia p ON s.Id = p.StaffId 
+                    WHERE p.Divisi=@Divisi AND s.Username=@username AND s.Password=@Password";
+                divisi = role.Split(" ")[1];
             }
             else
             {
-                string sqlQuery = @"SELECT Username FROM Staff  
-                                    WHERE Jabatan=@Jabatan AND Username=@username AND Password=@password";
-                using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    result = connection.ExecuteScalar(
-                        sql: sqlQuery,
-                        param: new
-                        {
-                            Username = username,
-                            Password = password,
-                            Jabatan = role
-                        });
-                }
+                sqlQuery = @"SELECT Username FROM Staff 
+                    WHERE Jabatan=@Jabatan AND Username=@username AND Password=@Password";
+            }
+
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                result = connection.QueryFirstOrDefault<string>(
+                    sql: sqlQuery,
+                    param: new
+                    {
+                        Username = username,
+                        Password = password,
+                        Divisi = divisi
+                    });
             }
 
             return result != null;

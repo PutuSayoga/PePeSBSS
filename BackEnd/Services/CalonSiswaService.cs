@@ -12,8 +12,12 @@ namespace BackEnd.Services
     public class CalonSiswaService : ICalonSiswa
     {
         private readonly IDbConnectionHelper _connectionHelper;
-        public CalonSiswaService(IDbConnectionHelper connectionHelper)
-            => _connectionHelper = connectionHelper;
+        private readonly ISecurityRelate _securityRelateHelper;
+        public CalonSiswaService(IDbConnectionHelper connectionHelper, ISecurityRelate securityRelateHelper)
+        {
+            _connectionHelper = connectionHelper;
+            _securityRelateHelper = securityRelateHelper;
+        }
 
         public AkunPendaftaran CekStatus(string noPendaftaran)
         {
@@ -187,6 +191,7 @@ namespace BackEnd.Services
         {
             string sqlQuery = @"SELECT NoPendaftaran FROM AkunPendaftaran 
                                 WHERE NoPendaftaran = @NoPendaftaran AND Password = @Password";
+            password = _securityRelateHelper.Encrypt(password);
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();

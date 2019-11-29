@@ -38,13 +38,14 @@ namespace FrontEnd.Web.Mvc
                 });
             services.AddControllersWithViews();
             services.AddSingleton(Configuration);
-            services.AddScoped<IDbConnectionHelper>(
+            services.AddScoped<IDbConnectionHelper, DbConnectionHelper>(
                 _ => new DbConnectionHelper(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<ISecurityRelate, SecurityRelateHelper>();
             services.AddScoped<IStaffSma, StaffSmaService>();
             services.AddScoped<ISoalPenerimaan, SoalPenerimaanService>();
             services.AddScoped<IPendaftaran, PendaftaranService>();
             services.AddScoped<ICalonSiswa, CalonSiswaService>();
-            services.AddScoped<ITesPenerimaan, TestPenerimaanService>();
+            services.AddScoped<IUjian, UjianService>();
             services.AddScoped<ISeleksiPenerimaan, SeleksiPenerimaanService>();
         }
 
@@ -67,7 +68,7 @@ namespace FrontEnd.Web.Mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Test}/{action=Index}/{id?}");
+                    pattern: "{controller=PsbTes}/{action=Index}/{id?}");
             });
         }
     }

@@ -8,6 +8,14 @@ namespace FrontEnd.Web.Mvc.Models.PsbPendaftaran
 {
     public class ListDaftarUlangModel
     {
-        public IEnumerable<AkunPendaftaran> ListDaftarUlang { get; set; }
+        public IEnumerable<AkunDaftarUlang> ListDaftarUlang { get; set; }
+    }
+    public class AkunDaftarUlang
+    {
+        public int Id { get; set; }
+        public string NamaLengkap { get; set; }
+        public string NoPendaftaran { get; set; }
+        public string JalurPendaftaran { get; set; }
+        public string AsalSekolah { get; set; }
     }
 }

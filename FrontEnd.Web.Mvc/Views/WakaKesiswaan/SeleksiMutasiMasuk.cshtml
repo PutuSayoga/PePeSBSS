@@ -1,5 +1,70 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model SeleksiModel
 @{
+    ViewBag.Title = "Penentuan Mutasi Masuk";
 }
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Sudah ujian</h6>
+    </div>
+    <div class="card-body">
+        @if (Model.ListAkun.Count() < 1)
+        {
+            @: kosong
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
+                    <thead class="table-warning text-dark">
+                        <tr>
+                            <th>No Pendaftaran  </th>
+                            <th>Nama Lengkap    </th>
+                            <th>MIPA            </th>
+                            <th>IPS             </th>
+                            <th>TPA             </th>
+                            <th>Skor Akhir      </th>
+                            <th>Keterangan      </th>
+                            <th>Tes Wawancara   </th>
+                            <th>Aksi            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var akun in Model.ListAkun)
+                        {
+                            <tr>
+                                <td>@akun.NoPendaftaran</td>
+                                <td>@akun.NamaLengkap</td>
+                                <td>@akun.NilaiMipa</td>
+                                <td>@akun.NilaiIps</td>
+                                <td>@akun.NilaiTpa</td>
+                                <td>@akun.SkorAkhir</td>
+                                @if (akun.Keterangan)
+                                {
+                                    <td class="text-center">
+                                        <p class="card bg-success text-white">Lolos</p>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="text-center">
+                                        <p class="card bg-danger text-white">Tidak Lolos</p>
+                                    </td>
+                                }
+                                <td class="text-center"><button class="btn btn-info">Lihat</button></td>
+                                <td class="text-center">
+                                    <form asp-controller="PsbTes" asp-action="SeleksiNonReguler">
+                                        <input type="hidden" name="id" value="@akun.Id" />
+                                        <input type="hidden" name="jalur" value="@akun.JalurPendaftaran" />
+                                        <input type="hidden" name="isLolos" value="@akun.Keterangan" />
+                                        <button class="btn btn-primary" type="submit">Perbarui Status</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

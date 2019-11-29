@@ -12,16 +12,15 @@ namespace BackEnd.Services
     {
         private readonly IDbConnectionHelper _connectionHelper;
         public SeleksiPenerimaanService(IDbConnectionHelper connectionHelper)
+            => _connectionHelper = connectionHelper;
+
+        public IEnumerable<AkunPendaftaran> GetAllWithJalur(string jalur)
         {
-            _connectionHelper = connectionHelper;
-        }
-        public IEnumerable<AkunPendaftaran> GetAllJalurKhusus()
-        {
-            string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, cs.NamaLengkap, ra.* 
+            string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, cs.NamaLengkap, ra.* 
                                 FROM CalonSiswa cs JOIN AkunPendaftaran ap ON cs.Id=ap.CalonSiswaId 
-                                JOIN RangkumanTesAkademik ra ON ap.Id = ra.AkunPendaftaranId
-                                WHERE JalurPendaftaran='Khusus' AND Status='Sudah Ujian'";
-            using(var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+                                FULL JOIN RangkumanTesAkademik ra ON ap.Id = ra.AkunPendaftaranId
+                                WHERE JalurPendaftaran=@Jalur AND Status='Sudah Ujian'";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
                 var akunSeleksi = connection.Query<AkunPendaftaran, CalonSiswa, RangkumanTesAkademik, AkunPendaftaran>(sql: sqlQuery,
@@ -31,25 +30,21 @@ namespace BackEnd.Services
                         ap.ARekapTesAkademik = ra;
                         return ap;
                     },
-                    splitOn: "NamaLengkap, AkunPendaftaranId");
+                    splitOn: "NamaLengkap, AkunPendaftaranId",
+                    param: new { Jalur = jalur });
                 return akunSeleksi;
             }
-
         }
 
-        public IEnumerable<AkunPendaftaran> GetAllJalurMitra()
+        public void SelectionNonReguler(int akunId, bool isLolos)
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<AkunPendaftaran> GetAllJalurPrestasi()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<AkunPendaftaran> GetAllJalurReguler()
-        {
-            throw new NotImplementedException();
+            string sqlUpdateStatus = @"UPDATE AkunPendaftaran SET Status = @Status WHERE Id = @AkunId";
+            string status = isLolos ? "Lolos" : "Tidak Lolos";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlUpdateStatus, param: new { Status = status, AkunId = akunId });
+            }
         }
     }
 }

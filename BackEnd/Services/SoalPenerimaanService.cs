@@ -50,7 +50,7 @@ namespace BackEnd.Services
                 using(var multiResult = connection.QueryMultiple(sqlQuery, new { Id = id }))
                 {
                     var soal = multiResult.Read<Soal>().First();
-                    soal.ListPertanyaan = multiResult.Read<Pertanyaan>().ToList();
+                    soal.PertanyaanS = multiResult.Read<Pertanyaan>().ToList();
 
                     return soal;
                 }

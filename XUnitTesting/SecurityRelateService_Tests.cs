@@ -1,4 +1,5 @@
-﻿using BackEnd.Services;
+﻿using BackEnd.Abstraction;
+using BackEnd.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,10 @@ namespace XUnitTesting
         public void GeneratePassword_TestDefaultSetting()
         {
             // Arrange
+            var securityRelate = new SecurityRelateHelper();
 
             // Action
-            var password = SecurityRelateService.GeneratePassword();
+            var password = securityRelate.GeneratePassword();
 
             // Assert
             Assert.Equal(8, password.Length);
@@ -29,15 +31,15 @@ namespace XUnitTesting
         [Theory]
         [InlineData("Test")]
         [InlineData("S3cretKey")]
-        [InlineData("Sm4Bs$")]
+        [InlineData("123")]
         public void EncryptDecrypt_CanLockAndUnlock(string plainText)
         {
             // Arrange
-
+            var securityRelate = new SecurityRelateHelper();
 
             // Action
-            string chiperText = SecurityRelateService.Encrypt(plainText);
-            string decryptText = SecurityRelateService.Decrypt(chiperText);
+            string chiperText = securityRelate.Encrypt(plainText);
+            string decryptText = securityRelate.Decrypt(chiperText);
 
             // Assert
             Assert.Equal(plainText, decryptText);

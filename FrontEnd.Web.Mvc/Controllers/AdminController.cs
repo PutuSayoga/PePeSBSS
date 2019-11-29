@@ -261,7 +261,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 JumlahPertanyaan = soal.JumlahPertanyaan,
                 Kategori = soal.Kategori,
                 Deskripsi = soal.Deskripsi,
-                ListPertanyaanAkademik = soal.ListPertanyaan
+                ListPertanyaanAkademik = soal.PertanyaanS
                     .Select(x => new KelolaPertanyaanAkademikModel()
                     {
                         Id = x.Id,
@@ -434,7 +434,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 Target = soal.Target,
                 JumlahPertanyaan = soal.JumlahPertanyaan,
                 Deskripsi = soal.Deskripsi,
-                ListPertanyaanWawancara= soal.ListPertanyaan
+                ListPertanyaanWawancara= soal.PertanyaanS
                     .Select(x => new CrudPertanyaanWawancaraModel()
                     {
                         Id = x.Id,

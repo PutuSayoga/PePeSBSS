@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BackEnd.Domains
 {
-    public partial class MutasiKeluar
+    public class MutasiKeluar
     {
         public int? SiswaId { get; set; }
         public string Tujuan { get; set; }
@@ -11,6 +11,6 @@ namespace BackEnd.Domains
         public string Tanggungan { get; set; }
         public DateTime TanggalKeluar { get; set; }
 
-        public virtual Siswa Siswa { get; set; }
+        public Siswa ASiswa { get; set; }
     }
 }

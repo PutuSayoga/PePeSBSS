@@ -14,35 +14,33 @@
 }
 else
 {
-    int i = 0;
-    <div class="row">
-        <form asp-controller="Test" asp-action="Seleksi" method="post">
-            <div class="card shadow mb-4">
-                <div class="d-block card-header py-3">
-                    <h5 class="m-0 font-weight-bold text-primary">Seleksi Wawancara @Model.Target</h5>
-                </div>
-                <div class="card-body">
-                    @foreach (var pertanyaan in Model.ListPertanyaan)
-                    {
-                        <div class="mb-3">
-                            <div class="border-bottom mb-2">@Html.Raw(pertanyaan.Pertanyaan)</div>
-                            <div class="border-bottom mb-2">
-                                <input hidden asp-for="ListPertanyaan[i].PertanyaanId" value="@pertanyaan.PertanyaanId" />
-                                <input hidden asp-for="ListPertanyaan[i].SoalId" value="@pertanyaan.SoalId" />
-                                <textarea asp-for="ListPertanyaan[i].Jawaban"></textarea>
-                            </div>
+    <div class="card shadow mb-4">
+        <div class="d-block card-header py-3">
+            <h4 class="m-0 font-weight-bold text-primary">Seleksi Wawancara @Model.Target</h4>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Ujian" asp-action="Seleksi" method="post">
+                @foreach (var pertanyaan in Model.ListPertanyaan)
+                {
+                    int i = 0;
+                    <div class="mb-2 border-bottom">
+                        <div class="mb-2">@Html.Raw(pertanyaan.Pertanyaan)</div>
+                        <div class="mb-4">
+                            <input hidden asp-for="ListPertanyaan[i].PertanyaanId" value="@pertanyaan.PertanyaanId" />
+                            <input hidden asp-for="ListPertanyaan[i].SoalId" value="@pertanyaan.SoalId" />
+                            <textarea asp-for="ListPertanyaan[i].Jawaban" class="form-control"></textarea>
                         </div>
-                        i++;
-                    }
+                    </div>
+                    i++;
+                }
+                <div class="my-1 fa-pull-right">
+                    <a class="btn border" asp-controller="PsbTes" asp-action="TestWawancara"
+                       onclick="return confirm('Apa anda yakin ingin membatalkan?')">
+                        Batal
+                    </a>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-            </div>
-            <div class="my-1 fa-pull-right">
-                <a class="btn border" asp-controller="PsbTes" asp-action="TestWawancara"
-                   onclick="return confirm('Apa anda yakin ingin membatalkan?')">
-                    Batal
-                </a>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 }

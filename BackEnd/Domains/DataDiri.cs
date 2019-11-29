@@ -32,6 +32,6 @@ namespace BackEnd.Domains
         public string RiwayatSakit { get; set; }
         public string KelainanJasmani { get; set; }
 
-        public CalonSiswa CalonSiswa { get; set; }
+        public CalonSiswa ACalonSiswa { get; set; }
     }
 }

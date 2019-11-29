@@ -1,19 +1,19 @@
-﻿@model SeleksiJalurPrestasiModel
+﻿@model SeleksiModel
 @{
     ViewBag.Title = "Penentuan Jalur Mitra";
 }
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Seleksi jalur khusus</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Sudah ujian</h6>
     </div>
     <div class="card-body">
-        @*@if (Model.ListJalurPrestasi.Count() < 1)
+        @if (Model.ListAkun.Count() < 1)
         {
             @: kosong
         }
         else
-        {*@
+        {
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
                     <thead class="table-warning text-dark">
@@ -26,20 +26,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @*@foreach (var akun in Model.ListJalurPrestasi)
+                        @foreach (var akun in Model.ListAkun)
                         {
                             <tr>
                                 <td>@akun.NoPendaftaran</td>
                                 <td>@akun.NamaLengkap</td>
-                                <td></td>
                                 <td class="text-center"><button class="btn btn-info">Lihat</button></td>
                                 <td class="text-center"><button class="btn btn-info">Lihat</button></td>
-                                <td><button>Update Status</button></td>
+                                <td class="text-center">
+                                    <button data-target="#ModalSeleksiMitra" data-toggle="modal"
+                                            class="btn btn-primary" type="submit">
+                                        Seleksi
+                                    </button>
+                                </td>
                             </tr>
-                        }*@
+                        }
                     </tbody>
                 </table>
             </div>
         }
+    </div>
+</div>
+@*Modal*@
+<div id="ModalSeleksiMitra" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Seleksi Mitra</h4>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body align-items-center">
+                <h6>Peserta dengan nomor pendaftaran - dinyatakan:</h6>
+                <div class="row">
+                    <form asp-controller="PsbTes" asp-action="SeleksiNonReguler">
+                        <input type="hidden" name="id" value="-" />
+                        <input type="hidden" name="jalur" value="-" />
+                        <input type="hidden" name="isLolos" value="false" />
+                        <button class="btn btn-danger btn-lg" type="submit">Tidak Lolos</button>
+                    </form>
+                    <form asp-controller="PsbTes" asp-action="SeleksiNonReguler">
+                        <input type="hidden" name="id" value="-" />
+                        <input type="hidden" name="jalur" value="-" />
+                        <input type="hidden" name="isLolos" value="true" />
+                        <button class="btn btn-success btn-lg" type="submit">Lolos</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

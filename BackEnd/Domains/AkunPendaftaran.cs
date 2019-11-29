@@ -15,6 +15,6 @@ namespace BackEnd.Domains
 
         public CalonSiswa ACalonSiswa { get; set; }
         public RangkumanTesAkademik ARekapTesAkademik { get; set; }
-        public List<HasilTes> ListHasilTes { get; set; }
+        public ICollection<HasilTes> HasilTesS { get; set; }
     }
 }

@@ -25,58 +25,85 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult SeleksiJalurKhusus()
         {
-            var akun = _seleksiPenerimaanService.GetAllJalurKhusus();
-            var model = new SeleksiJalurKhususModel()
+            var akun = _seleksiPenerimaanService.GetAllWithJalur("Khusus");
+            var model = new SeleksiModel()
             {
-                ListJalurKhusus = akun.Select(x => new AkunKhusus()
+                ListAkun = akun.Select(x => new AkunSeleksi()
                 {
                     Id = x.Id,
                     NoPendaftaran = x.NoPendaftaran,
+                    JalurPendaftaran = x.JalurPendaftaran,
+                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
+                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa ?? 0,
+                    NilaiIps = x.ARekapTesAkademik.NilaiIps ?? 0,
+                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa ?? 0,
+                })
+            };
+            model.ListAkun.Select(x =>
+            {
+                x.Keterangan = x.SkorAkhir > 70 ? true : false;
+                return x;
+            });
+
+            return View(model);
+        }
+        public IActionResult SeleksiJalurReguler()
+        {
+            var akun = _seleksiPenerimaanService.GetAllWithJalur("Reguler");
+            var model = new SeleksiModel()
+            {
+                ListAkun = akun.Select(x => new AkunSeleksi()
+                {
+                    Id = x.Id,
+                    NoPendaftaran = x.NoPendaftaran,
+                    JalurPendaftaran = x.JalurPendaftaran,
                     NamaLengkap = x.ACalonSiswa.NamaLengkap,
                     NilaiMipa = x.ARekapTesAkademik.NilaiMipa ?? 0,
                     NilaiIps = x.ARekapTesAkademik.NilaiIps ?? 0,
                     NilaiTpa = x.ARekapTesAkademik.NilaiTpa ?? 0
+                }).OrderBy(x => x.SkorAkhir)
+            };
+
+            return View(model);
+        }
+        public IActionResult SeleksiJalurMitra()
+        {
+            var akun = _seleksiPenerimaanService.GetAllWithJalur("Mitra");
+            var model = new SeleksiModel()
+            {
+                ListAkun = akun.Select(x => new AkunSeleksi()
+                {
+                    Id = x.Id,
+                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
+                    JalurPendaftaran = x.JalurPendaftaran,
+                    NoPendaftaran = x.NoPendaftaran
                 })
             };
             return View(model);
         }
-        [HttpPost]
-        public IActionResult PerbaruiStatusKhusus(int id)
-        {
-            return RedirectToAction(nameof(SeleksiJalurKhusus));
-        }
-        [HttpGet]
-        public IActionResult SeleksiJalurReguler()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult SeleksiJalurReguler(int id)
-        {
-            return View();
-        }
-        [HttpGet]
-        public IActionResult SeleksiJalurMitra()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult SeleksiJalurMitra(int id)
-        {
-            return View();
-        }
-        [HttpGet]
         public IActionResult SeleksiJalurPrestasi()
         {
-            return View();
+            var akun = _seleksiPenerimaanService.GetAllWithJalur("Prestasi");
+            var model = new SeleksiModel()
+            {
+                ListAkun = akun.Select(x => new AkunSeleksi()
+                {
+                    Id = x.Id,
+                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
+                    JalurPendaftaran = x.JalurPendaftaran,
+                    NoPendaftaran = x.NoPendaftaran
+                })
+            };
+            return View(model);
         }
+
         [HttpPost]
-        public IActionResult SeleksiJalurPrestasi(int id)
+        public IActionResult SeleksiNonReguler(int id, string jalur, bool isLolos)
         {
-            return View();
-        }
-        public IActionResult TestWawancara()
-        {
+            _seleksiPenerimaanService.SelectionNonReguler(id, isLolos);
+            if (jalur.Equals("Khusus"))
+                return RedirectToAction(nameof(SeleksiJalurKhusus));
+
             return View();
         }
     }

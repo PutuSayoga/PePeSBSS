@@ -1,6 +1,6 @@
 ﻿using BackEnd.Abstraction;
 using BackEnd.Domains;
-using FrontEnd.Web.Mvc.Models.Seleksi;
+using FrontEnd.Web.Mvc.Models.Ujian;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,11 +15,13 @@ namespace FrontEnd.Web.Mvc.Controllers
     public class UjianController : Controller
     {
         ISoalPenerimaan _soalPenerimaanService;
-        ITesPenerimaan _tesPenermaanService;
-        public UjianController(ISoalPenerimaan soalPenerimaanService, ITesPenerimaan tesPenerimaanService)
+        IUjian _tesPenermaanService;
+        IPendaftaran _pendaftaranService;
+        public UjianController(ISoalPenerimaan soalPenerimaanService, IUjian tesPenerimaanService, IPendaftaran pendaftaranService)
         {
             _tesPenermaanService = tesPenerimaanService;
             _soalPenerimaanService = soalPenerimaanService;
+            _pendaftaranService = pendaftaranService;
         }
         public IActionResult Index()
         {
@@ -30,52 +32,68 @@ namespace FrontEnd.Web.Mvc.Controllers
             ViewBag.SoalIdTpa = daftarSoal[2];
 
             return View();
-
         }
         [HttpGet]
-        public IActionResult SeleksiAkademik(int soalId)
+        public IActionResult JawabSoalAkademik(int soalId, int qid)
         {
-            var soal = _soalPenerimaanService.GetDetailSoal(soalId);
-            var model = new SeleksiAkademikModel()
+            int akunPendaftaranId = _pendaftaranService.GetIdAkunPendaftaran(User.Identity.Name);
+            var detailUjian = _tesPenermaanService.StartTest(akunPendaftaranId, soalId);
+            if (detailUjian.WaktuBerakhir < DateTime.Now)
             {
-                BatasWaktu = soal.BatasWaktu,
-                ListPertanyaan = soal.ListPertanyaan.Select(x => new PertanyaanTest()
+                return RedirectToAction("Index");
+            }
+            var soal = _soalPenerimaanService.GetDetailSoal(soalId);
+            var listPertanyaan = soal.PertanyaanS.Select(x => x.Id).ToArray();
+            var index = Array.FindIndex(listPertanyaan, x => x == qid);
+
+            if (qid == 0)
+            {
+                return RedirectToAction("JawabSoalAkademik", new { soalId, qid = listPertanyaan[0] });
+            }
+
+            var pertanyaan = _soalPenerimaanService.GetPertanyaan(qid, soalId);
+            var model = new JawabSoalAkademikModel()
+            {
+                BatasWaktu = detailUjian.WaktuBerakhir,
+                Pertanyaan = new PertanyaanTest()
                 {
-                    PertanyaanId = x.Id,
-                    SoalId = x.SoalId,
-                    OpsiA = x.OpsiA,
-                    OpsiB = x.OpsiB,
-                    OpsiC = x.OpsiC,
-                    OpsiD = x.OpsiD,
-                    OpsiE = x.OpsiE,
-                    Pertanyaan = x.Isi
-                }).ToList()
+                    PertanyaanId = pertanyaan.Id,
+                    SoalId = pertanyaan.SoalId,
+                    OpsiA = pertanyaan.OpsiA,
+                    OpsiB = pertanyaan.OpsiB,
+                    OpsiC = pertanyaan.OpsiC,
+                    OpsiD = pertanyaan.OpsiD,
+                    OpsiE = pertanyaan.OpsiE,
+                    Pertanyaan = pertanyaan.Isi
+                },
+                NextId = index + 1 < listPertanyaan.Length ? listPertanyaan[index + 1] : -1,
+                PrevId = index - 1 > -1 ? listPertanyaan[index - 1] : -1,
             };
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult SeleksiAkademik(SeleksiAkademikModel model)
+        public IActionResult JawabSoalAkademik(JawabSoalAkademikModel model)
         {
             string noPendaftaran = User.Identity.Name;
-            var listJawaban = model.ListPertanyaan.Select(x => new HasilTes()
-            {
-                PertanyaanId = x.PertanyaanId,
-                SoalId = x.SoalId,
-                Jawaban = x.JawabanCalonSiswa
-            });
-            _tesPenermaanService.Submit(listJawaban, noPendaftaran);
+            //var listJawaban = model.ListPertanyaan.Select(x => new HasilTes()
+            //{
+            //    PertanyaanId = x.PertanyaanId,
+            //    SoalId = x.SoalId,
+            //    Jawaban = x.JawabanCalonSiswa
+            //});
+            //_tesPenermaanService.Submit(listJawaban, noPendaftaran);
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult SeleksiWawancara(string noPendaftaran, string target)
         {
-            var soal = _soalPenerimaanService.GetDetailSoal(16);
+            var soal = _soalPenerimaanService.GetDetailSoal(13);
             var model = new SeleksiWawancaraModel()
             {
                 JudulSoal = soal.Judul,
                 Target = soal.Target,
-                ListPertanyaan = soal.ListPertanyaan.Select(x => new PertanyaanWawancaraTest()
+                ListPertanyaan = soal.PertanyaanS.Select(x => new PertanyaanWawancaraTest()
                 {
                     PertanyaanId = x.Id,
                     SoalId = x.SoalId,
