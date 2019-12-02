@@ -7,7 +7,7 @@ namespace FrontEnd.Web.Mvc.Models.PsbPendaftaran
 {
     public class ListDaftarBaruModel
     {
-        public IEnumerable<AkunDaftarBaru> ListAkun { get; set; }
+        public List<AkunDaftarBaru> ListAkun { get; set; }
     }
     public class AkunDaftarBaru
     {

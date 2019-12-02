@@ -2,7 +2,11 @@
 @{
     ViewBag.Title = "List Daftar Ulang";
 }
-
+@section Report{
+    <a href="#" class="d-none d-inline-block btn btn-success shadow-sm">
+        <i class="fas fa-download fa-sm text-white-50"></i> Import Excel
+    </a>
+}
 @if (Model.ListDaftarUlang.Count() < 1)
 {
     <div>Kosong</div>
@@ -14,7 +18,6 @@ else
             <h6 class="m-0 font-weight-bold text-primary">List Calon Siswa</h6>
         </div>
         <div class="card-body">
-            <hr />
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
                     <thead class="table-warning text-dark">

@@ -6,7 +6,7 @@ namespace BackEnd.Abstraction
     public interface IStaffSma
     {
         bool IsLogin(string username, string password, string role);
-        IEnumerable<Staff> GetAllStaff();
+        List<Staff> GetAllStaff();
         Staff DetailStaff(int id);
         string AddStaff(Staff newStaff);
         void DeleteStaff(int id);

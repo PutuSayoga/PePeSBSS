@@ -23,6 +23,20 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             return View();
         }
+        public IActionResult Biodata()
+        {
+            var model = new BiodataModel();
+            return View(model);
+        }
+        public IActionResult HasilSeleksi()
+        {
+            var akun = _calonSiswaService.CekStatus(User.Identity.Name);
+            var model = new HasilSeleksiModel()
+            {
+                Status = akun.Status
+            };
+            return View(model);
+        }
         [HttpGet]
         public IActionResult KelolaDataDiri()
         {
@@ -234,7 +248,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 model.NamaKejuaraan = akun.ACalonSiswa.APrestasi.NamaKejuaraan;
                 model.Penyelenggara = akun.ACalonSiswa.APrestasi.Penyelenggara;
                 model.Peringkat = akun.ACalonSiswa.APrestasi.Peringkat;
-                model.Tahun = akun.ACalonSiswa.APrestasi.Tahun;
+                model.Tanggal = akun.ACalonSiswa.APrestasi.Tahun;
                 model.Tingkat = akun.ACalonSiswa.APrestasi.Tingkat;
             }
             return View(model);
@@ -242,7 +256,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpGet]
         public IActionResult KelolaDataOrangTua()
         {
-            var akun = _calonSiswaService.GetDetailPrestasi(User.Identity.Name);
+            var akun = _calonSiswaService.GetDetailPenanggungJawab(User.Identity.Name);
             var model = new KelolaDataOrangTuaModel();
             if (akun.ACalonSiswa.PenanggungjawabS != null)
             {
@@ -318,7 +332,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 model.Transportasi = akun.ACalonSiswa.APenunjang.Transportasi;
                 model.WaktuTempuh = akun.ACalonSiswa.APenunjang.WaktuTempuh;
             }
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -356,7 +370,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
             _calonSiswaService.SaveDataDiri(noPendaftaran, namaLengkap, newData);
             TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(CetakBiodata));
+            return RedirectToAction(nameof(Biodata));
         }
         [HttpPost]
         public IActionResult KelolaDataAkademikTerakhir(KelolaDataAkademikTerakhir model)
@@ -374,117 +388,28 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
             _calonSiswaService.SaveDataAkademikTerakhir(noPendaftaran, newData);
             TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(CetakBiodata));
+            return RedirectToAction(nameof(Biodata));
         }
         [HttpPost]
         public IActionResult KelolaDataRapor(KelolaDataRaporModel model)
         {
             string noPendaftaran = User.Identity.Name;
-            var newData = new List<Rapor>()
+            var newData = new List<Rapor>();
+            for(int i = 0; i<model.ListRapor.Length; i++)
             {
-                new Rapor()
+                newData.Add(new Rapor()
                 {
-                    MataPelajaran = model.ListRapor[0].MataPelajaran,
-                    Semester1 = model.ListRapor[0].Semester1,
-                    Semester2 = model.ListRapor[0].Semester2,
-                    Semester3 = model.ListRapor[0].Semester3,
-                    Semester4 = model.ListRapor[0].Semester4,
-                    Semester5 = model.ListRapor[0].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[1].MataPelajaran,
-                    Semester1 = model.ListRapor[1].Semester1,
-                    Semester2 = model.ListRapor[1].Semester2,
-                    Semester3 = model.ListRapor[1].Semester3,
-                    Semester4 = model.ListRapor[1].Semester4,
-                    Semester5 = model.ListRapor[1].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[2].MataPelajaran,
-                    Semester1 = model.ListRapor[2].Semester1,
-                    Semester2 = model.ListRapor[2].Semester2,
-                    Semester3 = model.ListRapor[2].Semester3,
-                    Semester4 = model.ListRapor[2].Semester4,
-                    Semester5 = model.ListRapor[2].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[3].MataPelajaran,
-                    Semester1 = model.ListRapor[3].Semester1,
-                    Semester2 = model.ListRapor[3].Semester2,
-                    Semester3 = model.ListRapor[3].Semester3,
-                    Semester4 = model.ListRapor[3].Semester4,
-                    Semester5 = model.ListRapor[3].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[4].MataPelajaran,
-                    Semester1 = model.ListRapor[4].Semester1,
-                    Semester2 = model.ListRapor[4].Semester2,
-                    Semester3 = model.ListRapor[4].Semester3,
-                    Semester4 = model.ListRapor[4].Semester4,
-                    Semester5 = model.ListRapor[4].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[5].MataPelajaran,
-                    Semester1 = model.ListRapor[5].Semester1,
-                    Semester2 = model.ListRapor[5].Semester2,
-                    Semester3 = model.ListRapor[5].Semester3,
-                    Semester4 = model.ListRapor[5].Semester4,
-                    Semester5 = model.ListRapor[5].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[6].MataPelajaran,
-                    Semester1 = model.ListRapor[6].Semester1,
-                    Semester2 = model.ListRapor[6].Semester2,
-                    Semester3 = model.ListRapor[6].Semester3,
-                    Semester4 = model.ListRapor[6].Semester4,
-                    Semester5 = model.ListRapor[6].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[7].MataPelajaran,
-                    Semester1 = model.ListRapor[7].Semester1,
-                    Semester2 = model.ListRapor[7].Semester2,
-                    Semester3 = model.ListRapor[7].Semester3,
-                    Semester4 = model.ListRapor[7].Semester4,
-                    Semester5 = model.ListRapor[7].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[8].MataPelajaran,
-                    Semester1 = model.ListRapor[8].Semester1,
-                    Semester2 = model.ListRapor[8].Semester2,
-                    Semester3 = model.ListRapor[8].Semester3,
-                    Semester4 = model.ListRapor[8].Semester4,
-                    Semester5 = model.ListRapor[8].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[9].MataPelajaran,
-                    Semester1 = model.ListRapor[9].Semester1,
-                    Semester2 = model.ListRapor[9].Semester2,
-                    Semester3 = model.ListRapor[9].Semester3,
-                    Semester4 = model.ListRapor[9].Semester4,
-                    Semester5 = model.ListRapor[9].Semester5,
-                },
-                new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[10].MataPelajaran,
-                    Semester1 = model.ListRapor[10].Semester1,
-                    Semester2 = model.ListRapor[10].Semester2,
-                    Semester3 = model.ListRapor[10].Semester3,
-                    Semester4 = model.ListRapor[10].Semester4,
-                    Semester5 = model.ListRapor[10].Semester5,
-                }
-            };
+                    MataPelajaran = model.ListRapor[i].MataPelajaran,
+                    Semester1 = model.ListRapor[i].Semester1,
+                    Semester2 = model.ListRapor[i].Semester2,
+                    Semester3 = model.ListRapor[i].Semester3,
+                    Semester4 = model.ListRapor[i].Semester4,
+                    Semester5 = model.ListRapor[i].Semester5,
+                });
+            }
             _calonSiswaService.SaveDataRapor(noPendaftaran, newData);
             TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(CetakBiodata));
+            return RedirectToAction(nameof(Biodata));
         }
         [HttpPost]
         public IActionResult KelolaDataPrestasi(KelolaDataPrestasiModel model)
@@ -496,12 +421,12 @@ namespace FrontEnd.Web.Mvc.Controllers
                 NamaKejuaraan = model.NamaKejuaraan,
                 Penyelenggara = model.Penyelenggara,
                 Peringkat = model.Peringkat,
-                Tahun = model.Tahun,
+                Tahun = model.Tanggal,
                 Tingkat = model.Tingkat
             };
             _calonSiswaService.SaveDataPrestasi(noPendaftaran, newData);
             TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(CetakBiodata));
+            return RedirectToAction(nameof(Biodata));
         }
         [HttpPost]
         public IActionResult KelolaDataOrangTua(KelolaDataOrangTuaModel model)
@@ -567,7 +492,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             }
             _calonSiswaService.SaveDataPenanggunjawab(noPendaftaran, newData);
             TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(CetakBiodata));
+            return RedirectToAction(nameof(Biodata));
         }
         [HttpPost]
         public IActionResult KelolaDataPenunjang(KelolaDataPenunjangModel model)
@@ -584,20 +509,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
             _calonSiswaService.SaveDataPenunjang(noPendaftaran, newData);
             TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(CetakBiodata));
-        }
-        public IActionResult CetakBiodata()
-        {
-            return View();
-        }
-        public IActionResult HasilSeleksi()
-        {
-            var akun = _calonSiswaService.CekStatus(User.Identity.Name);
-            var model = new HasilSeleksiModel()
-            {
-                Status = akun.Status
-            };
-            return View(model);
+            return RedirectToAction(nameof(Biodata));
         }
     }
 }

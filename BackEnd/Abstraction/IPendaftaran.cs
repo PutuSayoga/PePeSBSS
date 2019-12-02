@@ -7,8 +7,8 @@ namespace BackEnd.Abstraction
 {
     public interface IPendaftaran
     {
-        IEnumerable<AkunPendaftaran> GetAllAkunPendaftaran();
-        IEnumerable<AkunPendaftaran> GetAllDaftarUlang();
+        List<AkunPendaftaran> GetAllAkunPendaftaran();
+        List<AkunPendaftaran> GetAllDaftarUlang();
         void ReRegist(int akunId);
         int AddNewAkunPendaftaran(AkunPendaftaran newAkun);
         AkunPendaftaran GetAkunPendaftaran(int akunId);

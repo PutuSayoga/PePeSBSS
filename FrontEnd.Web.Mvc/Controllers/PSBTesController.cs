@@ -25,25 +25,24 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult SeleksiJalurKhusus()
         {
-            var akun = _seleksiPenerimaanService.GetAllWithJalur("Khusus");
+            var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Khusus");
             var model = new SeleksiModel()
             {
-                ListAkun = akun.Select(x => new AkunSeleksi()
+                ListAkun = listAkun.Select(x => new AkunSeleksi()
                 {
                     Id = x.Id,
                     NoPendaftaran = x.NoPendaftaran,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NamaLengkap = x.ACalonSiswa.NamaLengkap,
-                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa ?? 0,
-                    NilaiIps = x.ARekapTesAkademik.NilaiIps ?? 0,
-                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa ?? 0,
-                })
+                    NilaiIps = x.ARekapTesAkademik.NilaiIps,
+                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa,
+                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa
+                }).ToList()
             };
-            model.ListAkun.Select(x =>
+            foreach(var item in model.ListAkun)
             {
-                x.Keterangan = x.SkorAkhir > 70 ? true : false;
-                return x;
-            });
+                item.Keterangan = item.SkorAkhir > 70.0 ? true : false;
+            }
 
             return View(model);
         }
@@ -58,10 +57,12 @@ namespace FrontEnd.Web.Mvc.Controllers
                     NoPendaftaran = x.NoPendaftaran,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NamaLengkap = x.ACalonSiswa.NamaLengkap,
-                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa ?? 0,
-                    NilaiIps = x.ARekapTesAkademik.NilaiIps ?? 0,
-                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa ?? 0
-                }).OrderBy(x => x.SkorAkhir)
+                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa,
+                    NilaiIps = x.ARekapTesAkademik.NilaiIps,
+                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa
+                })
+                .OrderByDescending(x => x.SkorAkhir)
+                .ToList()
             };
 
             return View(model);
@@ -77,7 +78,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                     NamaLengkap = x.ACalonSiswa.NamaLengkap,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NoPendaftaran = x.NoPendaftaran
-                })
+                }).ToList()
             };
             return View(model);
         }
@@ -92,7 +93,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                     NamaLengkap = x.ACalonSiswa.NamaLengkap,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NoPendaftaran = x.NoPendaftaran
-                })
+                }).ToList()
             };
             return View(model);
         }

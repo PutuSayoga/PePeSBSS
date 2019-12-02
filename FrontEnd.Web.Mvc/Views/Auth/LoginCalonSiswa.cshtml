@@ -41,15 +41,17 @@
                                 <form asp-controller="Auth" asp-action="LoginCalonSiswa" asp-route-returnUrl="@ViewBag.ReturnUrl" method="post">
                                     <div class="form-group">
                                         <label asp-for="NoPendaftaran"></label>
+                                        <span class="text-danger">*</span>
                                         <div>
-                                            <input class="form-control" asp-for="NoPendaftaran" placeholder="Enter user name" />
+                                            <input class="form-control" asp-for="NoPendaftaran" />
                                             <span class="text-danger" asp-validation-for="NoPendaftaran"></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label asp-for="Password"></label>
+                                        <span class="text-danger">*</span>
                                         <div>
-                                            <input type="password" class="form-control" asp-for="Password" placeholder="Enter user name" />
+                                            <input type="password" class="form-control" asp-for="Password" />
                                             <span class="text-danger" asp-validation-for="Password"></span>
                                         </div>
                                     </div>

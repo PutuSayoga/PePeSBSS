@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 <div asp-validation-summary="All" class="alert-danger text-danger mb-4"></div>
-                <form asp-controller="CalonSiswa" asp-action="SimpanBiodataDiri" method="post">
+                <form asp-controller="CalonSiswa" asp-action="KelolaDataOrangTua" method="post">
                     <h2 class="mb-3">Data Ayah</h2>
                     <div class="form-group row">
                         <div class="col-md-3 col-form-label">
@@ -17,7 +17,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md">
-                            <input asp-for="NamaLengkapAyah" class="form-control" placeholder="Nama lengap sesuai KK" />
+                            <input asp-for="NamaLengkapAyah" class="form-control" />
                             <span asp-validation-for="NamaLengkapAyah" class="text-danger"></span>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md">
-                            <input asp-for="TempatLahirAyah" class="form-control" placeholder="Tempat lahir sesuai" />
+                            <input asp-for="TempatLahirAyah" class="form-control" />
                             <span asp-validation-for="TempatLahirAyah" class="text-danger"></span>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md">
-                            <textarea asp-for="AlamatAyah" class="form-control" placeholder="Alamat rumah"></textarea>
+                            <textarea asp-for="AlamatAyah" class="form-control"></textarea>
                             <span asp-validation-for="AlamatAyah" class="text-danger"></span>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md">
-                            <input asp-for="AgamaAyah" class="form-control" placeholder="Agama kepercayaan" />
+                            <input asp-for="AgamaAyah" class="form-control" />
                             <span asp-validation-for="AgamaAyah" class="text-danger"></span>
                         </div>
                     </div>
@@ -66,8 +66,8 @@
                             <label asp-for="PendidikanTerakhirAyah"></label>
                             <span class="text-danger">*</span>
                         </div>
-                        <div class="col-md-4">
-                            <input asp-for="PendidikanTerakhirAyah" class="form-control" placeholder="" />
+                        <div class="col-md-5">
+                            <input asp-for="PendidikanTerakhirAyah" class="form-control" />
                             <span asp-validation-for="PendidikanTerakhirAyah" class="text-danger"></span>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                             <label asp-for="PekerjaanAyah"></label>
                         </div>
                         <div class="col-md">
-                            <input asp-for="PekerjaanAyah" class="form-control" placeholder="Pekerjaan yang saat ini" />
+                            <input asp-for="PekerjaanAyah" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -84,7 +84,7 @@
                             <label asp-for="PenghasilanAyah"></label>
                         </div>
                         <div class="col-md-4">
-                            <input asp-for="PenghasilanAyah" class="form-control" placeholder="" />
+                            <input asp-for="PenghasilanAyah" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -92,7 +92,7 @@
                             <label asp-for="NoTelpAyah"></label>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="NoTelpAyah" class="form-control" placeholder="Ex. 0341999999" />
+                            <input asp-for="NoTelpAyah" class="form-control" />
                             <span asp-validation-for="NoTelpAyah" class="text-danger"></span>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="NoHpAyah" class="form-control" placeholder="Ex. 08123456789" />
+                            <input asp-for="NoHpAyah" class="form-control" />
                             <span asp-validation-for="NoHpAyah" class="text-danger"></span>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="EmailAyah" class="form-control" placeholder="Alamat email" />
+                            <input asp-for="EmailAyah" class="form-control" />
                             <span asp-validation-for="EmailAyah" class="text-danger"></span>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                         <div class="col-md-4">
                             <select asp-for="KeteranganAyah" class="form-control">
                                 <option value="Masih Hidup">Masih Hidup</option>
-                                <option value="Almarhum">Almarhum</option>
+                                <option value="Sudah Meninggal">Sudah Meninggal</option>
                             </select>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md">
-                            <input asp-for="NamaLengkapIbu" class="form-control" placeholder="Nama lengap sesuai KK" />
+                            <input asp-for="NamaLengkapIbu" class="form-control" />
                             <span asp-validation-for="NamaLengkapIbu" class="text-danger"></span>
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md">
-                            <input asp-for="TempatLahirIbu" class="form-control" placeholder="Tempat lahir sesuai" />
+                            <input asp-for="TempatLahirIbu" class="form-control" />
                             <span asp-validation-for="TempatLahirIbu" class="text-danger"></span>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md">
-                            <textarea asp-for="AlamatIbu" class="form-control" placeholder="Alamat rumah"></textarea>
+                            <textarea asp-for="AlamatIbu" class="form-control"></textarea>
                             <span asp-validation-for="AlamatIbu" class="text-danger"></span>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md">
-                            <input asp-for="AgamaIbu" class="form-control" placeholder="Agama kepercayaan" />
+                            <input asp-for="AgamaIbu" class="form-control" />
                             <span asp-validation-for="AgamaIbu" class="text-danger"></span>
                         </div>
                     </div>
@@ -196,8 +196,8 @@
                             <label asp-for="PendidikanTerakhirIbu"></label>
                             <span class="text-danger">*</span>
                         </div>
-                        <div class="col-md-4">
-                            <input asp-for="PendidikanTerakhirIbu" class="form-control" placeholder="" />
+                        <div class="col-md-5">
+                            <input asp-for="PendidikanTerakhirIbu" class="form-control" />
                             <span asp-validation-for="PendidikanTerakhirIbu" class="text-danger"></span>
                         </div>
                     </div>
@@ -206,7 +206,7 @@
                             <label asp-for="PekerjaanIbu"></label>
                         </div>
                         <div class="col-md">
-                            <input asp-for="PekerjaanIbu" class="form-control" placeholder="Pekerjaan yang saat ini" />
+                            <input asp-for="PekerjaanIbu" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -214,7 +214,7 @@
                             <label asp-for="PenghasilanIbu"></label>
                         </div>
                         <div class="col-md-4">
-                            <input asp-for="PenghasilanIbu" class="form-control" placeholder="" />
+                            <input asp-for="PenghasilanIbu" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -222,7 +222,7 @@
                             <label asp-for="NoTelpIbu"></label>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="NoTelpIbu" class="form-control" placeholder="Ex. 0341999999" />
+                            <input asp-for="NoTelpIbu" class="form-control" />
                             <span asp-validation-for="NoTelpIbu" class="text-danger"></span>
                         </div>
                     </div>
@@ -232,7 +232,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="NoHpIbu" class="form-control" placeholder="Ex. 08123456789" />
+                            <input asp-for="NoHpIbu" class="form-control" />
                             <span asp-validation-for="NoHpIbu" class="text-danger"></span>
                         </div>
                     </div>
@@ -242,7 +242,7 @@
                             <span class="text-danger">*</span>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="EmailIbu" class="form-control" placeholder="Alamat email" />
+                            <input asp-for="EmailIbu" class="form-control" />
                             <span asp-validation-for="EmailIbu" class="text-danger"></span>
                         </div>
                     </div>
@@ -265,7 +265,7 @@
                         <div class="col-md-4">
                             <select asp-for="KeteranganIbu" class="form-control">
                                 <option value="Masih Hidup">Masih Hidup</option>
-                                <option value="Almarhum">Almarhum</option>
+                                <option value="Sudah Meninggal">Sudah Meninggal</option>
                             </select>
                         </div>
                     </div>
@@ -276,7 +276,7 @@
                             <label asp-for="NamaLengkapWali"></label>
                         </div>
                         <div class="col-md">
-                            <input asp-for="NamaLengkapWali" class="form-control" placeholder="Nama lengap sesuai KK" />
+                            <input asp-for="NamaLengkapWali" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -284,7 +284,7 @@
                             <label asp-for="TempatLahirWali"></label>
                         </div>
                         <div class="col-md">
-                            <input asp-for="TempatLahirWali" class="form-control" placeholder="Tempat lahir sesuai" />
+                            <input asp-for="TempatLahirWali" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -300,7 +300,7 @@
                             <label asp-for="AlamatWali"></label>
                         </div>
                         <div class="col-md">
-                            <textarea asp-for="AlamatWali" class="form-control" placeholder="Alamat rumah"></textarea>
+                            <textarea asp-for="AlamatWali" class="form-control" ></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -308,7 +308,7 @@
                             <label asp-for="AgamaWali"></label>
                         </div>
                         <div class="col-md">
-                            <input asp-for="AgamaWali" class="form-control" placeholder="Agama kepercayaan" />
+                            <input asp-for="AgamaWali" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -316,7 +316,7 @@
                             <label asp-for="PendidikanTerakhirWali"></label>
                         </div>
                         <div class="col-md-4">
-                            <input asp-for="PendidikanTerakhirWali" class="form-control" placeholder="" />
+                            <input asp-for="PendidikanTerakhirWali" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -324,7 +324,7 @@
                             <label asp-for="PekerjaanWali"></label>
                         </div>
                         <div class="col-md">
-                            <input asp-for="PekerjaanWali" class="form-control" placeholder="Pekerjaan saat ini" />
+                            <input asp-for="PekerjaanWali" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -332,7 +332,7 @@
                             <label asp-for="PenghasilanWali"></label>
                         </div>
                         <div class="col-md-4">
-                            <input asp-for="PenghasilanWali" class="form-control" placeholder="" />
+                            <input asp-for="PenghasilanWali" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -340,7 +340,7 @@
                             <label asp-for="NoTelpWali"></label>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="NoTelpWali" class="form-control" placeholder="Ex. 0341999999" />
+                            <input asp-for="NoTelpWali" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -348,7 +348,7 @@
                             <label asp-for="NoHpWali"></label>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="NoHpWali" class="form-control" placeholder="Ex. 08123456789" />
+                            <input asp-for="NoHpWali" class="form-control" />
                         </div>
                     </div>
                     <div class="form-group row">
@@ -356,7 +356,7 @@
                             <label asp-for="EmailWali"></label>
                         </div>
                         <div class="col-md-5">
-                            <input asp-for="EmailWali" class="form-control" placeholder="Alamat email" />
+                            <input asp-for="EmailWali" class="form-control" />
                         </div>
                     </div>
                     <div class="my-1 fa-pull-right">

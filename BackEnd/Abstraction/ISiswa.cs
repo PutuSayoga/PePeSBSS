@@ -7,7 +7,7 @@ namespace BackEnd.Abstraction
 {
     public interface ISiswa
     {
-        IEnumerable<Siswa> GetAllSiswa();
+        List<Siswa> GetAllSiswa();
         void AddSiswa(Siswa newSiswa);
         Siswa CreateNewSiswa(int calonSiswaId);
     }

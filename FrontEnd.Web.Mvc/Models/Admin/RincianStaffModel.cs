@@ -15,10 +15,10 @@ namespace FrontEnd.Web.Mvc.Models.Admin
     public class TambahPanitiaModel
     {
 
-        [Display(Name = "Acara")]
+        [Display(Name = "Acara", Prompt ="Acara yang diikuti")]
         [Required(ErrorMessage = "Acara tidak boleh kosong")]
         public string Acara { get; set; }
-        [Display(Name = "Divisi")]
+        [Display(Name = "Divisi", Prompt ="Anggota divisi")]
         [Required(ErrorMessage = "Divisi tidak boleh kosong")]
         public string Divisi { get; set; }
 

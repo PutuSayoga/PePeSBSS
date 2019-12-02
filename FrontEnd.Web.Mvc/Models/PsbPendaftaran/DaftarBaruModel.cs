@@ -24,6 +24,8 @@ namespace FrontEnd.Web.Mvc.Models.PsbPendaftaran
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Panjang NIK 16 karakter")]
         [Display(Name = "Nomor Induk Siswa Nasional")]
         public string Nisn { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "dd/MM/yyyy")]
         [Display(Name = "Tanggal Ujian")]
         public DateTime JadwalTes { get; set; }
     }

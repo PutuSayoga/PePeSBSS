@@ -15,7 +15,6 @@ namespace BackEnd.Abstraction
         void SaveDataPrestasi(string noPendaftaran, Prestasi newData);
         void SaveDataRapor(string noPendaftaran, List<Rapor> newData);
 
-        AkunPendaftaran GetAllDetail(string noPendaftaran);
         AkunPendaftaran GetDetailDiri(string noPendaftaran);
         AkunPendaftaran GetDetailPenanggungJawab(string noPendaftaran);
         AkunPendaftaran GetDetailPenunjang(string noPendaftaran);

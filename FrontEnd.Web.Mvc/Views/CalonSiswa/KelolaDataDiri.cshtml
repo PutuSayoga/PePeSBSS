@@ -16,7 +16,7 @@
                         <span class="text-danger">*</span>
                     </div>
                     <div class="col-md">
-                        <input asp-for="NamaLengkap" class="form-control" placeholder="Nama lengap sesuai KK" />
+                        <input asp-for="NamaLengkap" class="form-control" />
                         <span asp-validation-for="NamaLengkap" class="text-danger"></span>
                     </div>
                 </div>
@@ -57,7 +57,14 @@
                             Laki-Laki
                         </div>
                         <div class="radio">
-                            <input type="radio" value="true" asp-for="IsPerempuan" />
+                            @if (Model.IsPerempuan)
+                            {
+                                <input type="radio" value="true" asp-for="IsPerempuan" checked/>
+                            }
+                            else
+                            {
+                                <input type="radio" value="true" asp-for="IsPerempuan" />
+                            }
                             Perempuan
                         </div>
                         <span asp-validation-for="IsPerempuan" class="text-danger"></span>
@@ -69,7 +76,7 @@
                         <span class="text-danger">*</span>
                     </div>
                     <div class="col-md">
-                        <input asp-for="TempatLahir" class="form-control" placeholder="Tempat lahir sesuai KK" />
+                        <input asp-for="TempatLahir" class="form-control" />
                         <span asp-validation-for="TempatLahir" class="text-danger"></span>
                     </div>
                 </div>
@@ -79,7 +86,7 @@
                         <span class="text-danger">*</span>
                     </div>
                     <div class="col-md-4">
-                        <input asp-for="TanggalLahir" class="form-control" type="date" />
+                        <input asp-for="TanggalLahir" class="form-control"/>
                         <span asp-validation-for="TanggalLahir" class="text-danger"></span>
                     </div>
                 </div>
@@ -89,7 +96,7 @@
                         <span class="text-danger">*</span>
                     </div>
                     <div class="col-md-4">
-                        <input asp-for="Agama" class="form-control" placeholder="Agama kepercayaan" />
+                        <input asp-for="Agama" class="form-control" />
                         <span asp-validation-for="Agama" class="text-danger"></span>
                     </div>
                 </div>
@@ -99,7 +106,7 @@
                         <span class="text-danger">*</span>
                     </div>
                     <div class="col-md">
-                        <textarea asp-for="Alamat" class="form-control" placeholder="Alamat rumah"></textarea>
+                        <textarea asp-for="Alamat" class="form-control"></textarea>
                         <span asp-validation-for="Alamat" class="text-danger"></span>
                     </div>
                 </div>
@@ -108,7 +115,7 @@
                         <label asp-for="Rt"></label>
                     </div>
                     <div class="col-md-2">
-                        <input asp-for="Rt" class="form-control" placeholder="" />
+                        <input asp-for="Rt" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -116,7 +123,7 @@
                         <label asp-for="Rw"></label>
                     </div>
                     <div class="col-md-2">
-                        <input asp-for="Rw" class="form-control" placeholder="" />
+                        <input asp-for="Rw" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -124,7 +131,7 @@
                         <label asp-for="DusunDesaLurah"></label>
                     </div>
                     <div class="col-md-8">
-                        <input asp-for="DusunDesaLurah" class="form-control" placeholder="" />
+                        <input asp-for="DusunDesaLurah" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -132,7 +139,7 @@
                         <label asp-for="Kecamatan"></label>
                     </div>
                     <div class="col-md-8">
-                        <input asp-for="Kecamatan" class="form-control" placeholder="" />
+                        <input asp-for="Kecamatan" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -140,7 +147,7 @@
                         <label asp-for="KotaKabupaten"></label>
                     </div>
                     <div class="col-md-8">
-                        <input asp-for="KotaKabupaten" class="form-control" placeholder="" />
+                        <input asp-for="KotaKabupaten" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -148,7 +155,7 @@
                         <label asp-for="KodePos"></label>
                     </div>
                     <div class="col-md-4">
-                        <input asp-for="KodePos" class="form-control" placeholder="" />
+                        <input asp-for="KodePos" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -156,7 +163,7 @@
                         <label asp-for="NoTelp"></label>
                     </div>
                     <div class="col-md-8">
-                        <input asp-for="NoTelp" class="form-control" placeholder="Nomor telepon rumah" />
+                        <input asp-for="NoTelp" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -165,7 +172,7 @@
                         <span class="text-danger">*</span>
                     </div>
                     <div class="col-md-8">
-                        <input asp-for="NoHp" class="form-control" placeholder="Nomor handphone yang bisa dihubungi" />
+                        <input asp-for="NoHp" class="form-control" />
                         <span asp-validation-for="NoHp" class="text-danger"></span>
                     </div>
                 </div>
@@ -175,7 +182,7 @@
                         <span class="text-danger">*</span>
                     </div>
                     <div class="col-md">
-                        <input asp-for="Email" class="form-control" placeholder="Alamat email yang aktif" />
+                        <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
@@ -184,7 +191,7 @@
                         <label asp-for="AnakKe"></label>
                     </div>
                     <div class="col-md-2">
-                        <input asp-for="AnakKe" class="form-control" placeholder="" />
+                        <input asp-for="AnakKe" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -192,7 +199,7 @@
                         <label asp-for="JumlahSaudara"></label>
                     </div>
                     <div class="col-md-2">
-                        <input asp-for="JumlahSaudara" class="form-control" placeholder="" />
+                        <input asp-for="JumlahSaudara" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -211,7 +218,12 @@
                         <label asp-for="TinggiBadan"></label>
                     </div>
                     <div class="col-md">
-                        <input asp-for="TinggiBadan" class="col-md-2 form-control" placeholder="" />
+                        <div class="input-group">
+                            <input asp-for="TinggiBadan" class="col-md-2 form-control" />
+                            <div class="input-group-append">
+                                <a class="text-white btn bg-secondary">Cm</a>
+                            </div>
+                        </div>
                         <span asp-validation-for="TinggiBadan" class="text-danger"></span>
                     </div>
                 </div>
@@ -220,7 +232,12 @@
                         <label asp-for="BeratBadan"></label>
                     </div>
                     <div class="col-md">
-                        <input asp-for="BeratBadan" class="col-md-2 form-control" placeholder="" />
+                        <div class="input-group">
+                            <input asp-for="BeratBadan" class="col-md-2 form-control" />
+                            <div class="input-group-append">
+                                <a class="text-white btn bg-secondary">Kg</a>
+                            </div>
+                        </div>
                         <span asp-validation-for="BeratBadan" class="text-danger"></span>
                     </div>
                 </div>
@@ -243,7 +260,7 @@
                         <label asp-for="CitaCita"></label>
                     </div>
                     <div class="col-md-8">
-                        <input asp-for="CitaCita" class="form-control" placeholder="" />
+                        <input asp-for="CitaCita" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -251,7 +268,7 @@
                         <label asp-for="Hobi"></label>
                     </div>
                     <div class="col-md">
-                        <input asp-for="Hobi" class="form-control" placeholder="" />
+                        <input asp-for="Hobi" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -259,7 +276,7 @@
                         <label asp-for="RiwayatSakit"></label>
                     </div>
                     <div class="col-md">
-                        <input asp-for="RiwayatSakit" class="form-control" placeholder="" />
+                        <input asp-for="RiwayatSakit" class="form-control" />
                     </div>
                 </div>
                 <div class="form-group row">
@@ -267,7 +284,7 @@
                         <label asp-for="KelainanJasmani"></label>
                     </div>
                     <div class="col-md-8">
-                        <input asp-for="KelainanJasmani" class="form-control" placeholder="" />
+                        <input asp-for="KelainanJasmani" class="form-control" />
                     </div>
                 </div>
                 <div class="my-1 fa-pull-right">

@@ -7,8 +7,8 @@ namespace BackEnd.Abstraction
 {
     public interface IUjian
     {
-        IEnumerable<int> GetSoalIdPengerjaan(string noPendaftaran);
-        void Submit(IEnumerable<HasilTes> listJawaban, string noPendataran);
+        List<int> GetSoalIdPengerjaan(string noPendaftaran);
+        void Submit(List<HasilTes> listJawaban, string noPendataran);
         Ujian StartTest(int akunId, int soalId);
     }
 }

@@ -33,10 +33,10 @@ namespace FrontEnd.Web.Mvc.Controllers
                     NoPendaftaran = x.NoPendaftaran,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NamaLengkap = x.ACalonSiswa.NamaLengkap,
-                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa ?? 0,
-                    NilaiIps = x.ARekapTesAkademik.NilaiIps ?? 0,
-                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa ?? 0,
-                })
+                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa,
+                    NilaiIps = x.ARekapTesAkademik.NilaiIps,
+                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa
+                }).ToList()
             };
             model.ListAkun.Select(x =>
             {

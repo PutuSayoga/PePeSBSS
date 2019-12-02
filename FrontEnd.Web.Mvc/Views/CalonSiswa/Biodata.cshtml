@@ -1,0 +1,52 @@
+﻿@model BiodataModel
+@{
+    ViewBag.Title = "Biodata";
+}
+
+@section Report{
+    <a href="#" class="d-none d-inline-block btn btn-success shadow-sm">
+    <i class="fas fa-print fa-sm text-white-50"></i> Cetak Biodata</a>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <ul class="nav navbar nav-pills">
+            <li class="active"><a data-toggle="tab" href="#DataDiri">Data Diri</a></li>
+            <li><a data-toggle="tab" href="#DataAkademikTerakhir">Akademik terakhir</a></li>
+            <li><a data-toggle="tab" href="#DataPrestasi">Prestasi</a></li>
+            <li><a data-toggle="tab" href="#DataRapor">Rapor</a></li>
+            <li><a data-toggle="tab" href="#DataOrangTua">Orang Tua/Wali</a></li>
+            <li><a data-toggle="tab" href="#DataPenunjang">Penunjang</a></li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div id="DataDiri" class="tab-pane fade active show">
+                <h3>Data Diri</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+            <div id="DataAkademikTerakhir" class="tab-pane fade">
+                <h3>Akademik terakhir</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div id="DataPrestasi" class="tab-pane fade">
+                <h3>Prestasi</h3>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+            <div id="DataRapor" class="tab-pane fade">
+                <h3>Rapor</h3>
+                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            </div>
+            <div id="DataOrangTua" class="tab-pane fade">
+                <h3>Orang Tua/Wali</h3>
+                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            </div>
+            <div id="DataPenunjang" class="tab-pane fade">
+                <h3>Penunjang</h3>
+                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+

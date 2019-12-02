@@ -47,7 +47,7 @@ else
                                        class="btn btn-info">
                                         Rincian
                                     </a>
-                                    <button data-target="#ModalUbahSoalAkademik" data-toggle="modal" class="btn btn-warning">
+                                    <button onclick="ubahSoalAkademikModal(@soalAkademik.Id)" data-toggle="modal" class="btn btn-warning">
                                         Ubah
                                     </button>
                                     <form asp-controller="Admin" asp-action="HapusSoalAkademik" asp-route-id="@soalAkademik.Id"
@@ -80,12 +80,12 @@ else
                     <div class="form-group">
                         <label asp-for="SoalAkademik.Judul" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalAkademik.Judul" class="form-control" placeholder="Judul soal" />
+                        <input asp-for="SoalAkademik.Judul" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label asp-for="SoalAkademik.Kategori" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <select asp-for="SoalAkademik.Kategori" class="form-control" placeholder="Kategori">
+                        <select asp-for="SoalAkademik.Kategori" class="col-md-4 form-control">
                             <option selected></option>
                             <option value="MIPA">MIPA</option>
                             <option value="IPS">IPS</option>
@@ -96,13 +96,18 @@ else
                     <div class="form-group">
                         <label asp-for="SoalAkademik.BatasWaktu" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalAkademik.BatasWaktu" class="form-control" placeholder="Batas waktu pengerjaan soal" />
+                        <div class="input-group">
+                            <input asp-for="SoalAkademik.BatasWaktu" class="col-md-5 form-control" />
+                            <div class="input-group-append">
+                                <a class="text-white btn bg-secondary">Menit</a>
+                            </div>
+                        </div>
                         <span asp-validation-for="SoalAkademik.BatasWaktu" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="SoalAkademik.Deskripsi" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <textarea asp-for="SoalAkademik.Deskripsi" class="form-control" placeholder="Deskripsi tambahan"></textarea>
+                        <textarea asp-for="SoalAkademik.Deskripsi" class="form-control"></textarea>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
@@ -113,6 +118,7 @@ else
         </div>
     </div>
 </div>
+
 <div id="ModalUbahSoalAkademik" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -121,32 +127,46 @@ else
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Admin" asp-action="UbahSoalAkademik" method="post">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <form class="form" asp-controller="Admin" asp-action="UbahSoalAkademik" method="post">
+                    <input asp-for="SoalAkademik.Id" type="hidden" />
                     <div class="form-group">
                         <label asp-for="SoalAkademik.Judul" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalAkademik.Judul" class="form-control" placeholder="Judul soal" />
+                        <input asp-for="SoalAkademik.Judul" class="form-control" />
                     </div>
                     <div class="form-group">
                         <label asp-for="SoalAkademik.Kategori" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalAkademik.Kategori" class="form-control" placeholder="Kategori" />
+                        <select asp-for="SoalAkademik.Kategori" class="form-control" >
+                            <option selected></option>
+                            <option value="MIPA">MIPA</option>
+                            <option value="IPS">IPS</option>
+                            <option value="TPA">TPA</option>
+                        </select>
                         <span asp-validation-for="SoalAkademik.Kategori" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="SoalAkademik.BatasWaktu" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalAkademik.BatasWaktu" class="form-control" placeholder="Batas waktu pengerjaan soal" />
+                        <div class="input-group">
+                            <input asp-for="SoalAkademik.BatasWaktu" class="col-md-5 form-control" />
+                            <div class="input-group-append">
+                                <a class="text-white btn bg-secondary">Menit</a>
+                            </div>
+                        </div>
                         <span asp-validation-for="SoalAkademik.BatasWaktu" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="SoalAkademik.Deskripsi" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <textarea asp-for="SoalAkademik.Deskripsi" class="form-control" placeholder="Deskripsi tambahan"></textarea>
+                        <textarea asp-for="SoalAkademik.Deskripsi" class="form-control"></textarea>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -156,12 +176,20 @@ else
 
 @section Scripts{
     <script>
-    @if (ViewBag.Pesan != null)
-    {
-        @: alert("@ViewBag.Pesan");
-    }
+        function ubahSoalAkademikModal(id) {
+            $("#ModalUbahSoalAkademik .form").hide();
+            $("#ModalUbahSoalAkademik .spinner-border").show();
+            $('#ModalUbahSoalAkademik').modal();
 
-    //Ajax ubah soal
-
+            $.get(`/Admin/UbahSoalAkademik/${id}`, (data) => {
+                $("#ModalUbahSoalAkademik .form").show();
+                $("#ModalUbahSoalAkademik .spinner-border").hide();
+                $('#ModalUbahSoalAkademik .form [name="SoalAkademik.Id"]').val(data.id);
+                $('#ModalUbahSoalAkademik .form [name="SoalAkademik.Judul"]').val(data.judul);
+                $('#ModalUbahSoalAkademik .form [name="SoalAkademik.Kategori"]').val(data.kategori);
+                $('#ModalUbahSoalAkademik .form [name="SoalAkademik.BatasWaktu"]').val(data.batasWaktu);
+                $('#ModalUbahSoalAkademik .form [name="SoalAkademik.Deskripsi"]').val(data.deskripsi);
+            });
+        }
     </script>
 }

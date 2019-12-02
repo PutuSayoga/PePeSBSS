@@ -19,7 +19,7 @@ namespace BackEnd.Services
             _soalService = soalPenerimaanService;
         }
 
-        public IEnumerable<int> GetSoalIdPengerjaan(string noPendaftaran)
+        public List<int> GetSoalIdPengerjaan(string noPendaftaran)
         {
             //cek jalur pendaftaran
             string sqlQuery = @"SELECT JalurPendaftaran FROM AkunPendaftaran WHERE NoPendaftaran=@NoPendaftaran";
@@ -62,7 +62,7 @@ namespace BackEnd.Services
             return idSoalPengerjaan;
         }
 
-        public void SaveAnswers(IEnumerable<HasilTes> listJawaban)
+        public void SaveAnswers(List<HasilTes> listJawaban)
         {
             string sqlQuery = @"INSERT INTO HasilTes(SoalId, PertanyaanId, Jawaban, AkunPendaftaranId) 
                                 VALUES(@SoalId, @PertanyaanId, @Jawaban, @AkunPendaftaranId)";
@@ -72,7 +72,7 @@ namespace BackEnd.Services
             }
         }
 
-        public void CheckTest(IEnumerable<HasilTes> listJawaban)
+        public void CheckTest(List<HasilTes> listJawaban)
         {
             string sqlQuery = @"UPDATE HasilTes SET Nilai = 1
                                 WHERE AkunPendaftaranId = @AkunPendaftaranId AND PertanyaanId = @PertanyaanId AND SoalId = @SoalId
@@ -129,7 +129,7 @@ namespace BackEnd.Services
             return jawabanBenar * (100.0 / jumlahPertanyaan);
         }
 
-        public void Submit(IEnumerable<HasilTes> listJawaban, string noPendataran)
+        public void Submit(List<HasilTes> listJawaban, string noPendataran)
         {
             string sqlQuery = @"SELECT Id FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
             int akunPendaftaranId, soalId;

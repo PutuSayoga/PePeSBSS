@@ -71,6 +71,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                     NoPendaftaran = x.NoPendaftaran,
                     Status = x.Status
                 })
+                .ToList()
             };
 
             return View(model);
@@ -81,6 +82,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             var detailAkun = _calonSiswaService.GetAkunPendaftaran(id);
             var model = new BuktiPendaftaranModel()
             {
+                Id = detailAkun.Id,
                 NoPendaftaran = detailAkun.NoPendaftaran,
                 NamaLengkap = detailAkun.ACalonSiswa.NamaLengkap,
                 JalurPendaftaran = detailAkun.JalurPendaftaran,
@@ -132,6 +134,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                     JalurPendaftaran = x.JalurPendaftaran,
                     NamaLengkap = x.ACalonSiswa.NamaLengkap
                 })
+                .ToList()
             };
 
             return View(model);

@@ -1,36 +1,37 @@
 ﻿@model BuktiPendaftaranModel
-@{ 
+@{
     ViewBag.Title = "Bukti Pendaftaran";
 }
 
-    <div class="col-md-10 col-lg-8">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Bukti Pendaftaran</h6>
+<div class="col-md-10 col-lg-8">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Bukti Pendaftaran</h6>
+        </div>
+        <div class="card-body">
+            <div>
+                <label asp-for="@Model.NoPendaftaran"></label>:<label>@Model.NoPendaftaran</label>
             </div>
-            <div class="card-body">
-                <div>
-                    <label asp-for="@Model.NoPendaftaran"></label>:<label>@Model.NoPendaftaran</label>
-                </div>
-                <div>
-                    <label asp-for="@Model.JalurPendaftaran"></label>:<label>@Model.JalurPendaftaran</label>
-                </div>
-                <div>
-                    <label asp-for="@Model.NamaLengkap"></label>:<label>@Model.NamaLengkap</label>
-                </div>
-                <div>
-                    <label asp-for="@Model.isLunas"></label>:<label>@Model.isLunas</label>
-                </div>
-                <div>
-                    <label asp-for="@Model.Password"></label>:<label>@Model.Password</label>
-                </div>
-                <div>
-                    <label asp-for="@Model.JadwalTes"></label>:<label>@Model.JadwalTes</label>
-                </div>
-                <div class="fa-pull-right">
-                    <button class="btn btn-dark">Cetak</button>
-                    <a asp-controller="PSBPendaftaran" asp-action="ListDaftarBaru" class="btn btn-primary">Selesai</a>
-                </div>
+            <div>
+                <label asp-for="@Model.JalurPendaftaran"></label>:<label>@Model.JalurPendaftaran</label>
+            </div>
+            <div>
+                <label asp-for="@Model.NamaLengkap"></label>:<label>@Model.NamaLengkap</label>
+            </div>
+            <div>
+                <label asp-for="@Model.isLunas"></label>:<label>@Model.isLunas</label>
+            </div>
+            <div>
+                <label asp-for="@Model.Password"></label>:<label>@Model.Password</label>
+            </div>
+            <div>
+                <label asp-for="@Model.JadwalTes"></label>:<label>@Model.JadwalTes</label>
+            </div>
+            <div class="fa-pull-right">
+                <a onclick="window.open('/Print/BuktiPendaftaran/@Model.Id', 'newwindow', 'width=800,height=500'); return false;"
+                   class="btn btn-warning text-white">Cetak</a>
+                <a asp-controller="PSBPendaftaran" asp-action="ListDaftarBaru" class="btn btn-primary">Selesai</a>
             </div>
         </div>
     </div>
+</div>

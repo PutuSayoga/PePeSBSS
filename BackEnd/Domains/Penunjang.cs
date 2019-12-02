@@ -8,9 +8,9 @@ namespace BackEnd.Domains
         public int CalonSiswaId { get; set; }
         public string Pembiaya { get; set; }
         public string StatusTempatTinggal { get; set; }
-        public int DayaListrik { get; set; }
-        public byte JarakTempuh { get; set; }
-        public byte WaktuTempuh { get; set; }
+        public int? DayaListrik { get; set; }
+        public double? JarakTempuh { get; set; }
+        public byte? WaktuTempuh { get; set; }
         public string Transportasi { get; set; }
 
         public CalonSiswa ACalonSiswa { get; set; }

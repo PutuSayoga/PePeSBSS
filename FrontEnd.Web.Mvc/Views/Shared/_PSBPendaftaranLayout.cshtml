@@ -93,6 +93,7 @@
                 <div class="container-fluid">
                     <header class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+                        @RenderSection("Report", required: false)
                     </header>
                     <main class="mb-4">
                         @RenderBody()

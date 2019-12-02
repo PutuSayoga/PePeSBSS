@@ -181,7 +181,15 @@ namespace FrontEnd.Web.Mvc.Controllers
             var listSoalAkademik = _soalService.GetAllSoalAkademik();
             var model = new KelolaSoalAkademikModel()
             {
-                ListSoal = listSoalAkademik
+                ListSoal = listSoalAkademik.Select(x=> new CrudSoalAkademik()
+                {
+                    BatasWaktu = x.BatasWaktu,
+                    Id = x.Id,
+                    Judul = x.Judul,
+                    JumlahPertanyaan = x.JumlahPertanyaan,
+                    Kategori = x.Kategori
+                })
+                .ToList()
             };
 
             return View(model);
@@ -221,6 +229,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             var soal = _soalService.GetSimpleSoal(id);
             var model = new CrudSoalAkademik()
             {
+                Id = soal.Id,
                 Judul = soal.Judul,
                 Kategori = soal.Kategori,
                 BatasWaktu = soal.BatasWaktu,
@@ -240,6 +249,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 var dataBaru = new Soal()
                 {
+                    Id = model.SoalAkademik.Id,
                     Judul = model.SoalAkademik.Judul,
                     BatasWaktu = model.SoalAkademik.BatasWaktu,
                     Kategori = model.SoalAkademik.Kategori,
@@ -287,19 +297,26 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpPost]
         public IActionResult TambahPertanyaanAkademik(KelolaPertanyaanAkademikModel model)
         {
-            var newPertanyaan = new Pertanyaan()
+            if (!ModelState.IsValid)
             {
-                SoalId = model.SoalId,
-                Isi = model.Isi,
-                OpsiA = model.OpsiA,
-                OpsiB = model.OpsiB,
-                OpsiC = model.OpsiC,
-                OpsiD = model.OpsiD,
-                OpsiE = model.OpsiE,
-                Jawaban = model.Jawaban
-            };
-            _soalService.AddPertanyaan(newPertanyaan);
-            return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.SoalId });
+                return View();
+            }
+            else
+            {
+                var newPertanyaan = new Pertanyaan()
+                {
+                    SoalId = model.SoalId,
+                    Isi = model.Isi,
+                    OpsiA = model.OpsiA,
+                    OpsiB = model.OpsiB,
+                    OpsiC = model.OpsiC,
+                    OpsiD = model.OpsiD,
+                    OpsiE = model.OpsiE,
+                    Jawaban = model.Jawaban
+                };
+                _soalService.AddPertanyaan(newPertanyaan);
+                return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.SoalId });
+            }
         }
         [HttpGet]
         public IActionResult UbahPertanyaanAkademik(int id, int soalId)
@@ -371,7 +388,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 var soalWawancaraBaru = new Soal()
                 {
                     Judul = model.SoalWawancara.Judul,
-                    Kategori = "Wawancara",
+                    Kategori = model.SoalWawancara.Kategori,
                     Jalur = model.SoalWawancara.Jalur,
                     Target = model.SoalWawancara.Target,
                     Deskripsi = model.SoalWawancara.Deskripsi,
@@ -394,6 +411,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             var soal = _soalService.GetSimpleSoal(id);
             var model = new CrudSoalWawancara()
             {
+                Id = soal.Id,
                 Judul = soal.Judul,
                 Jalur = soal.Jalur,
                 Target = soal.Target,
@@ -413,6 +431,8 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 var dataBaru = new Soal()
                 {
+                    Id = model.SoalWawancara.Id,
+                    Kategori = model.SoalWawancara.Kategori,
                     Judul = model.SoalWawancara.Judul,
                     Target = model.SoalWawancara.Target,
                     Jalur = model.SoalWawancara.Jalur,
@@ -438,7 +458,8 @@ namespace FrontEnd.Web.Mvc.Controllers
                     .Select(x => new CrudPertanyaanWawancaraModel()
                     {
                         Id = x.Id,
-                        Isi = x.Isi
+                        Isi = x.Isi,
+                        SoalId = x.SoalId                        
                     }).ToList()
             };
             return View(model);
@@ -454,16 +475,29 @@ namespace FrontEnd.Web.Mvc.Controllers
             _soalService.AddPertanyaan(newPertanyaan);
             return RedirectToAction(nameof(RincianSoalWawancara), new { id = model.Id });
         }
+        [HttpGet]
+        public IActionResult UbahPertanyaanWawancara(int id, int soalId)
+        {
+            var pertanyaan = _soalService.GetPertanyaan(id, soalId);
+            var model = new CrudPertanyaanWawancaraModel()
+            {
+                Id = pertanyaan.Id,
+                Isi = pertanyaan.Isi,
+                SoalId = pertanyaan.SoalId
+            };
+            return Json(model);
+        }
         [HttpPost]
         public IActionResult UbahPertanyaanWawancara(RincianSoalWawancaraModel model)
         {
             var newData = new Pertanyaan()
             {
-                SoalId = model.Id,
+                Id = model.CrudPertanyaanWawancara.Id,
+                SoalId = model.CrudPertanyaanWawancara.SoalId,
                 Isi = model.CrudPertanyaanWawancara.Isi
             };
             _soalService.UpdatePertanyaan(newData);
-            return RedirectToAction(nameof(RincianSoalWawancara), new { id = model.Id });
+            return RedirectToAction(nameof(RincianSoalWawancara), new { id = model.CrudPertanyaanWawancara.SoalId });
         }
         [HttpPost]
         public IActionResult HapusPertanyaanWawancara(int soalId, int id)

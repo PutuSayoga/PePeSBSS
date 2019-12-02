@@ -1,7 +1,34 @@
-﻿@{ 
+﻿@model HasilSeleksiModel
+@{
     ViewBag.Title = "Hasil Seleksi";
 }
-
-<div>
-    <button>Cek Hasil</button>
-</div>
+<br />
+<br />
+<br />
+<div style="text-align:center">
+    @if (Model.Status.Equals("Lolos"))
+    {
+        <div class="alert alert-success text-success mb-4" style="font-size:xx-large">Selamat kamu lolos tahap seleksi</div>
+        <a class="alert alert-warning text-warning">Segara lakukan pendaftaran ulang</a>
+    }
+    else if (Model.Status.Equals("Tidak Lolos"))
+    {
+        <div class="alert alert-danger text-danger" style="font-size:xx-large">Maaf kamu tidak lolos tahap seleksi</div>
+        <a class="alert alert-warning text-warning">Jangan khawatir, silahkan coba lagi</a>
+    }
+    else if (Model.Status.Equals("Daftar Ulang"))
+    {
+        <div class="alert alert-primary text-primary" style="font-size:xx-large">Terimakasih anda telah terdaftar</div>
+        <a class="alert alert-warning text-warning">Anda teah terdaftar di SMA Brawijaya Smart School</a>
+    }
+    else
+    {
+        <div class="alert alert-info text-info mb-5" style="font-size:xx-large">Hasil sedang diproses</div>
+        <a class="alert alert-warning text-warning">Silahkan tunggu beberapa saat lagi</a>
+    }
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

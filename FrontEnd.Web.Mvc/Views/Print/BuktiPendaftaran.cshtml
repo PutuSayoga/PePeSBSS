@@ -1,0 +1,142 @@
+﻿@model BuktiPendaftaranModel
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1px;
+        }
+    </style>
+</head>
+<body>
+    <p>Lembar 1: Untuk Peserta</p>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <img style="margin-right: 20px;" src="~/img/LogoSMABSS.Small.png" width="70" height="70" asp-append-version="true" />
+        <p align="center">
+            <b>SEKOLAH MENENGAH ATAS BRAWIJAYA SMART SCHOOL</b><br>
+            Jl. Cipayung No. 10 Malang Telp. (0341) 584 654 kode pos : 65145 <br>
+            Website: www.smabss.ub.ac.id email: smabss@ub.ac.id
+        </p>
+    </div>
+    <hr size="5" color="black">
+    <p align="center">
+        <font size="3">
+            <b>KWITANSI PENDAFTARAN PESERTA DIDIK BARU</b><br>
+            Tahun Pelajaran 2019/2020
+        </font>
+    </p>
+    <table style="width:100%">
+        <tr>
+            <td>Nomor Pendaftaran</td>
+            <td>: @Model.NoPendaftaran</td>
+        </tr>
+        <tr>
+            <td>Nama Lengkap</td>
+            <td>: @Model.NamaLengkap</td>
+        </tr>
+        <tr>
+            <td>Status Pembayaran</td>
+            <td>
+                : @if (Model.isLunas)
+                {
+                    @: Lunas
+                }
+                else
+                {
+                    @: Belum Lunas
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Kode akses</td>
+            <td>
+                Username: @Model.NoPendaftaran<br>
+                Password: @Model.Password<br>
+                <br>
+                Gunakan kode akses tersebut untuk login ke alamat: www.brascho.info/psb<br>
+                <b>*) Membawa alat tulis dan Materai 6000 pada saat melakukan Tes Online</b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                Malang, @{DateTime.Now.ToString("dd MMMM yyyy");} <br>
+                Ketua Panitia PSB<br>
+                <br>
+                <br>
+                <br>
+                (Nama)<br>
+                (NIP)
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <p>Lebar 2 : Untuk Panitia</p>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <img style="margin-right: 20px;" src="~/img/LogoSMABSS.Small.png" width="70" height="70" asp-append-version="true" />
+        <p align="center">
+            <b>SEKOLAH MENENGAH ATAS BRAWIJAYA SMART SCHOOL</b><br>
+            Jl. Cipayung No. 10 Malang Telp. (0341) 584 654 kode pos : 65145 <br>
+            Website: www.smabss.ub.ac.id email: smabss@ub.ac.id
+        </p>
+    </div>
+    <hr size="5" color="black">
+    <p align="center">
+        <font size="3">
+            <b>KWITANSI PENDAFTARAN PESERTA DIDIK BARU</b><br>
+            Tahun Pelajaran 2019/2020
+        </font>
+    </p>
+    <table style="width:100%">
+        <tr>
+            <td>Nomor Pendaftaran</td>
+            <td>: @Model.NoPendaftaran</td>
+        </tr>
+        <tr>
+            <td>Nama Lengkap</td>
+            <td>: @Model.NamaLengkap</td>
+        </tr>
+        <tr>
+            <td>Status Pembayaran</td>
+            <td>
+                : @if (Model.isLunas)
+                {
+                    @: Lunas
+                }
+                else
+                {
+                    @: Belum Lunas
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Kode akses</td>
+            <td>
+                Username: @Model.NoPendaftaran<br>
+                Password: @Model.Password<br>
+                <br>
+                Gunakan kode akses tersebut untuk login ke alamat: www.brascho.info/psb<br>
+                <b>*) Membawa alat tulis dan Materai 6000 pada saat melakukan Tes Online</b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                Malang, @{DateTime.Now.ToString("dd MMMM yyyy");} <br>
+                Ketua Panitia PSB<br>
+                <br>
+                <br>
+                <br>
+                (Nama)<br>
+                (NIP)
+            </td>
+        </tr>
+    </table>
+    <script>
+        print();
+    </script>
+</body>
+</html>

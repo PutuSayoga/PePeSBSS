@@ -34,17 +34,12 @@ namespace BackEnd.Services
             }
         }
 
-        public AkunPendaftaran GetAllDetail(string noPendaftaran)
-        {
-            throw new NotImplementedException();
-        }
-
         public AkunPendaftaran GetDetailAkademikTerakhir(string noPendaftaran)
         {
             string sqlQuery = @"SELECT ap.JalurPendaftaran, ap.NoPendaftaran, cs.*, at.* 
-                                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
-                                Full JOIN AkademikTerakhir at ON cs.Id = at.CalonSiswaId
-                                WHERE NoPendaftaran = @NoPendaftaran";
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                Full JOIN AkademikTerakhir at ON cs.Id = at.CalonSiswaId
+                WHERE NoPendaftaran = @NoPendaftaran";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -62,13 +57,12 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public AkunPendaftaran GetDetailDiri(string noPendaftaran)
         {
             string sqlQuery = @"SELECT ap.JalurPendaftaran, ap.NoPendaftaran, cs.*, dd.* 
-                                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
-                                Full JOIN DataDiri dd ON cs.Id = dd.CalonSiswaId
-                                WHERE NoPendaftaran = @NoPendaftaran";
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                Full JOIN DataDiri dd ON cs.Id = dd.CalonSiswaId
+                WHERE NoPendaftaran = @NoPendaftaran";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -86,14 +80,13 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public AkunPendaftaran GetDetailPenanggungJawab(string noPendaftaran)
         {
             string sqlQuery = @"SELECT ap.JalurPendaftaran, ap.NoPendaftaran, cs.* 
-                                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
-                                WHERE NoPendaftaran = @NoPendaftaran
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                WHERE NoPendaftaran = @NoPendaftaran
                                 SELECT * FROM Penanggungjawab WHERE CalonSiswaId = 
-                                (SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran=@NoPendaftaran)";
+                (SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran=@NoPendaftaran)";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -112,13 +105,12 @@ namespace BackEnd.Services
                 }
             }
         }
-
         public AkunPendaftaran GetDetailPenunjang(string noPendaftaran)
         {
             string sqlQuery = @"SELECT ap.JalurPendaftaran, ap.NoPendaftaran, cs.*, p.* 
-                                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
-                                Full JOIN Penunjang p ON cs.Id = p.CalonSiswaId
-                                WHERE NoPendaftaran = @NoPendaftaran";
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                Full JOIN Penunjang p ON cs.Id = p.CalonSiswaId
+                WHERE NoPendaftaran = @NoPendaftaran";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -136,13 +128,12 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public AkunPendaftaran GetDetailPrestasi(string noPendaftaran)
         {
             string sqlQuery = @"SELECT ap.JalurPendaftaran, ap.NoPendaftaran, cs.*, p.* 
-                                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
-                                Full JOIN Prestasi p ON cs.Id = p.CalonSiswaId
-                                WHERE NoPendaftaran = @NoPendaftaran";
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                Full JOIN Prestasi p ON cs.Id = p.CalonSiswaId
+                WHERE NoPendaftaran = @NoPendaftaran";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -160,14 +151,13 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public AkunPendaftaran GetDetailRapor(string noPendaftaran)
         {
             string sqlQuery = @"SELECT ap.JalurPendaftaran, ap.NoPendaftaran, cs.* 
-                                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
-                                WHERE NoPendaftaran = @NoPendaftaran
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                WHERE NoPendaftaran = @NoPendaftaran
                                 SELECT * FROM Rapor WHERE CalonSiswaId = 
-                                (SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran=@NoPendaftaran)";
+                (SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran=@NoPendaftaran)";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -190,7 +180,7 @@ namespace BackEnd.Services
         public bool IsLogin(string noPendaftaran, string password)
         {
             string sqlQuery = @"SELECT NoPendaftaran FROM AkunPendaftaran 
-                                WHERE NoPendaftaran = @NoPendaftaran AND Password = @Password";
+                WHERE NoPendaftaran = @NoPendaftaran AND Password = @Password";
             password = _securityRelateHelper.Encrypt(password);
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
@@ -202,112 +192,198 @@ namespace BackEnd.Services
             }
         }
 
+        private int GetCalonSiswaId(string noPendaftaran)
+        {
+            string sqlQuery = @"SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                int calonSiswaId = connection.QueryFirstOrDefault<int>(sql: sqlQuery, param: new { NoPendaftaran = noPendaftaran });
+
+                return calonSiswaId;
+            }
+        }
+
+        private bool CekExist(int calonSiswaId, string table, string additionalValue = "")
+        {
+            bool exist;
+            string sqlQuery;
+            if (additionalValue.Equals(string.Empty))
+            {
+                sqlQuery = $"SELECT 1 FROM {table} WHERE CalonSiswaId = @CalonSiswaId";
+                            }
+            else
+            {
+                sqlQuery = $"SELECT 1 FROM {table} WHERE CalonSiswaId = @CalonSiswaId AND Sebagai = @Sebagai";
+
+            }
+
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                exist = connection.QueryFirstOrDefault<bool>(sql: sqlQuery, param: new { CalonSiswaId = calonSiswaId, Sebagai = additionalValue });
+
+                return exist;
+            }
+        }
+
         public void SaveDataAkademikTerakhir(string noPendaftaran, AkademikTerakhir newData)
         {
-            throw new NotImplementedException();
+            newData.CalonSiswaId = GetCalonSiswaId(noPendaftaran);
+            bool isExist = CekExist(newData.CalonSiswaId, "AkademikTerakhir");
+            string sqlQuery;
+            if (!isExist)
+            {
+                sqlQuery = @"INSERT INTO AkademikTerakhir(CalonSiswaId, NamaSekolah, JenisSekolah, StatusSekolah, AlamatSekolah, NoPesertaUn, NoSeriSkhun, NoSeriIjazah) 
+                    VALUES(@CalonSiswaId, @NamaSekolah, @JenisSekolah, @StatusSekolah, @AlamatSekolah, @NoPesertaUn, @NoSeriSkhun, @NoSeriIjazah)";
+            }
+            else
+            {
+                sqlQuery = @"UPDATE AkademikTerakhir
+                    SET NamaSekolah = @NamaSekolah, JenisSekolah = JenisSekolah, StatusSekolah = StatusSekolah, 
+                    AlamatSekolah=@AlamatSekolah, NoPesertaUn = @NoPesertaUn, NoSeriSkhun = @NoSeriSkhun, NoSeriIjazah=@NoSeriIjazah
+                    WHERE CalonSiswaId = @CalonSiswaId";
+            }
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlQuery, param: newData);
+            }
         }
-
         public void SaveDataDiri(string noPendaftaran, string namaLengkap, DataDiri newData)
         {
-            // Cek jika ada
-            if (false)
+            newData.CalonSiswaId = GetCalonSiswaId(noPendaftaran);
+            bool isExist = CekExist(newData.CalonSiswaId, "DataDiri");
+            string sqlQuery;
+            if (!isExist)
             {
-                // update
-                string sqlQuery = @"UPDATE Penunjang
-                                    SET CalonSiswaId = @CalonSiswaId, NamaPanggilan = @NamaPanggilan, IsPerempuan = @IsPerempuan, TempatLahir = @TempatLahir, TanggalLahir = @TanggalLahir, Alamat = @Alamat, Agama = @Agama, Rt = @Rt, Rw = @Rw,Dusun_Desa_Lurah = @DusunDesaLurah, Kecamatan = @Kecamatan, KotaKabupaten = @KotaKabupaten, KodePos = @KodePos, 
-                                        NoTelp = @NoTelp, NoHp = @NoHp, Email = @Email, JumlahSaudara = @JumlahSaudara, AnakKe = @AnakKe, StatusDalamKeluarga = @StatusDalamKeluarga, TinggiBadan = @TinggiBadan, BeratBadan = @BeratBadan, GolDarah = @GolDarah, CitaCita = @CitaCita, Hobi = @Hobi, RiwayatSakit = @RiwayatSakit, KelainanJasmani = @KelainanJasmani 
-                                    WHERE CalonSiswaId = @CalonSiswaId";
-                string sqlQuery2 = @"UPDATE CalonSiswa SET NamaLengkap = @NamaLengkap WHERE Id = @CalonSiswaId";
-                using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    using (var trans = connection.BeginTransaction())
-                    {
-                        try
-                        {
-                            connection.Execute(sql: sqlQuery, param: newData, transaction: trans);
-                            connection.Execute(sql: sqlQuery2, param: new { NamaLengkap = namaLengkap, CalonSiswaId = newData.CalonSiswaId }, transaction: trans);
-                            trans.Commit();
-                        }
-                        catch (Exception)
-                        {
-                            trans.Rollback();
-                            throw;
-                        }
-                    }
-                }
+                sqlQuery = @"INSERT INTO DataDiri(CalonSiswaId, NamaPanggilan, IsPerempuan, TempatLahir, TanggalLahir, Alamat, Agama, Rt, Rw, Dusun_Desa_Lurah, Kecamatan, Kota_Kabupaten, KodePos, NoTelp, NoHp, Email, JumlahSaudara, AnakKe, StatusDalamKeluarga, TinggiBadan, BeratBadan, GolDarah, CitaCita, Hobi, RiwayatSakit, KelainanJasmani) 
+                    VALUES(@CalonSiswaId, @NamaPanggilan, @IsPerempuan, @TempatLahir, @TanggalLahir, @Alamat, @Agama, @Rt, @Rw, @DusunDesaLurah, @Kecamatan, @KotaKabupaten, @KodePos, @NoTelp, @NoHp, @Email, @JumlahSaudara, @AnakKe, @StatusDalamKeluarga, @TinggiBadan, @BeratBadan, @GolDarah, @CitaCita, @Hobi, @RiwayatSakit, @KelainanJasmani)";
             }
             else
             {
-                // insert
-                string sqlQuery = @"SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
-                string sqlQuery2 = @"INSERT INTO DataDiri(NamaPanggilan, IsPerempuan, TempatLahir, TanggalLahir, Alamat, Agama, Rt, Rw, Dusun_Desa_Lurah, Kecamatan, Kota_Kabupaten, KodePos, NoTelp, NoHp, Email, JumlahSaudara, AnakKe, StatusDalamKeluarga, TinggiBadan, BeratBadan, GolDarah, CitaCita, Hobi, RiwayatSakit, KelainanJasmani) 
-                                    VALUES(@NamaPanggilan, @IsPerempuan, @TempatLahir, @TanggalLahir, @Alamat, @Agama, @Rt, @Rw, @DusunDesaLurah, @Kecamatan, @KotaKabupaten, @KodePos, @NoTelp, @NoHp, @Email, @JumlahSaudara, @AnakKe, @StatusDalamKeluarga, @TinggiBadan, @BeratBadan, @GolDarah, @CitaCita, @Hobi, @RiwayatSakit, @KelainanJasmani)";
-                string sqlQuery3 = @"UPDATE CalonSiswa SET NamaLengkap = @NamaLengkap WHERE Id = @CalonSiswaId";
-
-                using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+                sqlQuery = @"UPDATE DataDiri
+                    SET CalonSiswaId = @CalonSiswaId, NamaPanggilan = @NamaPanggilan, IsPerempuan = @IsPerempuan, TempatLahir = @TempatLahir, TanggalLahir = @TanggalLahir, Alamat = @Alamat, Agama = @Agama, Rt = @Rt, Rw = @Rw, Dusun_Desa_Lurah = @DusunDesaLurah, Kecamatan = @Kecamatan, Kota_Kabupaten = @KotaKabupaten, KodePos = @KodePos,
+                    NoTelp = @NoTelp, NoHp = @NoHp, Email = @Email, JumlahSaudara = @JumlahSaudara, AnakKe = @AnakKe, StatusDalamKeluarga = @StatusDalamKeluarga, TinggiBadan = @TinggiBadan, BeratBadan = @BeratBadan, GolDarah = @GolDarah, CitaCita = @CitaCita, Hobi = @Hobi, RiwayatSakit = @RiwayatSakit, KelainanJasmani = @KelainanJasmani
+                    WHERE CalonSiswaId = @CalonSiswaId";
+            }
+            string sqlUpdateNamaLengkap = @"UPDATE CalonSiswa SET NamaLengkap = @NamaLengkap WHERE Id = @CalonSiswaId";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                using (var trans = connection.BeginTransaction())
                 {
-                    connection.Open();
-                    newData.CalonSiswaId = connection.QueryFirst(sql: sqlQuery, param: new { NoPendaftaran = noPendaftaran });
-                    using (var trans = connection.BeginTransaction())
+                    try
                     {
-                        try
-                        {
-                            connection.Execute(sql: sqlQuery2, param: newData, transaction: trans);
-                            connection.Execute(sql: sqlQuery3, param: new { NamaLengkap = namaLengkap, CalonSiswaId = newData.CalonSiswaId }, transaction: trans);
-                            trans.Commit();
-                        }
-                        catch (Exception)
-                        {
-                            trans.Rollback();
-                            throw;
-                        }
+                        connection.Execute(sql: sqlQuery, param: newData, transaction: trans);
+                        connection.Execute(sql: sqlUpdateNamaLengkap, param: new { NamaLengkap = namaLengkap, CalonSiswaId = newData.CalonSiswaId }, transaction: trans);
+                        trans.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        trans.Rollback();
+                        throw;
                     }
                 }
             }
         }
-
         public void SaveDataPenanggunjawab(string noPendaftaran, List<Penanggungjawab> newData)
         {
-            throw new NotImplementedException();
-        }
-
-        public void SaveDataPenunjang(string noPendaftaran, Penunjang newData)
-        {
-            // Cek jika ada
-            if (true)
+            int calonSiswaId = GetCalonSiswaId(noPendaftaran);
+            string sqlQuery;
+            for(int i=0; i < newData.Count; i++)
             {
-                // update
-                string sqlQuery = @"UPDATE Penunjang
-                                    SET Pembiaya = @Pembiaya, StatusTempatTinggal = @StatusTempatTinggal, DayaListrik = @DayaListrik, JarakTempuh = @JarakTempuh, WaktuTempuh = @WaktuTempuh, Transportasi = @Transportasi 
-                                    WHERE CalonSiswaId = @CalonSiswaId";
+                bool isExist = CekExist(calonSiswaId, "PenanggungJawab", newData[i].Sebagai);
+                newData[i].CalonSiswaId = calonSiswaId;
+                if (!isExist)
+                {
+                    sqlQuery = @"INSERT INTO Penanggungjawab(CalonSiswaId, Sebagai, NamaLengkap, TempatLahir, TanggalLahir, Alamat, Agama, PendidikanTerakhir, Pekerjaan, Penghasilan, NoTelp, NoHp, Email, StatusDalamKeluarga, Keterangan) 
+                        VALUES(@CalonSiswaId, @Sebagai, @NamaLengkap, @TempatLahir, @TanggalLahir, @Alamat, @Agama, @PendidikanTerakhir, @Pekerjaan, @Penghasilan, @NoTelp, @NoHp, @Email, @StatusDalamKeluarga, @Keterangan)";
+                }
+                else
+                {
+                    sqlQuery = @"UPDATE Penanggungjawab
+                        SET NamaLengkap = @NamaLengkap, TempatLahir = @TempatLahir, TanggalLahir = @TanggalLahir, Alamat = @Alamat, Agama = @Agama, PendidikanTerakhir = @PendidikanTerakhir, 
+                        Pekerjaan = @Pekerjaan, Penghasilan = Penghasilan, NoTelp = @NoTelp, NoHp = @NoHp, Email = @Email, StatusDalamKeluarga = @StatusDalamKeluarga, Keterangan = @Keterangan 
+                        WHERE CalonSiswaId = @CalonSiswaId AND Sebagai = @Sebagai";
+                }
                 using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
                 {
                     connection.Open();
-                    connection.Execute(sql: sqlQuery, param: newData);
+                    connection.Execute(sql: sqlQuery, param: newData[i]);
                 }
+            }
+        }
+        public void SaveDataPenunjang(string noPendaftaran, Penunjang newData)
+        {
+            newData.CalonSiswaId = GetCalonSiswaId(noPendaftaran);
+            bool isExist = CekExist(newData.CalonSiswaId, "Penunjang");
+            string sqlQuery;
+            if (!isExist)
+            {
+                sqlQuery = @"INSERT INTO Penunjang(CalonSiswaId, Pembiaya, StatusTempatTinggal, DayaListrik, JarakTempuh, WaktuTempuh, Transportasi) 
+                    VALUES(@CalonSiswaId, @Pembiaya, @StatusTempatTinggal, @DayaListrik, @JarakTempuh, @WaktuTempuh, @Transportasi)";
             }
             else
             {
-                // insert
-                string sqlQuery = @"INSERT INTO Penunjang(CalonSiswaId, Pembiaya, StatusTempatTinggal, DayaListrik, JarakTempuh, WaktuTempuh, Transportasi) 
-                                    VALUES(@CalonSiswaId, @Pembiaya, @StatusTempatTinggal, @DayaListrik, @JarakTempuh, @WaktuTempuh, @Transportasi)";
-                using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-                {
-                    connection.Open();
-                    connection.Execute(sql: sqlQuery, param: newData);
-                }
+                sqlQuery = @"UPDATE Penunjang
+                    SET Pembiaya=@Pembiaya, StatusTempatTinggal=@StatusTempatTinggal, DayaListrik=@DayaListrik, JarakTempuh=@JarakTempuh, WaktuTempuh=@WaktuTempuh, Transportasi=@Transportasi
+                    WHERE CalonSiswaId = @CalonSiswaId";
+            }
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlQuery, param: newData);
             }
         }
-
         public void SaveDataPrestasi(string noPendaftaran, Prestasi newData)
         {
-            throw new NotImplementedException();
+            newData.CalonSiswaId = GetCalonSiswaId(noPendaftaran);
+            bool isExist = CekExist(newData.CalonSiswaId, "Prestasi");
+            string sqlQuery;
+            if (!isExist)
+            {
+                sqlQuery = @"INSERT INTO Prestasi(CalonSiswaId, NamaKejuaraan, Jenis, Tingkat, Peringkat, Tahun, Penyelenggara) 
+                    VALUES(@CalonSiswaId, @NamaKejuaraan, @Jenis, @Tingkat, @Peringkat, @Tahun, @Penyelenggara)";
+            }
+            else
+            {
+                sqlQuery = @"UPDATE Prestasi
+                    SET NamaKejuaraan = @NamaKejuaraan, Jenis = @Jenis, Tingkat = @Tingkat, Peringkat = @Peringkat, Tahun = @Tahun, Penyelenggara = @Penyelenggara
+                    WHERE CalonSiswaId = @CalonSiswaId";
+            }
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlQuery, param: newData);
+            }
         }
-
         public void SaveDataRapor(string noPendaftaran, List<Rapor> newData)
         {
-            throw new NotImplementedException();
+            int calonSiswaId = GetCalonSiswaId(noPendaftaran);
+            bool isExist = CekExist(calonSiswaId, "Rapor");
+            string sqlQuery;
+            foreach(var rapor in newData)
+            {
+                rapor.CalonSiswaId = calonSiswaId;
+            }
+
+            if (!isExist)
+            {
+                sqlQuery = @"INSERT INTO Rapor(CalonSiswaId, MataPelajaran, Semester1, Semester2, Semester3, Semester4, Semester5) 
+                    VALUES(@CalonSiswaId, @MataPelajaran, @Semester1, @Semester2, @Semester3, @Semester4, @Semester5)";
+            }
+            else
+            {
+                sqlQuery = @"UPDATE Rapor
+                    SET Semester1 = @Semester1, Semester2 = @Semester2, Semester3 = @Semester3, Semester4 = @Semester4, Semester5 = @Semester5
+                    WHERE CalonSiswaId = @CalonSiswaId AND MataPelajaran = @MataPelajaran";
+            }
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlQuery, param: newData);
+            }
         }
     }
 }

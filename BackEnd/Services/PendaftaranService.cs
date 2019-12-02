@@ -124,7 +124,7 @@ namespace BackEnd.Services
             }
         }
 
-        public IEnumerable<AkunPendaftaran> GetAllAkunPendaftaran()
+        public List<AkunPendaftaran> GetAllAkunPendaftaran()
         {
             string sqlQuery = @"SELECT a.Id, a.NoPendaftaran, a.JalurPendaftaran, a.Status, cs.NamaLengkap 
                                 FROM AkunPendaftaran a FULL JOIN CalonSiswa cs ON a.CalonSiswaId = cs.Id
@@ -141,13 +141,15 @@ namespace BackEnd.Services
                         akunPendaftaran.ACalonSiswa = calonSiswa;
                         return akunPendaftaran;
                     },
-                    splitOn: "NamaLengkap").Distinct().ToList();
+                    splitOn: "NamaLengkap")
+                    .Distinct()
+                    .ToList();
 
                 return result;
             }
         }
 
-        public IEnumerable<AkunPendaftaran> GetAllDaftarUlang()
+        public List<AkunPendaftaran> GetAllDaftarUlang()
         {
             string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, cs.NamaLengkap, csat.NamaSekolah
                 FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
@@ -167,7 +169,9 @@ namespace BackEnd.Services
 
                         return akunPendaftaran;
                     },
-                    splitOn: "NamaLengkap, NamaSekolah").Distinct().ToList();
+                    splitOn: "NamaLengkap, NamaSekolah")
+                    .Distinct()
+                    .ToList();
 
                 return result;
             }

@@ -9,7 +9,7 @@ namespace BackEnd.Domains
         public string Sebagai { get; set; }
         public string NamaLengkap { get; set; }
         public string TempatLahir { get; set; }
-        public DateTime TanggalLahir { get; set; }
+        public DateTime? TanggalLahir { get; set; }
         public string Alamat { get; set; }
         public string Agama { get; set; }
         public string PendidikanTerakhir { get; set; }

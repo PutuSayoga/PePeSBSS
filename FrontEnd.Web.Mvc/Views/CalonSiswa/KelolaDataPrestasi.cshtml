@@ -2,20 +2,19 @@
 @{
     ViewBag.Title = "Data Prestasi";
 }
-@if (true)
-{
-    <div>
-        prestasi yang dapat dicantumkan <b>BUKAN</b> prestasi yang sama saat dipakai mendaftar pada Jalur Prestasi
-    </div>
-}
+
 <div class="col-11">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Form data akademik terakhir</h6>
         </div>
         <div class="card-body">
+            @*<div class="alert alert-warning alert-dismissible">
+                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                prestasi yang dapat dicantumkan <b>BUKAN</b> prestasi yang sama saat dipakai mendaftar pada Jalur Prestasi
+            </div>*@
             <div asp-validation-summary="All" class="alert-danger text-danger mb-4"></div>
-            <form asp-controller="CalonSiswa" asp-action="KelolaDataAkademikTerakhir" method="post">
+            <form asp-controller="CalonSiswa" asp-action="KelolaDataPrestasi" method="post">
                 <div class="form-group row">
                     <div class="col-md-3 col-form-label">
                         <label asp-for="NamaKejuaraan"></label>
@@ -38,7 +37,6 @@
                             <option value="Non Akademik">Non Akademik</option>
                         </select>
                         <span asp-validation-for="Jenis" class="text-danger"></span>
-                        <span asp-validation-for="Jenis" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -56,7 +54,6 @@
                             <option value="Kecamatan">Kecamatan</option>
                         </select>
                         <span asp-validation-for="Tingkat" class="text-danger"></span>
-                        <span asp-validation-for="Tingkat" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -71,12 +68,12 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-3 col-form-label">
-                        <label asp-for="Tahun"></label>
+                        <label asp-for="Tanggal"></label>
                         <span class="text-danger">*</span>
                     </div>
-                    <div class="col-md-4">
-                        <input asp-for="Tahun" class="form-control" type="date" />
-                        <span asp-validation-for="Tahun" class="text-danger"></span>
+                    <div class="col-md-5">
+                        <input asp-for="Tanggal" class="form-control" type="date" />
+                        <span asp-validation-for="Tanggal" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group row">

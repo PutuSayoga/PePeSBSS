@@ -19,7 +19,7 @@ namespace BackEnd.Services
             _securityRelateHelper = securityRelateHelper;
         }
 
-        public IEnumerable<Staff> GetAllStaff()
+        public List<Staff> GetAllStaff()
         {
             string sqlQuery = @"SELECT * FROM Staff FULL JOIN Panitia ON Staff.Id = Panitia.StaffId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -34,7 +34,8 @@ namespace BackEnd.Services
                         staff.APanitia = panitia;
                         return staff;
                     },
-                    splitOn: "StaffId").Distinct().ToList();
+                    splitOn: "StaffId").Distinct()
+                    .ToList();
 
                 return result;
             }
@@ -145,18 +146,18 @@ namespace BackEnd.Services
         public bool IsLogin(string username, string password, string role)
         {
             password = _securityRelateHelper.Encrypt(password);
-            string result, sqlQuery, divisi = "";
+            string result, sqlQuery;
 
             if (role.Contains("PSB"))
             {
                 sqlQuery = @"SELECT s.Username FROM Staff s FULL JOIN Panitia p ON s.Id = p.StaffId 
-                    WHERE p.Divisi=@Divisi AND s.Username=@username AND s.Password=@Password";
-                divisi = role.Split(" ")[1];
+                    WHERE p.Divisi=@Role AND s.Username=@username AND s.Password=@Password";
+                role = role.Split(" ")[1];
             }
             else
             {
                 sqlQuery = @"SELECT Username FROM Staff 
-                    WHERE Jabatan=@Jabatan AND Username=@username AND Password=@Password";
+                    WHERE Jabatan=@Role AND Username=@username AND Password=@Password";
             }
 
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -168,7 +169,7 @@ namespace BackEnd.Services
                     {
                         Username = username,
                         Password = password,
-                        Divisi = divisi
+                        Role = role
                     });
             }
 

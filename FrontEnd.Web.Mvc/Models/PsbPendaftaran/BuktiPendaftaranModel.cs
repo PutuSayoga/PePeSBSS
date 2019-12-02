@@ -7,10 +7,11 @@ namespace FrontEnd.Web.Mvc.Models.PsbPendaftaran
 {
     public class BuktiPendaftaranModel
     {
+        public int Id { get; set; }
         public string NoPendaftaran { get; set; }
         public string NamaLengkap { get; set; }
         public string JalurPendaftaran { get; set; }
-        public bool isLunas { get; set; } = true;
+        public bool isLunas { get { return true; } }
         public string Password { get; set; }
         public string JadwalTes { get; set; }
     }

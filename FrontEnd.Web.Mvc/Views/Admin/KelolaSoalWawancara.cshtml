@@ -47,7 +47,7 @@ else
                                        class="btn btn-info">
                                         Rincian
                                     </a>
-                                    <button data-target="#ModalUbahSoalWawancara" data-toggle="modal" class="btn btn-warning">
+                                    <button onclick="ubahSoalWawancaraModal(@soalWawancara.Id)" data-toggle="modal" class="btn btn-warning">
                                         Ubah
                                     </button>
                                     <form asp-controller="Admin" asp-action="HapusSoalWawancara" asp-route-id="@soalWawancara.Id"
@@ -80,7 +80,7 @@ else
                     <div class="form-group">
                         <label asp-for="SoalWawancara.Judul" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalWawancara.Judul" class="form-control" placeholder="Judul soal" />
+                        <input asp-for="SoalWawancara.Judul" class="form-control" />
                         <span asp-validation-for="SoalWawancara.Judul" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -109,7 +109,7 @@ else
                     <div class="form-group">
                         <label asp-for="SoalWawancara.Deskripsi" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="SoalWawancara.Deskripsi" class="form-control" placeholder="Deskripsi tambahan" type="text" />
+                        <textarea asp-for="SoalWawancara.Deskripsi" class="form-control" ></textarea>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
@@ -120,3 +120,80 @@ else
         </div>
     </div>
 </div>
+
+<div id="ModalUbahSoalWawancara" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ubah Soal Akademik</h4>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <form class="form" asp-controller="Admin" asp-action="UbahSoalWawancara" method="post">
+                    <input type="hidden" asp-for="SoalWawancara.Id" />
+                    <div class="form-group">
+                        <label asp-for="SoalWawancara.Judul" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <input asp-for="SoalWawancara.Judul" class="form-control" />
+                        <span asp-validation-for="SoalWawancara.Judul" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SoalWawancara.Jalur" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <select asp-for="SoalWawancara.Jalur" class="form-control">
+                            <option selected></option>
+                            <option value="Reguler">Reguler</option>
+                            <option value="Khusus">Khusus</option>
+                            <option value="Prestasi">Prestasi</option>
+                            <option value="Mitra">Mitra</option>
+                            <option value="Mutasi">Mutasi</option>
+                        </select>
+                        <span asp-validation-for="SoalWawancara.Jalur" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SoalWawancara.Target" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <select asp-for="SoalWawancara.Target" class="form-control">
+                            <option selected></option>
+                            <option value="Calon Siswa">Calon Siswa</option>
+                            <option value="Orang Tua">Orang Tua</option>
+                        </select>
+                        <span asp-validation-for="SoalWawancara.Target" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SoalWawancara.Deskripsi" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <textarea asp-for="SoalWawancara.Deskripsi" class="form-control" ></textarea>
+                    </div>
+                    <div class="my-1 fa-pull-right">
+                        <button class="btn border" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section  Scripts {
+    <script>
+        function ubahSoalWawancaraModal(id) {
+            $("#ModalUbahSoalWawancara .form").hide();
+            $("#ModalUbahSoalWawancara .spinner-border").show();
+            $('#ModalUbahSoalWawancara').modal();
+
+            $.get(`/Admin/UbahSoalWawancara/${id}`, (data) => {
+                $("#ModalUbahSoalWawancara .form").show();
+                $("#ModalUbahSoalWawancara .spinner-border").hide();
+                $('#ModalUbahSoalWawancara .form [name="SoalWawancara.Id"]').val(data.id);
+                $('#ModalUbahSoalWawancara .form [name="SoalWawancara.Judul"]').val(data.judul);
+                $('#ModalUbahSoalWawancara .form [name="SoalWawancara.Jalur"]').val(data.jalur);
+                $('#ModalUbahSoalWawancara .form [name="SoalWawancara.Target"]').val(data.target);
+                $('#ModalUbahSoalWawancara .form [name="SoalWawancara.Deskripsi"]').val(data.deskripsi);
+            });
+        }
+    </script>
+}

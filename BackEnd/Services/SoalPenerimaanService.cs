@@ -17,24 +17,26 @@ namespace BackEnd.Services
             _connectionHelper = connectionString;
         }
 
-        public IEnumerable<Soal> GetAllSoalAkademik()
+        public List<Soal> GetAllSoalAkademik()
         {
             string sqlQuery = @"SELECT * FROM Soal WHERE Kategori != 'Wawancara' AND Status = 'ENABLE'";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                var result = connection.Query<Soal>(sql: sqlQuery);
+                var result = connection.Query<Soal>(sql: sqlQuery)
+                    .ToList();
 
                 return result;
             }
         }
-        public IEnumerable<Soal> GetAllSoalWawancara()
+        public List<Soal> GetAllSoalWawancara()
         {
             string sqlQuery = @"SELECT * FROM Soal WHERE Kategori = 'Wawancara' AND Status = 'ENABLE'";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                var result = connection.Query<Soal>(sql: sqlQuery);
+                var result = connection.Query<Soal>(sql: sqlQuery)
+                    .ToList();
 
                 return result;
             }
@@ -93,8 +95,8 @@ namespace BackEnd.Services
         public void UpdateSoal(Soal newData)
         {
             string sqlQuery = @"UPDATE Soal 
-                                SET Judul = @Judul, Kategori = @Kategori, Jalur = @Jalur, Target = @Target,  BatasWaktu = @BatasWaktu, Deskripsi = @Deskripsi
-                                WHERE Id = @Id";
+                SET Judul = @Judul, Kategori = @Kategori, Jalur = @Jalur, Target = @Target,  BatasWaktu = @BatasWaktu, Deskripsi = @Deskripsi
+                WHERE Id = @Id";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();

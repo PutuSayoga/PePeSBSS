@@ -16,16 +16,16 @@
             {
                 <div class="card shadow mb-4">
                     <a href="#pertanyaan-@(i+1)" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                        <h6 class="m-0 font-weight-bold text-primary">Pertanyaan @(i+1)</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Pertanyaan @(i + 1)</h6>
                     </a>
                     <div class="collapse show" id="pertanyaan-@(i+1)">
                         <div class="card-body">
                             <div class="border mb-1">@Html.Raw(pertanyaan.Isi)</div>
                             <div class="fa-pull-right mb-2">
-                                <button data-target="#ModalUbahPertanyaanAkademik" data-toggle="modal" class="btn btn-warning">
+                                <button onclick="ubahPertanyaanWawancaraModal(@pertanyaan.Id, @pertanyaan.SoalId)" data-toggle="modal" class="btn btn-warning">
                                     Ubah
                                 </button>
-                                <form asp-controller="Admin" asp-action="HapusPertanyaanWawancara" asp-route-id="@pertanyaan.Id" asp-route-soalId="@Model.Id"
+                                <form asp-controller="Admin" asp-action="HapusPertanyaanWawancara" asp-route-id="@pertanyaan.Id" asp-route-soalId="@pertanyaan.SoalId"
                                       method="post" class="delete-button mt-1">
                                     <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus pertanyaan nomor @(i+1)?')"
                                             class="btn btn-danger">
@@ -52,7 +52,7 @@
                 <div> <label asp-for="JumlahPertanyaan"></label> : <a>@Model.JumlahPertanyaan</a></div>
                 <div><label asp-for="Deskripsi"></label> : <a>@Model.Deskripsi</a></div>
 
-                <button data-target="#ModalTambahPertanyaanAkademik" data-toggle="modal" class="btn btn-success btn-icon-split">
+                <button data-target="#ModalTambahPertanyaanWawancara" data-toggle="modal" class="btn btn-success btn-icon-split">
                     <span class="icon text-white"><i class="fas fa-pen"></i></span>
                     <span class="text">Tambah Pertanyaan</span>
                 </button>
@@ -65,8 +65,8 @@
     <i class="fas fa-angle-up"></i>
 </a>
 @*Modal*@
-<div id="ModalTambahPertanyaanAkademik" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
-    <div class="modal-dialog">
+<div id="ModalTambahPertanyaanWawancara" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Tambah Soal Akademik</h4>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CrudPertanyaanWawancara.Isi" class="col-form-label"></label>
-                        <textarea id="editor" asp-for="CrudPertanyaanWawancara.Isi" class="form-control" placeholder="Pertanyaan"></textarea>
+                        <textarea id="editor" asp-for="CrudPertanyaanWawancara.Isi" class="form-control"></textarea>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
@@ -90,23 +90,28 @@
         </div>
     </div>
 </div>
-<div id="ModalUbahPertanyaanAkademik" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
-    <div class="modal-dialog">
+<div id="ModalUbahPertanyaanWawancara" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Tambah Soal Akademik</h4>
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form asp-controller="Admin" asp-action="UbahPertanyaanWawancara" method="post">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <form class="form" asp-controller="Admin" asp-action="UbahPertanyaanWawancara" method="post">
+                    <input type="hidden" asp-for="CrudPertanyaanWawancara.Id" />
+                    <input type="hidden" asp-for="CrudPertanyaanWawancara.SoalId" />
                     <div class="form-group">
                         <label asp-for="CrudPertanyaanWawancara.Isi" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="CrudPertanyaanWawancara.Isi" class="form-control" placeholder="Pertanyaan" />
+                        <textarea asp-for="CrudPertanyaanWawancara.Isi" class="form-control"></textarea>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -131,4 +136,20 @@
 
     //Ajax ubah soal
     </script>
+    <script>
+        function ubahPertanyaanWawancaraModal(id, soalId) {
+            $("#ModalUbahPertanyaanWawancara .form").hide();
+            $("#ModalUbahPertanyaanWawancara .spinner-border").show();
+            $('#ModalUbahPertanyaanWawancara').modal();
+
+            $.get(`/Admin/UbahPertanyaanWawancara/${id}?soalId=${soalId}`, (data) => {
+                $("#ModalUbahPertanyaanWawancara .form").show();
+                $("#ModalUbahPertanyaanWawancara .spinner-border").hide();
+                $('#ModalUbahPertanyaanWawancara .form [name="CrudPertanyaanWawancara.Id"]').val(data.id);
+                $('#ModalUbahPertanyaanWawancara .form [name="CrudPertanyaanWawancara.SoalId"]').val(data.soalId);
+                $('#ModalUbahPertanyaanWawancara .form [name="CrudPertanyaanWawancara.Isi"]').val(data.isi);
+            });
+        }
+    </script>
+
 }

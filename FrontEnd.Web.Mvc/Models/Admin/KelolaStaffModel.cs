@@ -5,6 +5,6 @@ namespace FrontEnd.Web.Mvc.Models.Admin
 {
     public class KelolaStaffModel
     {
-        public IEnumerable<Staff> DaftarStaff { set; get; }
+        public List<Staff> DaftarStaff { set; get; }
     }
 }

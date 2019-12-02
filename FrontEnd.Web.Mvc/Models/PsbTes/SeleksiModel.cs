@@ -8,7 +8,7 @@ namespace FrontEnd.Web.Mvc.Models.PsbTes
 {
     public class SeleksiModel
     {
-        public IEnumerable<AkunSeleksi> ListAkun { get; set; }
+        public List<AkunSeleksi> ListAkun { get; set; }
     }
     public class AkunSeleksi
     {
@@ -16,10 +16,10 @@ namespace FrontEnd.Web.Mvc.Models.PsbTes
         public string JalurPendaftaran { get; set; }
         public string NoPendaftaran { get; set; }
         public string NamaLengkap { get; set; }
-        public double? NilaiMipa { get; set; }
-        public double? NilaiIps { get; set; }
-        public double? NilaiTpa { get; set; }
-        public double? SkorAkhir
+        public double NilaiMipa { get; set; }
+        public double NilaiIps { get; set; }
+        public double NilaiTpa { get; set; }
+        public double SkorAkhir
         {
             get
             {

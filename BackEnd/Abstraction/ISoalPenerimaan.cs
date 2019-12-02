@@ -7,8 +7,8 @@ namespace BackEnd.Abstraction
 {
     public interface ISoalPenerimaan
     {
-        IEnumerable<Soal> GetAllSoalAkademik();
-        IEnumerable<Soal> GetAllSoalWawancara();
+        List<Soal> GetAllSoalAkademik();
+        List<Soal> GetAllSoalWawancara();
 
         Soal GetDetailSoal(int id);
         Soal GetSimpleSoal(int id);

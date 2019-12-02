@@ -5,7 +5,7 @@ namespace BackEnd.Domains
 {
     public class Prestasi
     {
-        public int? CalonSiswaId { get; set; }
+        public int CalonSiswaId { get; set; }
         public string NamaKejuaraan { get; set; }
         public string Jenis { get; set; }
         public string Tingkat { get; set; }

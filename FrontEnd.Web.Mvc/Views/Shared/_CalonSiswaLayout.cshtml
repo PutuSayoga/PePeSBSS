@@ -42,8 +42,14 @@
             <li><hr class="sidebar-divider" /></li>
             <li class="sidebar-heading">Biodata</li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" 
-                   data-target="#collapseKelolaBiodata" aria-expanded="true"  aria-controls="collapseKelolaBiodata">
+                <a class="nav-link" asp-controller="CalonSiswa" asp-action="Biodata">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Biodata</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse"
+                   data-target="#collapseKelolaBiodata" aria-expanded="true" aria-controls="collapseKelolaBiodata">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Kelola Biodata</span>
                 </a>
@@ -58,12 +64,6 @@
                         <a class="collapse-item" asp-controller="CalonSiswa" asp-action="KelolaDataPenunjang">Data Penunjang</a>
                     </div>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="CalonSiswa" asp-action="CetakBiodata">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Cetak Biodata</span>
-                </a>
             </li>
             <li><hr class="sidebar-divider" /></li>
             <li class="sidebar-heading">Pengumuman</li>
@@ -98,6 +98,7 @@
                 <div class="container-fluid">
                     <header class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">@ViewBag.Title</h1>
+                        @RenderSection("Report", required: false)
                     </header>
                     <main class="mb-4">
                         @RenderBody()

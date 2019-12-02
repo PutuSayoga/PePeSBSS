@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Dapper;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace BackEnd.Services
 {
@@ -14,16 +15,17 @@ namespace BackEnd.Services
         public SeleksiPenerimaanService(IDbConnectionHelper connectionHelper)
             => _connectionHelper = connectionHelper;
 
-        public IEnumerable<AkunPendaftaran> GetAllWithJalur(string jalur)
+        public List<AkunPendaftaran> GetAllWithJalur(string jalur)
         {
             string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, cs.NamaLengkap, ra.* 
-                                FROM CalonSiswa cs JOIN AkunPendaftaran ap ON cs.Id=ap.CalonSiswaId 
-                                FULL JOIN RangkumanTesAkademik ra ON ap.Id = ra.AkunPendaftaranId
-                                WHERE JalurPendaftaran=@Jalur AND Status='Sudah Ujian'";
+                FROM CalonSiswa cs JOIN AkunPendaftaran ap ON cs.Id=ap.CalonSiswaId 
+                FULL JOIN RangkumanTesAkademik ra ON ap.Id = ra.AkunPendaftaranId
+                WHERE JalurPendaftaran=@Jalur AND Status='Sudah Ujian'";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                var akunSeleksi = connection.Query<AkunPendaftaran, CalonSiswa, RangkumanTesAkademik, AkunPendaftaran>(sql: sqlQuery,
+                var akunSeleksi = connection.Query<AkunPendaftaran, CalonSiswa, RangkumanTesAkademik, AkunPendaftaran>(
+                    sql: sqlQuery,
                     map: (ap, cs, ra) =>
                     {
                         ap.ACalonSiswa = cs;
@@ -31,7 +33,8 @@ namespace BackEnd.Services
                         return ap;
                     },
                     splitOn: "NamaLengkap, AkunPendaftaranId",
-                    param: new { Jalur = jalur });
+                    param: new { Jalur = jalur })
+                    .ToList();
                 return akunSeleksi;
             }
         }

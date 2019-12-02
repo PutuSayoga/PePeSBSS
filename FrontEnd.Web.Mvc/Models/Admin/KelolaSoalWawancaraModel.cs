@@ -8,11 +8,13 @@ namespace FrontEnd.Web.Mvc.Models.Admin
 {
     public class KelolaSoalWawancaraModel
     {
-        public IEnumerable<Soal> ListSoal { get; set; }
+        public List<Soal> ListSoal { get; set; }
         public CrudSoalWawancara SoalWawancara { get; set; }
     }
     public class CrudSoalWawancara
     {
+        public int Id { get; set; }
+        public string Kategori { get { return "Wawancara"; } }
         public string Judul { get; set; }
         public string Jalur { get; set; }
         public string Target { get; set; }

@@ -38,21 +38,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @{int i = 0;}
                         @foreach (var akun in Model.ListAkun)
                         {
-                            int i = 0;
-                        <tr>
-                            <td>@akun.NoPendaftaran</td>
-                            <td>@akun.NamaLengkap</td>
-                            <td>@akun.NilaiMipa</td>
-                            <td>@akun.NilaiIps</td>
-                            <td>@akun.NilaiTpa</td>
-                            <td>@akun.SkorAkhir</td>
-                            <td>@(i+1)</td>
-                            <td class="text-center"><button class="btn btn-info">Lihat</button></td>
-                            <td class="text-center"><button class="btn btn-info">Lihat</button></td>
-                            <td><button>Update Status</button></td>
-                        </tr>
+                            <tr>
+                                <td>@akun.NoPendaftaran</td>
+                                <td>@akun.NamaLengkap</td>
+                                <td>@akun.NilaiMipa</td>
+                                <td>@akun.NilaiIps</td>
+                                <td>@akun.NilaiTpa</td>
+                                <td>@akun.SkorAkhir</td>
+                                <td>@(i + 1)</td>
+                                <td class="text-center"><button class="btn btn-info">Lihat</button></td>
+                            </tr>
                             i++;
                         }
                     </tbody>

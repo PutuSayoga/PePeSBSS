@@ -8,7 +8,7 @@ namespace BackEnd.Services
 {
     public class KelasService : IKelas
     {
-        public IEnumerable<Kelas> GetAllKelas()
+        public List<Kelas> GetAllKelas()
         {
             throw new NotImplementedException();
         }
