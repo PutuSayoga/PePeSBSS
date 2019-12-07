@@ -36,7 +36,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpGet]
         public IActionResult JawabSoalAkademik(int soalId, int qid)
         {
-            int akunPendaftaranId = _pendaftaranService.GetIdAkunPendaftaran(User.Identity.Name);
+            int akunPendaftaranId = _pendaftaranService.GetAkunPendaftaranId(User.Identity.Name);
             var detailUjian = _tesPenermaanService.StartTest(akunPendaftaranId, soalId);
             if (detailUjian.WaktuBerakhir < DateTime.Now)
             {
@@ -86,6 +86,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles =("Waka Kesiswaan, Psb Tes"))]
         public IActionResult SeleksiWawancara(string noPendaftaran, string target)
         {
             var soal = _soalPenerimaanService.GetDetailSoal(13);

@@ -51,7 +51,7 @@ namespace BackEnd.Services
                 connection.Open();
                 using(var multiResult = connection.QueryMultiple(sqlQuery, new { Id = id }))
                 {
-                    var soal = multiResult.Read<Soal>().First();
+                    var soal = multiResult.Read<Soal>().FirstOrDefault();
                     soal.PertanyaanS = multiResult.Read<Pertanyaan>().ToList();
 
                     return soal;
@@ -64,7 +64,7 @@ namespace BackEnd.Services
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                var soal = connection.Query<Soal>(sql: sqlQuery, param: new { Id = id }).First();
+                var soal = connection.Query<Soal>(sql: sqlQuery, param: new { Id = id }).FirstOrDefault();
                 return soal;
             }
         }
@@ -184,8 +184,35 @@ namespace BackEnd.Services
                 var pertanyaan = connection.Query<Pertanyaan>(
                     sql: sqlQuery,
                     param: new { Id = id, SoalId = soalId })
-                    .First();
+                    .FirstOrDefault();
                 return pertanyaan;
+            }
+        }
+
+        public Pengaturan GetPengaturanSoal()
+        {
+            string sqlQuery = @"SELECT * FROM Pengaturan WHERE Id = 1";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var pertanyaan = connection.Query<Pengaturan>(sql: sqlQuery).FirstOrDefault();
+                return pertanyaan;
+            }
+        }
+
+        public void SavePengaturanSoal(Pengaturan pengaturan)
+        {
+            string sqlQuery = @"UPDATE Pengaturan SET
+                SoalMipaKhusus = @SoalMipaKhusus, SoalIpsKhusus = @SoalIpsKhusus, SoalTpaKhusus = @SoalTpaKhusus, SoalWawancaraCalonSiswaKhusus = @SoalWawancaraCalonSiswaKhusus, SoalWawancaraOrangTuaKhusus = @SoalWawancaraOrangTuaKhusus, 
+                SoalMipaReguler = @SoalMipaReguler, SoalIpsReguler = @SoalIpsReguler, SoalTpaReguler = @SoalTpaReguler, SoalWawancaraCalonSiswaReguler = @SoalWawancaraCalonSiswaReguler, SoalWawancaraOrangTuaReguler = @SoalWawancaraOrangTuaReguler, 
+                SoalMipaMutasi = @SoalMipaMutasi, SoalIpsMutasi = @SoalIpsMutasi, SoalTpaMutasi = @SoalTpaMutasi, SoalWawancaraCalonSiswaMutasi = @SoalWawancaraCalonSiswaMutasi, SoalWawancaraOrangTuaMutasi = @SoalWawancaraOrangTuaMutasi, 
+                SoalWawancaraCalonSiswaPrestasi = @SoalWawancaraCalonSiswaPrestasi, SoalWawancaraOrangTuaPrestasi = @SoalWawancaraOrangTuaPrestasi, 
+                SoalWawancaraCalonSiswaMitra = @SoalWawancaraCalonSiswaMitra, SoalWawancaraOrangTuaMitra = @SoalWawancaraOrangTuaMitra
+                WHERE Id = 1";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var pertanyaan = connection.Execute(sql: sqlQuery, param: pengaturan);
             }
         }
     }

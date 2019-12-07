@@ -1,5 +1,6 @@
 ﻿using BackEnd.Abstraction;
 using FrontEnd.Web.Mvc.Models.PsbPendaftaran;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
+    [Authorize]
     public class PrintController:Controller
     {
         private IPendaftaran _calonSiswaService;

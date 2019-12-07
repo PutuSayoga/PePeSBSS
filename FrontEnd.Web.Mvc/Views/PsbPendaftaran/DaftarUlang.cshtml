@@ -3,19 +3,26 @@
     ViewBag.Title = "Daftar Ulang";
 }
 
-<div class="mb-5">
-    <p>Cari nomor pendaftaran</p>
-    <form asp-controller="PsbPendaftaran" asp-action="DaftarUlang" method="get">
-        <div class="input-group col-md-6">
-            <input class="form-control" name="noPendaftaran">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit" onclick="SearchAkun">
-                    <i class="fas fa-search fa-sm"></i>
-                </button>
+    <div class="mb-5">
+        <p>Cari nomor pendaftaran</p>
+        <form asp-controller="PsbPendaftaran" asp-action="DaftarUlang" method="get">
+            <div class="input-group col-md-6">
+                <input class="form-control" name="noPendaftaran">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
             </div>
+        </form>
+        @if (ViewBag.Pesan != null)
+        {
+            <br />
+            <div class="alert alert-danger" role="alert">
+            @ViewBag.Pesan
         </div>
-    </form>
-</div>
+        }
+    </div>
 <!-- Search Result -->
 @if (Model != null)
 {
@@ -29,13 +36,17 @@
                 <label asp-for="JalurPendaftaran"></label>:<label>@Model.JalurPendaftaran</label><br />
                 <label asp-for="NamaLengkap"></label>:<label>@Model.NamaLengkap</label><br />
                 <label asp-for="Status"></label>:<label>@Model.Status</label><br />
-                @if (Model.Status.Equals("Lolos"))
-                {
-                    <div class="pull-right">
+                <div class="my-1 fa-pull-right">
+                    @if (Model.Status.Equals("Lolos"))
+                    {
                         <input type="hidden" name="id" value="@Model.Id" />
                         <button type="submit" class="btn btn-success">Daftar Ulang</button>
-                    </div>
-                }
+                    }
+                    else if (Model.Status.Equals("Daftar Ulang"))
+                    {
+                        <p class="text-dark">Sudah daftar ulang</p>
+                    }
+                </div>
             </form>
         </div>
     </div>

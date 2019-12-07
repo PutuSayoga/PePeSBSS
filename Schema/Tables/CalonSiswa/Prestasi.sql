@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Prestasi]
 (
-	CalonSiswaId INT,
+	CalonSiswaId INT NOT NULL,
 	NamaKejuaraan VARCHAR(50) NOT NULL,
 	Jenis VARCHAR(20) NOT NULL,
 	Tingkat VARCHAR(20) NOT NULL,	

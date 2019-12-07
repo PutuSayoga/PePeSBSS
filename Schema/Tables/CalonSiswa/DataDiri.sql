@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[DataDiri]
 (
-	CalonSiswaId INT,
+	CalonSiswaId INT NOT NULL,
 	NamaPanggilan VARCHAR(10) NOT NULL,
 	IsPerempuan BIT NOT NULL,
 	TempatLahir VARCHAR(20) NOT NULL,

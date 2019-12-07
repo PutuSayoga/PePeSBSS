@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FrontEnd.Web.Mvc.Models.Admin;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
@@ -43,7 +44,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             // Cek valid
             if (!ModelState.IsValid)
             {
-                ViewBag.Pesan = "Gagal menambah staff. Data tidak valid";
+                ViewBag.Pesan = "Gagal menambah staff, Data tidak valid";
                 return View();
             }
             else
@@ -107,7 +108,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             // Cek valid
             if (!ModelState.IsValid)
             {
-                TempData["Pesan"] = "Gagal mengubah staff. Data tidak valid";
+                TempData["Pesan"] = "Gagal mengubah staff, Data tidak valid";
                 return RedirectToAction(nameof(RincianStaff), new { id = model.Id });
             }
             else
@@ -145,7 +146,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             // Cek valid
             if (!ModelState.IsValid)
             {
-                TempData["Pesan"] = "Gagal menambah panitia. Data tidak valid";
+                TempData["Pesan"] = "Gagal menambah panitia, Data tidak valid";
                 return RedirectToAction(nameof(RincianStaff), new { id = model.Id });
             }
             else
@@ -181,7 +182,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             var listSoalAkademik = _soalService.GetAllSoalAkademik();
             var model = new KelolaSoalAkademikModel()
             {
-                ListSoal = listSoalAkademik.Select(x=> new CrudSoalAkademik()
+                ListSoal = listSoalAkademik.Select(x => new CrudSoalAkademik()
                 {
                     BatasWaktu = x.BatasWaktu,
                     Id = x.Id,
@@ -199,7 +200,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Pesan"] = "Gagal menambah soal\nData tidak valid";
+                TempData["Pesan"] = "Gagal menambah soal, Data tidak valid";
                 return RedirectToAction(nameof(KelolaSoalAkademik));
             }
             else
@@ -242,7 +243,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Pesan"] = $"Gagal mengubah soal\nData tidak valid";
+                TempData["Pesan"] = $"Gagal mengubah soal, Data tidak valid";
                 return RedirectToAction(nameof(KelolaSoalAkademik));
             }
             else
@@ -380,7 +381,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Pesan"] = $"Gagal menambah soal\nData tidak valid";
+                TempData["Pesan"] = $"Gagal menambah soal, Data tidak valid";
                 return RedirectToAction(nameof(KelolaSoalWawancara));
             }
             else
@@ -424,7 +425,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["Pesan"] = $"Gagal mengubah soal\nData tidak valid";
+                TempData["Pesan"] = $"Gagal mengubah soal, Data tidak valid";
                 return RedirectToAction(nameof(KelolaSoalWawancara));
             }
             else
@@ -454,12 +455,12 @@ namespace FrontEnd.Web.Mvc.Controllers
                 Target = soal.Target,
                 JumlahPertanyaan = soal.JumlahPertanyaan,
                 Deskripsi = soal.Deskripsi,
-                ListPertanyaanWawancara= soal.PertanyaanS
+                ListPertanyaanWawancara = soal.PertanyaanS
                     .Select(x => new CrudPertanyaanWawancaraModel()
                     {
                         Id = x.Id,
                         Isi = x.Isi,
-                        SoalId = x.SoalId                        
+                        SoalId = x.SoalId
                     }).ToList()
             };
             return View(model);
@@ -513,5 +514,107 @@ namespace FrontEnd.Web.Mvc.Controllers
             return View();
         }
         #endregion
+
+        public IActionResult PengaturanSoal()
+        {
+            ViewBag.Pesan = TempData["Pesan"];
+            var soalAkademik = _soalService.GetAllSoalAkademik();
+            var soalWawancara = _soalService.GetAllSoalWawancara();
+            var pengaturanSoal = _soalService.GetPengaturanSoal();
+
+            var model = new PengaturanSoalModel()
+            {
+                ListSoalMipa = soalAkademik
+                .Where(x => x.Kategori.Equals("MIPA"))
+                .Select(y => new SelectListItem()
+                {
+                    Text = y.Judul,
+                    Value = y.Id.ToString()
+                }).ToList(),
+                ListSoalIps = soalAkademik
+                .Where(x => x.Kategori.Equals("IPS"))
+                .Select(y => new SelectListItem()
+                {
+                    Text = y.Judul,
+                    Value = y.Id.ToString()
+                }).ToList(),
+                ListSoalTpa = soalAkademik
+                .Where(x => x.Kategori.Equals("TPA"))
+                .Select(y => new SelectListItem()
+                {
+                    Text = y.Judul,
+                    Value = y.Id.ToString()
+                }).ToList(),
+                ListWawancaraCalonSiswa = soalWawancara
+                .Where(x => x.Target.Equals("Calon Siswa"))
+                .Select(y => new SelectListItem()
+                {
+                    Text = y.Judul,
+                    Value = y.Id.ToString()
+                }).ToList(),
+                ListWawancaraOrangTua = soalWawancara
+                .Where(x => x.Target.Equals("Orang Tua"))
+                .Select(y => new SelectListItem()
+                {
+                    Text = y.Judul,
+                    Value = y.Id.ToString()
+                }).ToList(),
+
+                SoalMipaKhusus = pengaturanSoal.SoalMipaKhusus,
+                SoalIpsKhusus = pengaturanSoal.SoalIpsKhusus,
+                SoalTpaKhusus = pengaturanSoal.SoalTpaKhusus,
+                SoalWawancaraCalonSiswaKhusus = pengaturanSoal.SoalWawancaraCalonSiswaKhusus,
+                SoalWawancaraOrangTuaKhusus = pengaturanSoal.SoalWawancaraOrangTuaKhusus,
+
+                SoalMipaReguler = pengaturanSoal.SoalMipaReguler,
+                SoalIpsReguler = pengaturanSoal.SoalIpsReguler,
+                SoalTpaReguler = pengaturanSoal.SoalTpaReguler,
+                SoalWawancaraCalonSiswaReguler = pengaturanSoal.SoalWawancaraCalonSiswaReguler,
+                SoalWawancaraOrangTuaReguler = pengaturanSoal.SoalWawancaraOrangTuaReguler,
+
+                SoalMipaMutasi = pengaturanSoal.SoalMipaMutasi,
+                SoalIpsMutasi = pengaturanSoal.SoalIpsMutasi,
+                SoalTpaMutasi = pengaturanSoal.SoalTpaMutasi,
+                SoalWawancaraCalonSiswaMutasi = pengaturanSoal.SoalWawancaraCalonSiswaMutasi,
+                SoalWawancaraOrangTuaMutasi = pengaturanSoal.SoalWawancaraOrangTuaMutasi,
+
+                SoalWawancaraCalonSiswaPrestasi = pengaturanSoal.SoalWawancaraCalonSiswaPrestasi,
+                SoalWawancaraOrangTuaPrestasi = pengaturanSoal.SoalWawancaraOrangTuaPrestasi,
+
+                SoalWawancaraCalonSiswaMitra = pengaturanSoal.SoalWawancaraCalonSiswaMitra,
+                SoalWawancaraOrangTuaMitra = pengaturanSoal.SoalWawancaraOrangTuaMitra,
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult SimpanPengaturanSoal(PengaturanSoalModel model)
+        {
+            var pengaturan = new Pengaturan()
+            {
+                SoalMipaMutasi = model.SoalMipaMutasi,
+                SoalIpsMutasi = model.SoalIpsMutasi,
+                SoalTpaMutasi = model.SoalTpaMutasi,
+                SoalWawancaraCalonSiswaMutasi = model.SoalWawancaraCalonSiswaMutasi,
+                SoalWawancaraOrangTuaMutasi = model.SoalWawancaraOrangTuaMutasi,
+                SoalMipaKhusus = model.SoalMipaKhusus,
+                SoalIpsKhusus = model.SoalIpsKhusus,
+                SoalTpaKhusus = model.SoalTpaKhusus,
+                SoalWawancaraCalonSiswaKhusus = model.SoalWawancaraCalonSiswaKhusus,
+                SoalWawancaraOrangTuaKhusus = model.SoalWawancaraOrangTuaKhusus,
+                SoalMipaReguler = model.SoalMipaReguler,
+                SoalIpsReguler = model.SoalIpsReguler,
+                SoalTpaReguler = model.SoalTpaReguler,
+                SoalWawancaraCalonSiswaReguler = model.SoalWawancaraCalonSiswaReguler,
+                SoalWawancaraOrangTuaReguler = model.SoalWawancaraOrangTuaReguler,
+                SoalWawancaraCalonSiswaMitra = model.SoalWawancaraCalonSiswaMitra,
+                SoalWawancaraOrangTuaMitra = model.SoalWawancaraOrangTuaMitra,
+                SoalWawancaraCalonSiswaPrestasi = model.SoalWawancaraCalonSiswaPrestasi,
+                SoalWawancaraOrangTuaPrestasi = model.SoalWawancaraOrangTuaPrestasi,
+            };
+            _soalService.SavePengaturanSoal(pengaturan);
+            TempData["Pesan"] = "Berhasil menyimpan";
+            return RedirectToAction(nameof(PengaturanSoal));
+        }
     }
 }

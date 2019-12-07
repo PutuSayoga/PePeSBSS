@@ -87,6 +87,7 @@
         const time = moment(timeText, "MM-DD-YYYY hh:mm:ss A");
         const timeLeft = moment.utc(time - moment()).format("HH:mm:ss");
 
+        $('#sisaWaktu').text(timeLeft);
         setInterval(() => {
             const timeLeft = moment.utc(time - moment()).format("HH:mm:ss");
             $("#sisawaktu").text(timeLeft);

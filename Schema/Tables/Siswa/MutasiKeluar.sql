@@ -1,9 +1,8 @@
 ﻿CREATE TABLE [dbo].[MutasiKeluar]
 (
-	SiswaId INT,
-	Tujuan VARCHAR(20),
+	SiswaId INT NOT NULL,
+	Tujuan VARCHAR(20) NOT NULL,
 	Alasan VARCHAR(50) NOT NULL,
-	Tanggungan VARCHAR(100),
 	TanggalKeluar DATE NOT NULL,
 	CONSTRAINT [UNQ_SiswaId_MutasiKeluar] UNIQUE(SiswaId),
 	CONSTRAINT [FK_MutasiKeluarToSiswa]

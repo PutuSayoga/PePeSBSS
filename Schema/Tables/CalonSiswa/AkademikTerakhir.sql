@@ -1,10 +1,10 @@
 ﻿CREATE TABLE [dbo].[AkademikTerakhir]
 (
-	CalonSiswaId INT,
+	CalonSiswaId INT NOT NULL,
 	NamaSekolah VARCHAR(50) NOT NULL,
-	JenisSekolah VARCHAR(5) NOT NULL,
-	StatusSekolah VARCHAR(10) NOT NULL,
-	AlamatSekolah VARCHAR(100) NOT NULL,
+	JenisSekolah VARCHAR(5) NULL,
+	StatusSekolah VARCHAR(10) NULL,
+	AlamatSekolah VARCHAR(100) NULL,
 	NoPesertaUn VARCHAR(20) NULL,
 	NoSeriSkhun VARCHAR(20) NULL,
 	NoSeriIjazah VARCHAR(20) NULL,

@@ -20,19 +20,19 @@ namespace BackEnd.Services
             _securityRelateHelper = securityRelateHelper;
         }
 
-        public int AddNewAkunPendaftaran(AkunPendaftaran newAkun)
+        public string AddNewAkunPendaftaran(AkunPendaftaran newAkun)
         {
             // Cek apa calon siswa sudah pernah mendaftar
             bool exist = IsExistCalonSiswa(newAkun.ACalonSiswa.Nik);
             if (!exist)
             {
-                SaveCalonSiswa(newAkun.ACalonSiswa);
+                CreateCalonSiswa(newAkun.ACalonSiswa);
             }
-            string noPendaftaran = SaveAkunPendaftaran(newAkun);
-            return GetIdAkunPendaftaran(noPendaftaran);
+            string noPendaftaran = CreateAkunPendaftaran(newAkun);
+            return noPendaftaran;
         }
 
-        public int GetIdAkunPendaftaran(string noPedaftaran)
+        public int GetAkunPendaftaranId(string noPedaftaran)
         {
             string sqlGetAkunId = @"SELECT Id FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -43,7 +43,7 @@ namespace BackEnd.Services
                 return akunId;
             } 
         }
-        private void SaveCalonSiswa(CalonSiswa newCalonSiswa)
+        private void CreateCalonSiswa(CalonSiswa newCalonSiswa)
         {
             string sqlInsertCalonSIswa = @"INSERT INTO CalonSiswa(Nik, Nisn, NamaLengkap) 
                 VALUES(@Nik, @Nisn, @NamaLengkap)";
@@ -53,7 +53,7 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlInsertCalonSIswa, param: newCalonSiswa);
             }
         }
-        private string SaveAkunPendaftaran(AkunPendaftaran newAkun)
+        private string CreateAkunPendaftaran(AkunPendaftaran newAkun)
         {
             string sqlInsertAkun = @"INSERT INTO AkunPendaftaran(CalonSiswaId, NoPendaftaran, Password, JalurPendaftaran, JadwalTes) 
                 VALUES(@CalonSiswaId, @NoPendaftaran, @Password, @JalurPendaftaran, @JadwalTes)";
@@ -71,21 +71,34 @@ namespace BackEnd.Services
                     sql: sqlGetCalonSiswaId, param: new { Nik = newAkun.ACalonSiswa.Nik });
                 newAkun.NoPendaftaran = connection.QueryFirst<string>(
                     sql: sqlCreateNoPendaftaran, param: new { JalurPendaftaran = newAkun.JalurPendaftaran });
-
+                
                 connection.Execute(sql: sqlInsertAkun, param: newAkun);
-
-                return newAkun.NoPendaftaran;
             }
 
+            if (newAkun.JalurPendaftaran.Equals("Mutasi"))
+            {
+                CreateAkademikLama(newAkun.CalonSiswaId, newAkun.ACalonSiswa.AAkademikTerakhir.NamaSekolah);
+            }
+
+            return newAkun.NoPendaftaran;
         }
-        private bool IsExistCalonSiswa(string nik)
+        private void CreateAkademikLama(int calonSiswaId, string namaSekolah)
         {
-            string sqlQuery = @"SELECT Nik FROM CalonSiswa WHERE Nik = @Nik";
+            string sqlQuery = @"INSERT INTO AkademikTerakhir(CalonSiswaId, NamaSekolah) VALUES(@CalonSiswaId, @NamaSekolah)";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                var exist = connection.QueryFirstOrDefault<string>(sql: sqlQuery, new { @Nik = nik });
-                return exist != null;
+                connection.Execute(sql: sqlQuery, param: new { CalonSiswaId = calonSiswaId, NamaSekolah = namaSekolah });
+            }
+        }
+        private bool IsExistCalonSiswa(string nik)
+        {
+            string sqlQuery = @"SELECT 1 FROM CalonSiswa WHERE Nik = @Nik";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var exist = connection.QueryFirstOrDefault<bool>(sql: sqlQuery, new { @Nik = nik });
+                return exist;
             }
         }
 
@@ -117,8 +130,11 @@ namespace BackEnd.Services
                     },
                     splitOn: "Nik",
                     param: new { Id = akunId }).FirstOrDefault();
-
-                result.Password = _securityRelateHelper.Decrypt(result.Password);
+                // Decrypt kalo ada
+                if (result != null)
+                {
+                    result.Password = _securityRelateHelper.Decrypt(result.Password);
+                }
 
                 return result;
             }
@@ -126,9 +142,9 @@ namespace BackEnd.Services
 
         public List<AkunPendaftaran> GetAllAkunPendaftaran()
         {
-            string sqlQuery = @"SELECT a.Id, a.NoPendaftaran, a.JalurPendaftaran, a.Status, cs.NamaLengkap 
-                                FROM AkunPendaftaran a FULL JOIN CalonSiswa cs ON a.CalonSiswaId = cs.Id
-                                WHERE a.status != 'Admin'";
+            string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, ap.Status, cs.NamaLengkap 
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+                WHERE ap.status != 'Admin' AND ap.JalurPendaftaran != 'Mutasi'";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -160,6 +176,33 @@ namespace BackEnd.Services
                 connection.Open();
 
                 // Get data from database and map them using dapper
+                var result = connection.Query<AkunPendaftaran, CalonSiswa, AkademikTerakhir, AkunPendaftaran>(
+                    sql: sqlQuery,
+                    map: (akunPendaftaran, calonSiswa, akademikTerakhir) =>
+                    {
+                        akunPendaftaran.ACalonSiswa = calonSiswa;
+                        calonSiswa.AAkademikTerakhir = akademikTerakhir;
+
+                        return akunPendaftaran;
+                    },
+                    splitOn: "NamaLengkap, NamaSekolah")
+                    .Distinct()
+                    .ToList();
+
+                return result;
+            }
+        }
+
+        public List<AkunPendaftaran> GetAllAkunPendaftaranMutasi()
+        {
+            string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, ap.Status, cs.NamaLengkap, csat.NamaSekolah 
+                FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
+				FULL JOIN AkademikTerakhir csat ON cs.Id = csat.CalonSiswaId
+                WHERE ap.JalurPendaftaran = 'Mutasi' AND ap.Status != 'Admin'";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+
                 var result = connection.Query<AkunPendaftaran, CalonSiswa, AkademikTerakhir, AkunPendaftaran>(
                     sql: sqlQuery,
                     map: (akunPendaftaran, calonSiswa, akademikTerakhir) =>

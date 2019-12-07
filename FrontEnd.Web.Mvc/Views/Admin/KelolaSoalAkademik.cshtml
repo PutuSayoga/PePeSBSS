@@ -47,7 +47,7 @@ else
                                        class="btn btn-info">
                                         Rincian
                                     </a>
-                                    <button onclick="ubahSoalAkademikModal(@soalAkademik.Id)" data-toggle="modal" class="btn btn-warning">
+                                    <button onclick="UbahSoalAkademikModal(@soalAkademik.Id)" data-toggle="modal" class="btn btn-warning">
                                         Ubah
                                     </button>
                                     <form asp-controller="Admin" asp-action="HapusSoalAkademik" asp-route-id="@soalAkademik.Id"
@@ -176,7 +176,7 @@ else
 
 @section Scripts{
     <script>
-        function ubahSoalAkademikModal(id) {
+        function UbahSoalAkademikModal(id) {
             $("#ModalUbahSoalAkademik .form").hide();
             $("#ModalUbahSoalAkademik .spinner-border").show();
             $('#ModalUbahSoalAkademik').modal();

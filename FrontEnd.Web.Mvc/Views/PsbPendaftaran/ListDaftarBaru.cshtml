@@ -21,7 +21,7 @@ else
                             <th><b>No Pendaftaran   </b></th>
                             <th><b>Nama Lengkap     </b></th>
                             <th><b>Jalur Pendaftaran</b></th>
-                            <th><b>Asal Sekolah     </b></th>
+                            <th><b>Status           </b></th>
                             <th><b>Bukti Pendaftaran</b></th>
                             <th><b>Aksi             </b></th>
                         </tr>
@@ -29,47 +29,39 @@ else
                     <tbody>
                         @foreach (var akunPendaftaran in Model.ListAkun)
                         {
-                        <tr>
-                            <td>@akunPendaftaran.NoPendaftaran</td>
-                            <td>@akunPendaftaran.NamaLengkap</td>
-                            <td>@akunPendaftaran.JalurPendaftaran</td>
-                            @if (akunPendaftaran.Status.Equals("Daftar Baru"))
-                            {
+                            <tr>
+                                <td>@akunPendaftaran.NoPendaftaran</td>
+                                <td>@akunPendaftaran.NamaLengkap</td>
+                                <td>@akunPendaftaran.JalurPendaftaran</td>
                                 <td class="text-center">
-                                    <p class="card bg-info text-white">@akunPendaftaran.Status</p>
+                                    @if (akunPendaftaran.Status.Equals("Daftar Baru"))
+                                    {
+                                        <p class="card bg-secondary text-white">@akunPendaftaran.Status</p>
+                                    }
+                                    else if (akunPendaftaran.Status.Equals("Sudah Ujian"))
+                                    {
+                                        <p class="card bg-warning text-white">@akunPendaftaran.Status</p>
+                                    }
+                                    else if (akunPendaftaran.Status.Equals("Lolos"))
+                                    {
+                                        <p class="card bg-success text-white">@akunPendaftaran.Status</p>
+                                    }
+                                    else if (akunPendaftaran.Status.Equals("Tidak Lolos"))
+                                    {
+                                        <p class="card bg-danger text-white">@akunPendaftaran.Status</p>
+                                    }
+                                    else if (akunPendaftaran.Status.Equals("Daftar Ulang"))
+                                    {
+                                        <p class="card bg-primary text-white">@akunPendaftaran.Status</p>
+                                    }
                                 </td>
-                            }
-                            else if (akunPendaftaran.Status.Equals("Sudah Ujian"))
-                            {
                                 <td class="text-center">
-                                    <p class="card bg-warning text-white">@akunPendaftaran.Status</p>
+                                    <a asp-controller="PSBPendaftaran" asp-action="BuktiPendaftaran" asp-route-id="@akunPendaftaran.Id">Lihat</a>
                                 </td>
-                            }
-                            else if (akunPendaftaran.Status.Equals("Lolos"))
-                            {
                                 <td class="text-center">
-                                    <p class="card bg-success text-white">@akunPendaftaran.Status</p>
+                                    <a href="#">Rincian</a>
                                 </td>
-                            }
-                            else if (akunPendaftaran.Status.Equals("Tidak Lolos"))
-                            {
-                                <td class="text-center">
-                                    <p class="card bg-danger text-white">@akunPendaftaran.Status</p>
-                                </td>
-                            }
-                            else if (akunPendaftaran.Status.Equals("Daftar Ulang"))
-                            {
-                                <td class="text-center">
-                                    <p class="card bg-primary text-white">@akunPendaftaran.Status</p>
-                                </td>
-                            }
-                            <td>
-                                <a asp-controller="PSBPendaftaran" asp-action="BuktiPendaftaran" asp-route-id="@akunPendaftaran.Id">Lihat</a>
-                            </td>
-                            <td>
-                                <a href="#">Rincian</a>
-                            </td>
-                        </tr>
+                            </tr>
                         }
                     </tbody>
                 </table>

@@ -68,7 +68,7 @@ namespace FrontEnd.Web.Mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=PsbTes}/{action=Index}/{id?}");
+                    pattern: "{controller=PsbPendaftaran}/{action=Index}/{id?}");
             });
         }
     }

@@ -28,18 +28,22 @@
                     <tbody>
                         @foreach (var akun in Model.ListAkun)
                         {
-                            <tr>
-                                <td>@akun.NoPendaftaran</td>
-                                <td>@akun.NamaLengkap</td>
-                                <td class="text-center"><button class="btn btn-info">Lihat</button></td>
-                                <td class="text-center"><button class="btn btn-info">Lihat</button></td>
-                                <td class="text-center">
-                                    <button data-target="#ModalSeleksiPrestasi" data-toggle="modal"
-                                            class="btn btn-primary" type="submit">
-                                        Seleksi
-                                    </button>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>@akun.NoPendaftaran</td>
+                            <td>@akun.NamaLengkap</td>
+                            <td class="text-center">
+                                <a href="#">Lihat</a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#">Lihat</a>
+                            </td>
+                            <td class="text-center">
+                                <button data-target="#ModalSeleksiPrestasi" data-toggle="modal"
+                                        class="btn btn-primary" type="submit">
+                                    Seleksi
+                                </button>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

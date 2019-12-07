@@ -9,9 +9,10 @@ namespace BackEnd.Abstraction
     {
         List<AkunPendaftaran> GetAllAkunPendaftaran();
         List<AkunPendaftaran> GetAllDaftarUlang();
+        List<AkunPendaftaran> GetAllAkunPendaftaranMutasi();
         void ReRegist(int akunId);
-        int AddNewAkunPendaftaran(AkunPendaftaran newAkun);
+        string AddNewAkunPendaftaran(AkunPendaftaran newAkun);
         AkunPendaftaran GetAkunPendaftaran(int akunId);
-        int GetIdAkunPendaftaran(string noPedaftaran);
+        int GetAkunPendaftaranId(string noPedaftaran);
     }
 }

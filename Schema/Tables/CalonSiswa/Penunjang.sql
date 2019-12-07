@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Penunjang]
 (
-	CalonSiswaId INT,
+	CalonSiswaId INT NOT NULL,
 	Pembiaya VARCHAR(20) NOT NULL,
 	StatusTempatTinggal VARCHAR(20),
 	DayaListrik INT,

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Rapor]
 (
-	CalonSiswaId INT,
+	CalonSiswaId INT NOT NULL,
 	MataPelajaran VARCHAR(50) NOT NULL,
 	Semester1 FLOAT,
 	Semester2 FLOAT,

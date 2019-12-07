@@ -12,20 +12,19 @@ namespace FrontEnd.Web.Mvc.Models.PsbPendaftaran
         [Display(Name ="Jalur Pendaftaran")]
         public string JalurPendaftaran { get; set; }
         [Required(ErrorMessage = "Nama Lengkap tidak boleh kosong")]
-        [Display(Name = "Nama Lengkap")]
+        [Display(Name = "Nama Lengkap", Prompt ="Nama lengkap sesuai KK")]
         public string NamaLengkap { get; set; }
         [Required(ErrorMessage = "NIK tidak boleh kosong")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Masukkan NIK yang benar")]
-        [Display(Name = "Nomor Induk Keluarga")]
+        [Display(Name = "Nomor Induk Keluarga", Prompt ="NIK yang tercantum pada KK")]
         [StringLength(16, MinimumLength =16, ErrorMessage ="Panjang NIK 16 karakter")]
         public string Nik { get; set; }
         [Required(ErrorMessage = "NISN tidak boleh kosong")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Masukkan NIK yang benar")]
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "Panjang NIK 16 karakter")]
-        [Display(Name = "Nomor Induk Siswa Nasional")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "Panjang NISN 10 karakter")]
+        [Display(Name = "Nomor Induk Siswa Nasional", Prompt ="NISN pendaftar")]
         public string Nisn { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "dd/MM/yyyy")]
         [Display(Name = "Tanggal Ujian")]
         public DateTime JadwalTes { get; set; }
     }

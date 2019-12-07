@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Panitia]
 (
-	StaffId	INT,
+	StaffId	INT NOT NULL,
 	Acara VARCHAR(20) NOT NULL,
 	Divisi VARCHAR(20) NOT NULL,
 	CONSTRAINT [UNQ_StaffId_Panitia] UNIQUE (StaffId),

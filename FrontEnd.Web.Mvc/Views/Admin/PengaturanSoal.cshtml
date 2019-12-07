@@ -1,0 +1,166 @@
+﻿@model PengaturanSoalModel
+@{
+    ViewBag.Title = "Pengaturan Soal";
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Pengaturan Soal</h6>
+    </div>
+    <div class="card-body">
+        <form method="post" asp-controller="Admin" asp-action="SimpanPengaturanSoal">
+            <h3 class="mb-4 text-dark">Jalur Khusus</h3>
+            <div class="form-group row">
+                <label asp-for="SoalMipaKhusus" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalMipaKhusus" class="col-md form-control" value=1
+                        asp-items="@Model.ListSoalMipa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalIpsKhusus" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalIpsKhusus" class="col-md form-control"
+                        asp-items="@Model.ListSoalIps">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalTpaKhusus" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalTpaKhusus" class="col-md form-control"
+                        asp-items="@Model.ListSoalTpa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraCalonSiswaKhusus" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraCalonSiswaKhusus" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraCalonSiswa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraOrangTuaKhusus" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraOrangTuaKhusus" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraOrangTua">
+                    <option selected></option>
+                </select>
+            </div>
+            <hr />
+            <h3 class="mb-4 text-dark">Jalur Reguler</h3>
+            <div class="form-group row">
+                <label asp-for="SoalMipaReguler" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalMipaReguler" class="col-md form-control" value=1
+                        asp-items="@Model.ListSoalMipa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalIpsReguler" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalIpsReguler" class="col-md form-control"
+                        asp-items="@Model.ListSoalIps">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalTpaReguler" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalTpaReguler" class="col-md form-control"
+                        asp-items="@Model.ListSoalTpa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraCalonSiswaReguler" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraCalonSiswaReguler" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraCalonSiswa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraOrangTuaReguler" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraOrangTuaReguler" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraOrangTua">
+                    <option selected></option>
+                </select>
+            </div>
+            <hr />
+            <h3 class="mb-4 text-dark">Jalur Mutasi Masuk</h3>
+            <div class="form-group row">
+                <label asp-for="SoalMipaMutasi" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalMipaMutasi" class="col-md form-control" value=1
+                        asp-items="@Model.ListSoalMipa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalIpsMutasi" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalIpsMutasi" class="col-md form-control"
+                        asp-items="@Model.ListSoalIps">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalTpaMutasi" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalTpaMutasi" class="col-md form-control"
+                        asp-items="@Model.ListSoalTpa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraCalonSiswaMutasi" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraCalonSiswaMutasi" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraCalonSiswa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraOrangTuaMutasi" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraOrangTuaMutasi" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraOrangTua">
+                    <option selected></option>
+                </select>
+            </div>
+            <hr />
+            <h3 class="mb-4 text-dark">Jalur Mitra</h3>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraCalonSiswaMitra" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraCalonSiswaMitra" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraCalonSiswa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraOrangTuaMitra" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraOrangTuaMitra" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraOrangTua">
+                    <option selected></option>
+                </select>
+            </div>
+            <hr />
+            <h3 class="mb-4 text-dark">Jalur Prestasi</h3>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraCalonSiswaPrestasi" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraCalonSiswaPrestasi" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraCalonSiswa">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <label asp-for="SoalWawancaraOrangTuaPrestasi" class="col-md-3 col-form-label"></label>
+                <select asp-for="SoalWawancaraOrangTuaPrestasi" class="col-md form-control"
+                        asp-items="@Model.ListWawancaraOrangTua">
+                    <option selected></option>
+                </select>
+            </div>
+            <div class="fa-pull-right">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        @if (ViewBag.Pesan != null){
+            @: alert("@ViewBag.Pesan");
+        }
+    </script>
+}

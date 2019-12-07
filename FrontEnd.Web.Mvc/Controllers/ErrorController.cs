@@ -1,4 +1,5 @@
 ﻿using FrontEnd.Web.Mvc.Models.Error;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
+    [AllowAnonymous]
     public class ErrorController : Controller
     {
         [Route("/Error/{statusCode}")]

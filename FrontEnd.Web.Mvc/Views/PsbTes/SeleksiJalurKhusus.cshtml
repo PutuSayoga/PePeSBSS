@@ -39,19 +39,19 @@
                                 <td>@akun.NilaiIps</td>
                                 <td>@akun.NilaiTpa</td>
                                 <td>@akun.SkorAkhir</td>
-                                @if (akun.Keterangan)
-                                {
-                                    <td class="text-center">
+                                <td class="text-center">
+                                    @if (akun.Keterangan)
+                                    {
                                         <p class="card bg-success text-white">Lolos</p>
-                                    </td>
-                                }
-                                else
-                                {
-                                    <td class="text-center">
+                                    }
+                                    else
+                                    {
                                         <p class="card bg-danger text-white">Tidak Lolos</p>
-                                    </td>
-                                }
-                                <td class="text-center"><button class="btn btn-info">Lihat</button></td>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <a href="#">Lihat</a>
+                                </td>
                                 <td class="text-center">
                                     <form asp-controller="PsbTes" asp-action="SeleksiNonReguler">
                                         <input type="hidden" name="id" value="@akun.Id" />

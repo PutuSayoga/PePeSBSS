@@ -185,5 +185,40 @@ namespace BackEnd.Services
                 return ujian;
             }
         }
+
+        public int? GetAkademikId(string noPendaftaran, string kategoriSoal)
+        {
+            string jalurPendaftaran = GetJalurPendaftaran(noPendaftaran);
+            string sqlQuery = $"SELECT Soal{kategoriSoal}{jalurPendaftaran} FROM Pengaturan Id = 1";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var soalId = connection.QuerySingle<int>(sql: sqlQuery);
+                return soalId;
+            }
+        }
+
+        public int? GetWawancaraId(string noPendaftaran, string targetSoal)
+        {
+            string jalurPendaftaran = GetJalurPendaftaran(noPendaftaran);
+            string sqlQuery = $"SELECT SoalWawancara{targetSoal}{jalurPendaftaran} FROM Pengaturan Id = 1";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var soalId = connection.QuerySingle<int>(sql: sqlQuery);
+                return soalId;
+            }
+        }
+
+        private string GetJalurPendaftaran(string noPendaftaran)
+        {
+            string sqlQuery = $"SELECT JalurPendaftaran FROM AkunPendaftaran NoPendaftaran = @NoPendaftaran";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var jalurPendaftaran = connection.QuerySingle<string>(sql: sqlQuery, param: new { NoPendaftaran = noPendaftaran });
+                return jalurPendaftaran;
+            }
+        }
     }
 }

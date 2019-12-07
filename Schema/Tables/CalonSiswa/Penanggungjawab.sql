@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[Penanggungjawab]
 (
-	CalonSiswaId INT,
-	Sebagai VARCHAR(5) NULL,
-	NamaLengkap VARCHAR(50) NULL,
+	CalonSiswaId INT NOT NULL,
+	Sebagai VARCHAR(5) NOT NULL,
+	NamaLengkap VARCHAR(50) NOT NULL,
 	TempatLahir VARCHAR(20) NULL,
 	TanggalLahir DATE NULL,
 	Alamat VARCHAR(100) NULL,

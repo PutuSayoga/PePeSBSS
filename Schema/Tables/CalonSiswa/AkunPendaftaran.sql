@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[AkunPendaftaran]
 (
 	Id INT IDENTITY(1,1),
-	CalonSiswaId INT,
+	CalonSiswaId INT NOT NULL,
 	NoPendaftaran CHAR(6) NOT NULL,
 	Password VARCHAR(64) NOT NULL,
 	JalurPendaftaran VARCHAR(20) NOT NULL,

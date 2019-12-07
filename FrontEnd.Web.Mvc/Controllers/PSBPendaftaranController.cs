@@ -13,10 +13,10 @@ namespace FrontEnd.Web.Mvc.Controllers
     [Authorize(Roles = "PSB Pendaftaran, Admin")]
     public class PsbPendaftaranController : Controller
     {
-        private IPendaftaran _calonSiswaService;
-        public PsbPendaftaranController(IPendaftaran calonSiswaService)
+        private IPendaftaran _pendaftaranService;
+        public PsbPendaftaranController(IPendaftaran pendaftaranService)
         {
-            _calonSiswaService = calonSiswaService;
+            _pendaftaranService = pendaftaranService;
         }
 
         public IActionResult Index()
@@ -36,7 +36,7 @@ namespace FrontEnd.Web.Mvc.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Pesan = $"Gagal menambah akun\nData tidak valid";
+                ViewBag.Pesan = $"Gagal menambah akun, Data tidak valid";
                 return View();
             }
             else
@@ -52,15 +52,15 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Nisn = model.Nisn
                     }
                 };
-                int akunId = _calonSiswaService.AddNewAkunPendaftaran(newAkun);
-
+                string noPendaftaran = _pendaftaranService.AddNewAkunPendaftaran(newAkun);
+                int akunId = _pendaftaranService.GetAkunPendaftaranId(noPendaftaran);
                 return RedirectToAction(nameof(BuktiPendaftaran), new { id = akunId });
             }
         }
 
         public IActionResult ListDaftarBaru()
         {
-            var listAkun = _calonSiswaService.GetAllAkunPendaftaran();
+            var listAkun = _pendaftaranService.GetAllAkunPendaftaran();
             var model = new ListDaftarBaruModel()
             {
                 ListAkun = listAkun.Select(x => new AkunDaftarBaru()
@@ -79,7 +79,7 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult BuktiPendaftaran(int id)
         {
-            var detailAkun = _calonSiswaService.GetAkunPendaftaran(id);
+            var detailAkun = _pendaftaranService.GetAkunPendaftaran(id);
             var model = new BuktiPendaftaranModel()
             {
                 Id = detailAkun.Id,
@@ -97,17 +97,22 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             if (noPendaftaran != null)
             {
-                int id = _calonSiswaService.GetIdAkunPendaftaran(noPendaftaran);
-                var akun = _calonSiswaService.GetAkunPendaftaran(id);
-                var model = new DaftarUlangModel()
+                int id = _pendaftaranService.GetAkunPendaftaranId(noPendaftaran);
+                var akun = _pendaftaranService.GetAkunPendaftaran(id);
+                if (akun != null)
                 {
-                    Id = akun.Id,
-                    JalurPendaftaran = akun.JalurPendaftaran,
-                    NamaLengkap = akun.ACalonSiswa.NamaLengkap,
-                    NoPendaftaran = akun.NoPendaftaran,
-                    Status = akun.Status
-                };
-                return View(model);
+                    var model = new DaftarUlangModel()
+                    {
+                        Id = akun.Id,
+                        JalurPendaftaran = akun.JalurPendaftaran,
+                        NamaLengkap = akun.ACalonSiswa.NamaLengkap,
+                        NoPendaftaran = akun.NoPendaftaran,
+                        Status = akun.Status
+                    };
+                    return View(model);
+                }
+
+                ViewBag.Pesan = "Nomor Pendaftaran tidak ada";
             }
 
             return View();
@@ -116,14 +121,14 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpPost]
         public IActionResult DaftarUlang(int id)
         {
-            _calonSiswaService.ReRegist(id);
+            _pendaftaranService.ReRegist(id);
 
             return View(null);
         }
 
         public IActionResult ListDaftarUlang()
         {
-            var listAkun = _calonSiswaService.GetAllDaftarUlang();
+            var listAkun = _pendaftaranService.GetAllDaftarUlang();
             var model = new ListDaftarUlangModel()
             {
                 ListDaftarUlang = listAkun.Select(x => new AkunDaftarUlang()

@@ -8,7 +8,8 @@ namespace BackEnd.Abstraction
     public interface ISiswa
     {
         List<Siswa> GetAllSiswa();
-        void AddSiswa(Siswa newSiswa);
-        Siswa CreateNewSiswa(int calonSiswaId);
+        void CreateMutasiKeluar(MutasiKeluar mutasi);
+        MutasiKeluar GetMutasiKeluar(int id);
+        int GetSiswaId(string nis);
     }
 }
