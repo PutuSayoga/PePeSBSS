@@ -74,7 +74,7 @@
                                 <td class="text-center">
                                     @if (akun.Status.Equals("Lolos"))
                                     {
-                                        <form>
+                                        <form asp-controller="TataUsaha" asp-action="DaftarUlangMutasi" asp-route-id="@akun.Id">
                                             <button class="btn btn-primary">Daftar Ulang</button>
                                         </form>
                                     }
@@ -101,7 +101,7 @@
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <form asp-controller="TataUsaha" asp-action="DaftarBaruAkunMutasi" method="post">
+                <form asp-controller="TataUsaha" asp-action="DaftarBaruMutasiMasuk" method="post">
                     <div class="form-group">
                         <label asp-for="MutasiMasuk.NamaLengkap" class="col-form-label"></label>
                         <span class="text-danger">*</span>

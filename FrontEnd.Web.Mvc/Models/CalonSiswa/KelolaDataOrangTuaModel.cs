@@ -12,7 +12,7 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
         [Display(Name = "Tempat Lahir", Prompt = "Masukkan tempat lahir Ayah")]
         public string TempatLahirAyah { get; set; }
         [Required(ErrorMessage = "Tanggal lahir tidak boleh kosong")]
-        [Display(Name = "Tanggal Lahir", Prompt = "Masukkan tanggal lahir ayar")]
+        [Display(Name = "Tanggal Lahir", Prompt = "Masukkan tanggal lahir Ayah")]
         [DataType(DataType.Date)]
         public DateTime? TanggalLahirAyah { get; set; }
         [Required(ErrorMessage = "Alamat Ayah tidak boleh kosong")]
@@ -52,7 +52,7 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
         [Display(Name = "Tempat Lahir", Prompt = "Masukkan tempat lahir Ibu")]
         public string TempatLahirIbu { get; set; }
         [Required(ErrorMessage = "Tanggal lahir tidak boleh kosong")]
-        [Display(Name = "Tanggal Lahir", Prompt = "Masukkan tanggal lahir ayar")]
+        [Display(Name = "Tanggal Lahir", Prompt = "Masukkan tanggal lahir Ibu")]
         [DataType(DataType.Date)]
         public DateTime? TanggalLahirIbu { get; set; }
         [Required(ErrorMessage = "Alamat Ibu tidak boleh kosong")]
@@ -89,7 +89,7 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
         public string NamaLengkapWali { get; set; }
         [Display(Name = "Tempat Lahir", Prompt = "Masukkan tempat lahir Wali")]
         public string TempatLahirWali { get; set; }
-        [Display(Name = "Tanggal Lahir", Prompt = "Masukkan tanggal lahir ayar")]
+        [Display(Name = "Tanggal Lahir", Prompt = "Masukkan tanggal lahir Wali")]
         [DataType(DataType.Date)]
         public DateTime? TanggalLahirWali { get; set; }
         [Display(Name = "Alamat", Prompt = "Masukkan alamat rumah Wali")]

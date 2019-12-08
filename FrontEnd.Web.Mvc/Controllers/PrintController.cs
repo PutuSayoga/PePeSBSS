@@ -12,19 +12,19 @@ namespace FrontEnd.Web.Mvc.Controllers
     [Authorize]
     public class PrintController:Controller
     {
-        private IPendaftaran _calonSiswaService;
-        public PrintController(IPendaftaran calonSiswaService)
+        private IPendaftaran _pendaftaranService;
+        public PrintController(IPendaftaran pendaftaranService)
         {
-            _calonSiswaService = calonSiswaService;
+            _pendaftaranService = pendaftaranService;
         }
 
         public IActionResult BuktiPendaftaran(int id)
         {
-            var detailAkun = _calonSiswaService.GetAkunPendaftaran(id);
+            var detailAkun = _pendaftaranService.GetAkunPendaftaran(id);
             var model = new BuktiPendaftaranModel()
             {
                 NoPendaftaran = detailAkun.NoPendaftaran,
-                NamaLengkap = detailAkun.ACalonSiswa.NamaLengkap,
+                NamaLengkap = detailAkun.CalonSiswa.NamaLengkap,
                 JalurPendaftaran = detailAkun.JalurPendaftaran,
                 Password = detailAkun.Password,
                 JadwalTes = detailAkun.JadwalTes

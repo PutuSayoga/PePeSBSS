@@ -88,4 +88,7 @@
   <ItemGroup>
     <None Include="Schema.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="Schema.refactorlog" />
+  </ItemGroup>
 </Project>

@@ -12,42 +12,33 @@
                         Berikut merupakan Tes yang harus dijawab calon siswa.<br />
                         Klik tombol dibawauh untuk memulai Tes.
                     </p>
-                    @if (ViewBag.SoalIdMipa != null)
-                    {
-                        <hr />
-                        <div class="mb-4">
-                            <h4>Matematika & Ilmu Pengetahuan Alam</h4>
-                            <a asp-controller="Ujian" asp-action="SeleksiAkademik" asp-route-soalId="@ViewBag.SoalIdMipa"
-                               class="btn btn-primary btn-icon-split">
-                                <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
-                                <span class="text text-white">Mulai Tes MIPA</span>
-                            </a>
-                        </div>
-                    }
-                    @if (ViewBag.SoalIdIps != null)
-                    {
-                        <hr />
-                        <div class="mb-4">
-                            <h4>Ilmu Pengetahuan Sosial</h4>
-                            <a asp-controller="Ujian" asp-action="SeleksiAkademik" asp-route-soalId="@ViewBag.SoalIdIps"
-                               class="btn btn-primary btn-icon-split">
-                                <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
-                                <span class="text text-white">Mulai Tes IPS</span>
-                            </a>
-                        </div>
-                    }
-                    @if (ViewBag.SoalIdTpa != null)
-                    {
-                        <hr />
-                        <div class="mb-4">
-                            <h4>Tes Potensi Akademik</h4>
-                            <a asp-controller="Ujian" asp-action="SeleksiAkademik" asp-route-soalId="@ViewBag.SoalIdTpa"
-                               class="btn btn-primary btn-icon-split">
-                                <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
-                                <span class="text text-white">Mulai Tes TPA</span>
-                            </a>
-                        </div>
-                    }
+                    <hr />
+                    <div class="mb-4">
+                        <h4>Matematika & Ilmu Pengetahuan Alam</h4>
+                        <a asp-controller="Ujian" asp-action="PendahuluanUjian" asp-route-kategori="Mipa"
+                           class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
+                            <span class="text text-white">Mulai Tes MIPA</span>
+                        </a>
+                    </div>
+                    <hr />
+                    <div class="mb-4">
+                        <h4>Ilmu Pengetahuan Sosial</h4>
+                        <a asp-controller="Ujian" asp-action="PendahuluanUjian" asp-route-kategori="Ips"
+                           class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
+                            <span class="text text-white">Mulai Tes IPS</span>
+                        </a>
+                    </div>
+                    <hr />
+                    <div class="mb-4">
+                        <h4>Tes Potensi Akademik</h4>
+                        <a asp-controller="Ujian" asp-action="PendahuluanUjian" asp-route-kategori="Tpa"
+                           class="btn btn-primary btn-icon-split">
+                            <span class="icon text-white"><i class="fas fa-pencil-alt"></i></span>
+                            <span class="text text-white">Mulai Tes TPA</span>
+                        </a>
+                    </div>
                     <hr />
                     <div class="mb-3">
                         <h5>Terimakasih telah mengikuti seleksi penerimaan siswa SMA Brawijaya Smart School</h5>

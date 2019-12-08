@@ -45,15 +45,14 @@ namespace FrontEnd.Web.Mvc.Controllers
                 {
                     JalurPendaftaran = model.JalurPendaftaran,
                     JadwalTes = model.JadwalTes,
-                    ACalonSiswa = new CalonSiswa()
+                    CalonSiswa = new CalonSiswa()
                     {
                         Nik = model.Nik,
                         NamaLengkap = model.NamaLengkap,
                         Nisn = model.Nisn
                     }
                 };
-                string noPendaftaran = _pendaftaranService.AddNewAkunPendaftaran(newAkun);
-                int akunId = _pendaftaranService.GetAkunPendaftaranId(noPendaftaran);
+                int akunId = _pendaftaranService.AddNewAkunPendaftaran(newAkun);
                 return RedirectToAction(nameof(BuktiPendaftaran), new { id = akunId });
             }
         }
@@ -67,7 +66,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 {
                     Id = x.Id,
                     JalurPendaftaran = x.JalurPendaftaran,
-                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
                     NoPendaftaran = x.NoPendaftaran,
                     Status = x.Status
                 })
@@ -84,7 +83,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 Id = detailAkun.Id,
                 NoPendaftaran = detailAkun.NoPendaftaran,
-                NamaLengkap = detailAkun.ACalonSiswa.NamaLengkap,
+                NamaLengkap = detailAkun.CalonSiswa.NamaLengkap,
                 JalurPendaftaran = detailAkun.JalurPendaftaran,
                 Password = detailAkun.Password,
                 JadwalTes = detailAkun.JadwalTes
@@ -97,15 +96,14 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             if (noPendaftaran != null)
             {
-                int id = _pendaftaranService.GetAkunPendaftaranId(noPendaftaran);
-                var akun = _pendaftaranService.GetAkunPendaftaran(id);
+                var akun = _pendaftaranService.SearchAkunPendaftaran(noPendaftaran);
                 if (akun != null)
                 {
                     var model = new DaftarUlangModel()
                     {
                         Id = akun.Id,
                         JalurPendaftaran = akun.JalurPendaftaran,
-                        NamaLengkap = akun.ACalonSiswa.NamaLengkap,
+                        NamaLengkap = akun.CalonSiswa.NamaLengkap,
                         NoPendaftaran = akun.NoPendaftaran,
                         Status = akun.Status
                     };
@@ -135,9 +133,9 @@ namespace FrontEnd.Web.Mvc.Controllers
                 {
                     Id = x.Id,
                     NoPendaftaran = x.NoPendaftaran,
-                    AsalSekolah = x.ACalonSiswa.AAkademikTerakhir.NamaSekolah,
+                    AsalSekolah = x.CalonSiswa.AkademikTerakhir.NamaSekolah,
                     JalurPendaftaran = x.JalurPendaftaran,
-                    NamaLengkap = x.ACalonSiswa.NamaLengkap
+                    NamaLengkap = x.CalonSiswa.NamaLengkap
                 })
                 .ToList()
             };

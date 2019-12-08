@@ -4,7 +4,7 @@
 	PertanyaanId INT NULL,
 	AkunPendaftaranId INT NULL,
 	Jawaban VARCHAR(255) NULL,
-	Nilai BIT DEFAULT 0 NULL,
+	IsCorrect BIT NULL,
 	CONSTRAINT [FK_HasilTesToPertanyaan]
 		FOREIGN KEY (SoalId, PertanyaanId) REFERENCES Pertanyaan(SoalId, Id),
 	CONSTRAINT [FK_HasilTesToAkunPendaftaran]

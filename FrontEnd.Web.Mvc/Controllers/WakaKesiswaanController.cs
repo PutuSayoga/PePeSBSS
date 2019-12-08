@@ -22,6 +22,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             return View();
         }
+        [HttpGet]
         public IActionResult SeleksiMutasiMasuk()
         {
             var akun = _seleksiPenerimaanService.GetAllWithJalur("Mutasi");
@@ -32,21 +33,22 @@ namespace FrontEnd.Web.Mvc.Controllers
                     Id = x.Id,
                     NoPendaftaran = x.NoPendaftaran,
                     JalurPendaftaran = x.JalurPendaftaran,
-                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
-                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa,
-                    NilaiIps = x.ARekapTesAkademik.NilaiIps,
-                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
+                    NilaiMipa = x.RangkumanTesAkademik.NilaiMipa,
+                    NilaiIps = x.RangkumanTesAkademik.NilaiIps,
+                    NilaiTpa = x.RangkumanTesAkademik.NilaiTpa,
+                    SkorAkhir = x.RangkumanTesAkademik.NilaiAkhir
                 }).ToList()
             };
-            model.ListAkun.Select(x =>
-            {
-                x.Keterangan = x.SkorAkhir > 70 ? true : false;
-                return x;
-            });
 
             return View(model);
         }
-
+        [HttpPost]
+        public IActionResult SeleksiMutasiMasuk(int id, bool isLolos)
+        {
+            _seleksiPenerimaanService.UpdateSelection(id, isLolos);
+            return RedirectToAction(nameof(SeleksiMutasiMasuk));
+        }
         public IActionResult KelolaKelas()
         {
             return View();

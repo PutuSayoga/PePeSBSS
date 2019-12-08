@@ -1,11 +1,13 @@
 ﻿using BackEnd.Abstraction;
 using BackEnd.Domains;
+using FrontEnd.Web.Mvc.Models.Admin;
 using FrontEnd.Web.Mvc.Models.Ujian;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
@@ -15,48 +17,99 @@ namespace FrontEnd.Web.Mvc.Controllers
     public class UjianController : Controller
     {
         ISoalPenerimaan _soalPenerimaanService;
-        IUjian _tesPenermaanService;
-        IPendaftaran _pendaftaranService;
-        public UjianController(ISoalPenerimaan soalPenerimaanService, IUjian tesPenerimaanService, IPendaftaran pendaftaranService)
+        IUjian _ujianService;
+        public UjianController(ISoalPenerimaan soalPenerimaanService, IUjian ujianService)
         {
-            _tesPenermaanService = tesPenerimaanService;
+            _ujianService = ujianService;
             _soalPenerimaanService = soalPenerimaanService;
-            _pendaftaranService = pendaftaranService;
         }
         public IActionResult Index()
         {
-            var daftarSoal = _tesPenermaanService.GetSoalIdPengerjaan(User.Identity.Name).ToList();
-            // Mipa, Ips, Tpa
-            ViewBag.SoalIdMipa = daftarSoal[0];
-            ViewBag.SoalIdIps = daftarSoal[1];
-            ViewBag.SoalIdTpa = daftarSoal[2];
+            return View();
+        }
 
+        public IActionResult MulaiMengerjakan(int soalId)
+        {
+            int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            _ujianService.StartUjian(akunId, soalId);
+            return RedirectToAction(nameof(JawabSoalAkademik), new { soalId });
+        }
+        public IActionResult PendahuluanUjian(string kategori)
+        {
+            int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            int soalPengerjaanId = _ujianService.GetSoalPengerjaanAkademikId(User.Identity.Name, kategori);
+            bool? isDone = _ujianService.IsDone(akunId, soalPengerjaanId);
+            if (isDone == null)
+            {
+                var soal = _soalPenerimaanService.GetSimpleSoal(soalPengerjaanId);
+                var model = new CrudSoalAkademik()
+                {
+                    BatasWaktu = soal.BatasWaktu,
+                    Deskripsi = soal.Deskripsi,
+                    Id = soal.Id,
+                    Judul = soal.Judul,
+                    JumlahPertanyaan = soal.JumlahPertanyaan,
+                    Kategori = soal.Kategori
+                };
+                return View(model);
+            }
+            else if ((bool)isDone)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction(nameof(JawabSoalAkademik), new { soalId = soalPengerjaanId });
+            }
+        }
+        public IActionResult SelesaiUjianAkademik()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult SelesaiUjianAkademik(JawabSoalAkademikModel model)
+        {
+            int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var jawaban = new HasilTes()
+            {
+                AkunPendaftaranId = akunId,
+                SoalId = model.SoalId,
+                PertanyaanId = model.PertanyaanId,
+                Jawaban = model.JawabanCalonSiswa
+            };
+            _ujianService.SaveAnswer(jawaban);
+            _ujianService.FinishUjian(akunId, model.SoalId);
             return View();
         }
         [HttpGet]
-        public IActionResult JawabSoalAkademik(int soalId, int qid)
+        public IActionResult JawabSoalAkademik(int soalId, int? qid)
         {
-            int akunPendaftaranId = _pendaftaranService.GetAkunPendaftaranId(User.Identity.Name);
-            var detailUjian = _tesPenermaanService.StartTest(akunPendaftaranId, soalId);
-            if (detailUjian.WaktuBerakhir < DateTime.Now)
+            int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            bool? isDone = _ujianService.IsDone(akunId, soalId);
+            if (isDone == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
-            var soal = _soalPenerimaanService.GetDetailSoal(soalId);
-            var listPertanyaan = soal.PertanyaanS.Select(x => x.Id).ToArray();
-            var index = Array.FindIndex(listPertanyaan, x => x == qid);
-
-            if (qid == 0)
+            else if ((bool)isDone)
             {
-                return RedirectToAction("JawabSoalAkademik", new { soalId, qid = listPertanyaan[0] });
+                return RedirectToAction(nameof(SelesaiUjianAkademik));
             }
-
-            var pertanyaan = _soalPenerimaanService.GetPertanyaan(qid, soalId);
-            var model = new JawabSoalAkademikModel()
+            else
             {
-                BatasWaktu = detailUjian.WaktuBerakhir,
-                Pertanyaan = new PertanyaanTest()
+                var detailUjian = _ujianService.GetUjian(akunId, soalId);
+                var listPertanyaan = _soalPenerimaanService.GetDetailSoal(soalId).ListPertanyaan.ToList();
+                int pertanyaanIndex;
+                if (qid == null)
+                    pertanyaanIndex = 0;
+                else
+                    pertanyaanIndex = listPertanyaan.FindIndex(x => x.Id == qid);
+
+                var pertanyaan = listPertanyaan[pertanyaanIndex];
+                var model = new JawabSoalAkademikModel()
                 {
+                    NoPertanyaan = pertanyaanIndex + 1,
+                    MapPertanyaan = listPertanyaan.Select(x => x.Id).ToList(),
+                    BatasWaktu = detailUjian.WaktuBerakhir,
                     PertanyaanId = pertanyaan.Id,
                     SoalId = pertanyaan.SoalId,
                     OpsiA = pertanyaan.OpsiA,
@@ -64,29 +117,30 @@ namespace FrontEnd.Web.Mvc.Controllers
                     OpsiC = pertanyaan.OpsiC,
                     OpsiD = pertanyaan.OpsiD,
                     OpsiE = pertanyaan.OpsiE,
-                    Pertanyaan = pertanyaan.Isi
-                },
-                NextId = index + 1 < listPertanyaan.Length ? listPertanyaan[index + 1] : -1,
-                PrevId = index - 1 > -1 ? listPertanyaan[index - 1] : -1,
-            };
-            return View(model);
+                    Pertanyaan = pertanyaan.Isi,
+                    NextId = (pertanyaanIndex + 1) < listPertanyaan.Count ? listPertanyaan[pertanyaanIndex + 1].Id : -1,
+                    PrevId = (pertanyaanIndex - 1) > -1 ? listPertanyaan[pertanyaanIndex - 1].Id : -1,
+                    JawabanCalonSiswa = _ujianService.GetAnswer(akunId, soalId, pertanyaan.Id)
+                };
+                return View(model);
+            }
         }
-
         [HttpPost]
         public IActionResult JawabSoalAkademik(JawabSoalAkademikModel model)
         {
-            string noPendaftaran = User.Identity.Name;
-            //var listJawaban = model.ListPertanyaan.Select(x => new HasilTes()
-            //{
-            //    PertanyaanId = x.PertanyaanId,
-            //    SoalId = x.SoalId,
-            //    Jawaban = x.JawabanCalonSiswa
-            //});
-            //_tesPenermaanService.Submit(listJawaban, noPendaftaran);
-            return RedirectToAction(nameof(Index));
+            int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var jawaban = new HasilTes()
+            {
+                AkunPendaftaranId = akunId,
+                SoalId = model.SoalId,
+                PertanyaanId = model.PertanyaanId,
+                Jawaban = model.JawabanCalonSiswa
+            };
+            _ujianService.SaveAnswer(jawaban);
+            return RedirectToAction("JawabSoalAkademik", "Ujian", new { soalId = model.SoalId, qid = model.Tujuan });
         }
 
-        [Authorize(Roles =("Waka Kesiswaan, Psb Tes"))]
+        [Authorize(Roles = ("Waka Kesiswaan, Psb Tes"))]
         public IActionResult SeleksiWawancara(string noPendaftaran, string target)
         {
             var soal = _soalPenerimaanService.GetDetailSoal(13);
@@ -94,7 +148,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 JudulSoal = soal.Judul,
                 Target = soal.Target,
-                ListPertanyaan = soal.PertanyaanS.Select(x => new PertanyaanWawancaraTest()
+                ListPertanyaan = soal.ListPertanyaan.Select(x => new PertanyaanWawancaraTest()
                 {
                     PertanyaanId = x.Id,
                     SoalId = x.SoalId,
@@ -102,10 +156,6 @@ namespace FrontEnd.Web.Mvc.Controllers
                 }).ToList()
             };
             return View(model);
-        }
-        public IActionResult Peraturan()
-        {
-            return View();
         }
     }
 }

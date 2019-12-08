@@ -19,6 +19,42 @@ namespace BackEnd.Services
             _securityRelateHelper = securityRelateHelper;
         }
 
+        #region Not Interface Implementation
+        public int GetCalonSiswaId(string noPendaftaran)
+        {
+            string sqlQuery = @"SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                int calonSiswaId = connection.QueryFirstOrDefault<int>(sql: sqlQuery, param: new { NoPendaftaran = noPendaftaran });
+
+                return calonSiswaId;
+            }
+        }
+        public bool CekExist(int calonSiswaId, string table, string additionalValue = "")
+        {
+            bool exist;
+            string sqlQuery;
+            if (additionalValue.Equals(string.Empty))
+            {
+                sqlQuery = $"SELECT 1 FROM {table} WHERE CalonSiswaId = @CalonSiswaId";
+            }
+            else
+            {
+                sqlQuery = $"SELECT 1 FROM {table} WHERE CalonSiswaId = @CalonSiswaId AND Sebagai = @Sebagai";
+
+            }
+
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                exist = connection.QueryFirstOrDefault<bool>(sql: sqlQuery, param: new { CalonSiswaId = calonSiswaId, Sebagai = additionalValue });
+
+                return exist;
+            }
+        }
+        #endregion
+
         public AkunPendaftaran CekStatus(string noPendaftaran)
         {
             string sqlQuery = @"SELECT Status FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
@@ -47,8 +83,8 @@ namespace BackEnd.Services
                     sql: sqlQuery,
                     map: (ap, cs, at) =>
                     {
-                        ap.ACalonSiswa = cs;
-                        cs.AAkademikTerakhir = at;
+                        ap.CalonSiswa = cs;
+                        cs.AkademikTerakhir = at;
                         return ap;
                     },
                     splitOn: "Id, CalonSiswaId",
@@ -70,8 +106,8 @@ namespace BackEnd.Services
                     sql: sqlQuery,
                     map: (ap, cs, dd) =>
                     {
-                        ap.ACalonSiswa = cs;
-                        cs.ADataDiri = dd;
+                        ap.CalonSiswa = cs;
+                        cs.DataDiri = dd;
                         return ap;
                     },
                     splitOn: "Id, CalonSiswaId",
@@ -95,11 +131,11 @@ namespace BackEnd.Services
                     var akun = multiResult.Read<AkunPendaftaran, CalonSiswa, AkunPendaftaran>(
                         (ap, cs) =>
                         {
-                            ap.ACalonSiswa = cs;
+                            ap.CalonSiswa = cs;
                             return ap;
                         },
                         splitOn: "Id").First();
-                    akun.ACalonSiswa.PenanggungjawabS = multiResult.Read<Penanggungjawab>().ToList();
+                    akun.CalonSiswa.ListPenanggungjawab = multiResult.Read<Penanggungjawab>().ToList();
 
                     return akun;
                 }
@@ -118,8 +154,8 @@ namespace BackEnd.Services
                     sql: sqlQuery,
                     map: (ap, cs, p) =>
                     {
-                        ap.ACalonSiswa = cs;
-                        cs.APenunjang = p;
+                        ap.CalonSiswa = cs;
+                        cs.Penunjang = p;
                         return ap;
                     },
                     splitOn: "Id, CalonSiswaId",
@@ -141,8 +177,8 @@ namespace BackEnd.Services
                     sql: sqlQuery,
                     map: (ap, cs, p) =>
                     {
-                        ap.ACalonSiswa = cs;
-                        cs.APrestasi = p;
+                        ap.CalonSiswa = cs;
+                        cs.Prestasi = p;
                         return ap;
                     },
                     splitOn: "Id, CalonSiswaId",
@@ -166,11 +202,11 @@ namespace BackEnd.Services
                     var akun = multiResult.Read<AkunPendaftaran, CalonSiswa, AkunPendaftaran>(
                         (ap, cs) =>
                         {
-                            ap.ACalonSiswa = cs;
+                            ap.CalonSiswa = cs;
                             return ap;
                         },
                         splitOn: "Id").First();
-                    akun.ACalonSiswa.RaporS = multiResult.Read<Rapor>().ToList();
+                    akun.CalonSiswa.ListNilaiRapor = multiResult.Read<Rapor>().ToList();
 
                     return akun;
                 }
@@ -189,41 +225,6 @@ namespace BackEnd.Services
                     sql: sqlQuery,
                     param: new { NoPendaftaran = noPendaftaran, Password = password });
                 return result != null;
-            }
-        }
-
-        private int GetCalonSiswaId(string noPendaftaran)
-        {
-            string sqlQuery = @"SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
-            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                int calonSiswaId = connection.QueryFirstOrDefault<int>(sql: sqlQuery, param: new { NoPendaftaran = noPendaftaran });
-
-                return calonSiswaId;
-            }
-        }
-
-        private bool CekExist(int calonSiswaId, string table, string additionalValue = "")
-        {
-            bool exist;
-            string sqlQuery;
-            if (additionalValue.Equals(string.Empty))
-            {
-                sqlQuery = $"SELECT 1 FROM {table} WHERE CalonSiswaId = @CalonSiswaId";
-                            }
-            else
-            {
-                sqlQuery = $"SELECT 1 FROM {table} WHERE CalonSiswaId = @CalonSiswaId AND Sebagai = @Sebagai";
-
-            }
-
-            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                exist = connection.QueryFirstOrDefault<bool>(sql: sqlQuery, param: new { CalonSiswaId = calonSiswaId, Sebagai = additionalValue });
-
-                return exist;
             }
         }
 

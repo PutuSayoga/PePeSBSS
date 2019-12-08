@@ -12,6 +12,6 @@ namespace BackEnd.Domains
         public byte? MaxSiswa { get; set; }
         public byte? JumlahSiswa { get; set; }
 
-        public ICollection<Siswa> SiswaS { get; set; }
+        public List<Siswa> ListSiswa { get; set; }
     }
 }

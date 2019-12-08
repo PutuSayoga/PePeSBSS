@@ -22,7 +22,6 @@ namespace BackEnd.Abstraction
         void UpdatePertanyaan(Pertanyaan newData);
 
         Pengaturan GetPengaturanSoal();
-
         void SavePengaturanSoal(Pengaturan pengaturan);
     }
 }

@@ -21,14 +21,19 @@
         <div class="alert alert-primary text-primary" style="font-size:xx-large">Terimakasih anda telah terdaftar</div>
         <a class="alert alert-warning text-warning">Anda teah terdaftar di SMA Brawijaya Smart School</a>
     }
-    else
+    else if (Model.Status.Equals("Sudah Ujian"))
     {
         <div class="alert alert-info text-info mb-5" style="font-size:xx-large">Hasil sedang diproses</div>
         <a class="alert alert-warning text-warning">Silahkan tunggu beberapa saat lagi</a>
     }
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
+    else if (Model.Status.Equals("Daftar Baru"))
+    {
+        <div class="alert alert-secondary text-secondary mb-5" style="font-size:xx-large">Belum melaksanakan ujian seleksi</div>
+        <a class="alert alert-warning text-warning">Tanggal ujian anda: @Model.TanggalUjian</a>
+    }
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />

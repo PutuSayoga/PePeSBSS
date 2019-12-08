@@ -12,8 +12,8 @@ namespace BackEnd.Domains
         public string Nis { get; set; }
         public string Status { get; set; }
 
-        public Kelas AKelas { get; set; }
-        public CalonSiswa ACalonSiswa { get; set; }
-        public MutasiKeluar AMutasiKeluar { get; set; }
+        public Kelas Kelas { get; set; }
+        public CalonSiswa CalonSiswa { get; set; }
+        public MutasiKeluar MutasiKeluar { get; set; }
     }
 }

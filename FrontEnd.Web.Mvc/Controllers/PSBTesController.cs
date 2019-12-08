@@ -23,6 +23,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult SeleksiJalurKhusus()
         {
             var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Khusus");
@@ -33,18 +34,21 @@ namespace FrontEnd.Web.Mvc.Controllers
                     Id = x.Id,
                     NoPendaftaran = x.NoPendaftaran,
                     JalurPendaftaran = x.JalurPendaftaran,
-                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
-                    NilaiIps = x.ARekapTesAkademik.NilaiIps,
-                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa,
-                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
+                    NilaiIps = x.RangkumanTesAkademik.NilaiIps,
+                    NilaiTpa = x.RangkumanTesAkademik.NilaiTpa,
+                    NilaiMipa = x.RangkumanTesAkademik.NilaiMipa,
+                    SkorAkhir = x.RangkumanTesAkademik.NilaiAkhir
                 }).ToList()
             };
-            foreach(var item in model.ListAkun)
-            {
-                item.Keterangan = item.SkorAkhir > 70.0 ? true : false;
-            }
 
             return View(model);
+        }
+        [HttpPost]
+        public IActionResult SeleksiJalurKhusus(int id, bool isLolos)
+        {
+            _seleksiPenerimaanService.UpdateSelection(id, isLolos);
+            return RedirectToAction(nameof(SeleksiJalurKhusus));
         }
         public IActionResult SeleksiJalurReguler()
         {
@@ -56,10 +60,10 @@ namespace FrontEnd.Web.Mvc.Controllers
                     Id = x.Id,
                     NoPendaftaran = x.NoPendaftaran,
                     JalurPendaftaran = x.JalurPendaftaran,
-                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
-                    NilaiMipa = x.ARekapTesAkademik.NilaiMipa,
-                    NilaiIps = x.ARekapTesAkademik.NilaiIps,
-                    NilaiTpa = x.ARekapTesAkademik.NilaiTpa
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
+                    NilaiMipa = x.RangkumanTesAkademik.NilaiMipa,
+                    NilaiIps = x.RangkumanTesAkademik.NilaiIps,
+                    NilaiTpa = x.RangkumanTesAkademik.NilaiTpa
                 })
                 .OrderByDescending(x => x.SkorAkhir)
                 .ToList()
@@ -75,7 +79,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 ListAkun = akun.Select(x => new AkunSeleksi()
                 {
                     Id = x.Id,
-                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NoPendaftaran = x.NoPendaftaran
                 }).ToList()
@@ -90,22 +94,12 @@ namespace FrontEnd.Web.Mvc.Controllers
                 ListAkun = akun.Select(x => new AkunSeleksi()
                 {
                     Id = x.Id,
-                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NoPendaftaran = x.NoPendaftaran
                 }).ToList()
             };
             return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult SeleksiNonReguler(int id, string jalur, bool isLolos)
-        {
-            _seleksiPenerimaanService.SelectionNonReguler(id, isLolos);
-            if (jalur.Equals("Khusus"))
-                return RedirectToAction(nameof(SeleksiJalurKhusus));
-
-            return View();
         }
     }
 }

@@ -38,18 +38,10 @@ else
                         @foreach (var staff in Model.DaftarStaff)
                         {
                             <tr>
-                                <td>@staff.Nip        </td>
-                                <td>@staff.NamaLengkap</td>
-                                <td>@staff.Jabatan    </td>
-                                <td>
-                                    @if (staff.APanitia == null)
-                                    {
-                                        @: -
-                                    }
-                                    else
-                                    {
-                                        @: @staff.APanitia.Acara sie @staff.APanitia.Divisi
-                                    }
+                                <td>@staff.Nip         </td>
+                                <td>@staff.NamaLengkap </td>
+                                <td>@staff.Jabatan     </td>
+                                <td>@staff.PanitiaAcara</td>
                                 <td>
                                     <a asp-controller="Admin" asp-action="RincianStaff" asp-route-id="@staff.Id" class="btn btn-info">
                                         Rincian

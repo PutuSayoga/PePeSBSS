@@ -19,6 +19,20 @@ namespace BackEnd.Services
             _securityRelateHelper = securityRelateHelper;
         }
 
+        #region Not Interface Implementation
+        public bool IsExistInStaff(string column, string value)
+        {
+            string sqlQuery = $"SELECT {column} FROM Staff WHERE {column} = @Value";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                string result = connection.QueryFirstOrDefault<string>(sql: sqlQuery, param: new { Value = value });
+
+                return result != null;
+            }
+        }
+        #endregion
+
         public List<Staff> GetAllStaff()
         {
             string sqlQuery = @"SELECT * FROM Staff FULL JOIN Panitia ON Staff.Id = Panitia.StaffId";
@@ -31,7 +45,7 @@ namespace BackEnd.Services
                     sql: sqlQuery,
                     map: (staff, panitia) =>
                     {
-                        staff.APanitia = panitia;
+                        staff.Panitia = panitia;
                         return staff;
                     },
                     splitOn: "StaffId").Distinct()
@@ -92,7 +106,7 @@ namespace BackEnd.Services
                    sql: sqlQuery,
                    map: (staff, panitia) =>
                    {
-                       staff.APanitia = panitia;
+                       staff.Panitia = panitia;
                        return staff;
                    },
                    splitOn: "StaffId",
@@ -130,19 +144,6 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQuery, param: new { StaffId = staffId });
             }
         }
-
-        private bool IsExistInStaff(string column, string value)
-        {
-            string sqlQuery = $"SELECT {column} FROM Staff WHERE {column} = @Value";
-            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                string result = connection.QueryFirstOrDefault<string>(sql: sqlQuery, param: new { Value = value });
-
-                return result != null;
-            }
-        }
-
         public bool IsLogin(string username, string password, string role)
         {
             password = _securityRelateHelper.Encrypt(password);

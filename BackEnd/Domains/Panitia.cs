@@ -7,5 +7,7 @@ namespace BackEnd.Domains
         public int StaffId { get; set; }
         public string Acara { get; set; }
         public string Divisi { get; set; }
+
+        public Staff Staff { get; set; }
     }
 }

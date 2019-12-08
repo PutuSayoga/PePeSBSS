@@ -33,7 +33,8 @@ namespace FrontEnd.Web.Mvc.Controllers
             var akun = _calonSiswaService.CekStatus(User.Identity.Name);
             var model = new HasilSeleksiModel()
             {
-                Status = akun.Status
+                Status = akun.Status,
+                TanggalUjian = akun.JadwalTes
             };
             return View(model);
         }
@@ -45,35 +46,35 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 JalurPendaftaran = akun.JalurPendaftaran,
                 NoPendaftaran = akun.NoPendaftaran,
-                NamaLengkap = akun.ACalonSiswa.NamaLengkap
+                NamaLengkap = akun.CalonSiswa.NamaLengkap
             };
-            if (akun.ACalonSiswa.ADataDiri != null)
+            if (akun.CalonSiswa.DataDiri != null)
             {
-                model.Agama = akun.ACalonSiswa.ADataDiri.Agama;
-                model.Alamat = akun.ACalonSiswa.ADataDiri.Alamat;
-                model.AnakKe = akun.ACalonSiswa.ADataDiri.AnakKe;
-                model.BeratBadan = akun.ACalonSiswa.ADataDiri.BeratBadan;
-                model.CitaCita = akun.ACalonSiswa.ADataDiri.CitaCita;
-                model.DusunDesaLurah = akun.ACalonSiswa.ADataDiri.DusunDesaLurah;
-                model.Email = akun.ACalonSiswa.ADataDiri.Email;
-                model.GolDarah = akun.ACalonSiswa.ADataDiri.GolDarah;
-                model.Hobi = akun.ACalonSiswa.ADataDiri.Hobi;
-                model.IsPerempuan = akun.ACalonSiswa.ADataDiri.IsPerempuan;
-                model.JumlahSaudara = akun.ACalonSiswa.ADataDiri.JumlahSaudara;
-                model.Kecamatan = akun.ACalonSiswa.ADataDiri.Kecamatan;
-                model.KelainanJasmani = akun.ACalonSiswa.ADataDiri.KelainanJasmani;
-                model.KodePos = akun.ACalonSiswa.ADataDiri.KodePos;
-                model.KotaKabupaten = akun.ACalonSiswa.ADataDiri.KotaKabupaten;
-                model.NamaPanggilan = akun.ACalonSiswa.ADataDiri.NamaPanggilan;
-                model.NoHp = akun.ACalonSiswa.ADataDiri.NoHp;
-                model.NoTelp = akun.ACalonSiswa.ADataDiri.NoTelp;
-                model.RiwayatSakit = akun.ACalonSiswa.ADataDiri.RiwayatSakit;
-                model.Rt = akun.ACalonSiswa.ADataDiri.Rt;
-                model.Rw = akun.ACalonSiswa.ADataDiri.Rw;
-                model.StatusDalamKeluarga = akun.ACalonSiswa.ADataDiri.StatusDalamKeluarga;
-                model.TanggalLahir = akun.ACalonSiswa.ADataDiri.TanggalLahir;
-                model.TempatLahir = akun.ACalonSiswa.ADataDiri.TempatLahir;
-                model.TinggiBadan = akun.ACalonSiswa.ADataDiri.TinggiBadan;
+                model.Agama = akun.CalonSiswa.DataDiri.Agama;
+                model.Alamat = akun.CalonSiswa.DataDiri.Alamat;
+                model.AnakKe = akun.CalonSiswa.DataDiri.AnakKe;
+                model.BeratBadan = akun.CalonSiswa.DataDiri.BeratBadan;
+                model.CitaCita = akun.CalonSiswa.DataDiri.CitaCita;
+                model.DusunDesaLurah = akun.CalonSiswa.DataDiri.DusunDesaLurah;
+                model.Email = akun.CalonSiswa.DataDiri.Email;
+                model.GolDarah = akun.CalonSiswa.DataDiri.GolDarah;
+                model.Hobi = akun.CalonSiswa.DataDiri.Hobi;
+                model.IsPerempuan = akun.CalonSiswa.DataDiri.IsPerempuan;
+                model.JumlahSaudara = akun.CalonSiswa.DataDiri.JumlahSaudara;
+                model.Kecamatan = akun.CalonSiswa.DataDiri.Kecamatan;
+                model.KelainanJasmani = akun.CalonSiswa.DataDiri.KelainanJasmani;
+                model.KodePos = akun.CalonSiswa.DataDiri.KodePos;
+                model.KotaKabupaten = akun.CalonSiswa.DataDiri.KotaKabupaten;
+                model.NamaPanggilan = akun.CalonSiswa.DataDiri.NamaPanggilan;
+                model.NoHp = akun.CalonSiswa.DataDiri.NoHp;
+                model.NoTelp = akun.CalonSiswa.DataDiri.NoTelp;
+                model.RiwayatSakit = akun.CalonSiswa.DataDiri.RiwayatSakit;
+                model.Rt = akun.CalonSiswa.DataDiri.Rt;
+                model.Rw = akun.CalonSiswa.DataDiri.Rw;
+                model.StatusDalamKeluarga = akun.CalonSiswa.DataDiri.StatusDalamKeluarga;
+                model.TanggalLahir = akun.CalonSiswa.DataDiri.TanggalLahir;
+                model.TempatLahir = akun.CalonSiswa.DataDiri.TempatLahir;
+                model.TinggiBadan = akun.CalonSiswa.DataDiri.TinggiBadan;
             }
 
             return View(model);
@@ -83,15 +84,15 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             var akun = _calonSiswaService.GetDetailAkademikTerakhir(User.Identity.Name);
             var model = new KelolaDataAkademikTerakhir();
-            if (akun.ACalonSiswa.AAkademikTerakhir != null)
+            if (akun.CalonSiswa.AkademikTerakhir != null)
             {
-                model.AlamatSekolah = akun.ACalonSiswa.AAkademikTerakhir.AlamatSekolah;
-                model.JenisSekolah = akun.ACalonSiswa.AAkademikTerakhir.JenisSekolah;
-                model.NamaSekolah = akun.ACalonSiswa.AAkademikTerakhir.NamaSekolah;
-                model.NoPesertaUn = akun.ACalonSiswa.AAkademikTerakhir.NoPesertaUn;
-                model.NoSeriIjazah = akun.ACalonSiswa.AAkademikTerakhir.NoSeriIjazah;
-                model.NoSeriSkhun = akun.ACalonSiswa.AAkademikTerakhir.NoSeriSkhun;
-                model.StatusSekolah = akun.ACalonSiswa.AAkademikTerakhir.StatusSekolah;
+                model.AlamatSekolah = akun.CalonSiswa.AkademikTerakhir.AlamatSekolah;
+                model.JenisSekolah = akun.CalonSiswa.AkademikTerakhir.JenisSekolah;
+                model.NamaSekolah = akun.CalonSiswa.AkademikTerakhir.NamaSekolah;
+                model.NoPesertaUn = akun.CalonSiswa.AkademikTerakhir.NoPesertaUn;
+                model.NoSeriIjazah = akun.CalonSiswa.AkademikTerakhir.NoSeriIjazah;
+                model.NoSeriSkhun = akun.CalonSiswa.AkademikTerakhir.NoSeriSkhun;
+                model.StatusSekolah = akun.CalonSiswa.AkademikTerakhir.StatusSekolah;
             }
             return View(model);
         }
@@ -100,9 +101,9 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             var akun = _calonSiswaService.GetDetailRapor(User.Identity.Name);
             var model = new KelolaDataRaporModel();
-            if (akun.ACalonSiswa.RaporS != null)
+            if (akun.CalonSiswa.ListNilaiRapor != null)
             {
-                model.ListRapor[0] = akun.ACalonSiswa.RaporS
+                model.ListRapor[0] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Pendidikan Agama"))
                     .Select(x => new CrudRapor()
                     {
@@ -114,7 +115,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[1] = akun.ACalonSiswa.RaporS
+                model.ListRapor[1] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Pendidikan Kewarganegaraan"))
                     .Select(x => new CrudRapor()
                     {
@@ -126,7 +127,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[2] = akun.ACalonSiswa.RaporS
+                model.ListRapor[2] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Bahasa Indonesia"))
                     .Select(x => new CrudRapor()
                     {
@@ -138,7 +139,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[3] = akun.ACalonSiswa.RaporS
+                model.ListRapor[3] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Bahasa Inggris"))
                     .Select(x => new CrudRapor()
                     {
@@ -150,7 +151,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[4] = akun.ACalonSiswa.RaporS
+                model.ListRapor[4] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Matematika"))
                     .Select(x => new CrudRapor()
                     {
@@ -162,7 +163,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[5] = akun.ACalonSiswa.RaporS
+                model.ListRapor[5] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Ilmu Pengetahuan Alam"))
                     .Select(x => new CrudRapor()
                     {
@@ -174,7 +175,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[6] = akun.ACalonSiswa.RaporS
+                model.ListRapor[6] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Ilmu Pengetahuan Sosial"))
                     .Select(x => new CrudRapor()
                     {
@@ -186,7 +187,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[7] = akun.ACalonSiswa.RaporS
+                model.ListRapor[7] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Seni Budaya"))
                     .Select(x => new CrudRapor()
                     {
@@ -198,7 +199,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[8] = akun.ACalonSiswa.RaporS
+                model.ListRapor[8] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Pendidikan Jasmani & Olahraga"))
                     .Select(x => new CrudRapor()
                     {
@@ -210,7 +211,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[9] = akun.ACalonSiswa.RaporS
+                model.ListRapor[9] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Prakarya"))
                     .Select(x => new CrudRapor()
                     {
@@ -222,7 +223,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
-                model.ListRapor[10] = akun.ACalonSiswa.RaporS
+                model.ListRapor[10] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Muatan Lokal (Bahasa Daerah)"))
                     .Select(x => new CrudRapor()
                     {
@@ -242,14 +243,14 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             var akun = _calonSiswaService.GetDetailPrestasi(User.Identity.Name);
             var model = new KelolaDataPrestasiModel();
-            if (akun.ACalonSiswa.APrestasi != null)
+            if (akun.CalonSiswa.Prestasi != null)
             {
-                model.Jenis = akun.ACalonSiswa.APrestasi.Jenis;
-                model.NamaKejuaraan = akun.ACalonSiswa.APrestasi.NamaKejuaraan;
-                model.Penyelenggara = akun.ACalonSiswa.APrestasi.Penyelenggara;
-                model.Peringkat = akun.ACalonSiswa.APrestasi.Peringkat;
-                model.Tanggal = akun.ACalonSiswa.APrestasi.Tahun;
-                model.Tingkat = akun.ACalonSiswa.APrestasi.Tingkat;
+                model.Jenis = akun.CalonSiswa.Prestasi.Jenis;
+                model.NamaKejuaraan = akun.CalonSiswa.Prestasi.NamaKejuaraan;
+                model.Penyelenggara = akun.CalonSiswa.Prestasi.Penyelenggara;
+                model.Peringkat = akun.CalonSiswa.Prestasi.Peringkat;
+                model.Tanggal = akun.CalonSiswa.Prestasi.Tahun;
+                model.Tingkat = akun.CalonSiswa.Prestasi.Tingkat;
             }
             return View(model);
         }
@@ -258,9 +259,9 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             var akun = _calonSiswaService.GetDetailPenanggungJawab(User.Identity.Name);
             var model = new KelolaDataOrangTuaModel();
-            if (akun.ACalonSiswa.PenanggungjawabS != null)
+            if (akun.CalonSiswa.ListPenanggungjawab != null)
             {
-                var ayah = akun.ACalonSiswa.PenanggungjawabS
+                var ayah = akun.CalonSiswa.ListPenanggungjawab
                     .Where(x => x.Sebagai.Equals("Ayah"))
                     .FirstOrDefault();
                 if (ayah != null)
@@ -279,7 +280,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                     model.TanggalLahirAyah = ayah.TanggalLahir;
                     model.TempatLahirAyah = ayah.TempatLahir;
                 }
-                var ibu = akun.ACalonSiswa.PenanggungjawabS
+                var ibu = akun.CalonSiswa.ListPenanggungjawab
                     .Where(x => x.Sebagai.Equals("Ibu"))
                     .FirstOrDefault();
                 if (ibu != null)
@@ -298,7 +299,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                     model.TanggalLahirIbu = ibu.TanggalLahir;
                     model.TempatLahirIbu = ibu.TempatLahir;
                 }
-                var wali = akun.ACalonSiswa.PenanggungjawabS
+                var wali = akun.CalonSiswa.ListPenanggungjawab
                     .Where(x => x.Sebagai.Equals("Wali"))
                     .FirstOrDefault();
                 if (wali != null)
@@ -323,14 +324,14 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             var akun = _calonSiswaService.GetDetailPenunjang(User.Identity.Name);
             var model = new KelolaDataPenunjangModel();
-            if (akun.ACalonSiswa.APenunjang != null)
+            if (akun.CalonSiswa.Penunjang != null)
             {
-                model.DayaListrik = akun.ACalonSiswa.APenunjang.DayaListrik;
-                model.JarakTempuh = akun.ACalonSiswa.APenunjang.JarakTempuh;
-                model.Pembiaya = akun.ACalonSiswa.APenunjang.Pembiaya;
-                model.StatusTempatTinggal = akun.ACalonSiswa.APenunjang.StatusTempatTinggal;
-                model.Transportasi = akun.ACalonSiswa.APenunjang.Transportasi;
-                model.WaktuTempuh = akun.ACalonSiswa.APenunjang.WaktuTempuh;
+                model.DayaListrik = akun.CalonSiswa.Penunjang.DayaListrik;
+                model.JarakTempuh = akun.CalonSiswa.Penunjang.JarakTempuh;
+                model.Pembiaya = akun.CalonSiswa.Penunjang.Pembiaya;
+                model.StatusTempatTinggal = akun.CalonSiswa.Penunjang.StatusTempatTinggal;
+                model.Transportasi = akun.CalonSiswa.Penunjang.Transportasi;
+                model.WaktuTempuh = akun.CalonSiswa.Penunjang.WaktuTempuh;
             }
             return View(model);
         }

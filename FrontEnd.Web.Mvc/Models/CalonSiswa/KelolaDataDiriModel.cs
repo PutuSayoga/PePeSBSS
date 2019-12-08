@@ -23,7 +23,7 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
         [Display(Name = "Tempat Lahir", Prompt = "Tempat lahir sesuai KK")]
         public string TempatLahir { get; set; }
         [Required(ErrorMessage = "Tanggal lahir tidak boleh kosong")]
-        [Display(Name = "Tanggal Lahir")]
+        [Display(Name = "Tanggal Lahir", Prompt ="Tanggal lahir kamu")]
         [DataType(DataType.Date)]
         public DateTime TanggalLahir { get; set; }
         [Required(ErrorMessage = "Agama tidak boleh kosong")]

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BackEnd.Services
 {
-    class SiswaService : ISiswa
+    public class SiswaService : ISiswa
     {
         public void CreateMutasiKeluar(MutasiKeluar mutasi)
         {

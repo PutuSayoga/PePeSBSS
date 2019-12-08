@@ -13,6 +13,6 @@ namespace BackEnd.Domains
         public DateTime Tahun { get; set; }
         public string Penyelenggara { get; set; }
 
-        public CalonSiswa ACalonSiswa { get; set; }
+        public CalonSiswa CalonSiswa { get; set; }
     }
 }

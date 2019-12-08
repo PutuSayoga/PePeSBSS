@@ -11,8 +11,10 @@ namespace BackEnd.Abstraction
         List<AkunPendaftaran> GetAllDaftarUlang();
         List<AkunPendaftaran> GetAllAkunPendaftaranMutasi();
         void ReRegist(int akunId);
-        string AddNewAkunPendaftaran(AkunPendaftaran newAkun);
+        int AddNewAkunPendaftaran(AkunPendaftaran newAkun);
         AkunPendaftaran GetAkunPendaftaran(int akunId);
+        AkunPendaftaran SearchAkunPendaftaran(string noPendaftaran);
         int GetAkunPendaftaranId(string noPedaftaran);
+        string GetJalurPendaftaran(string noPendaftaran);
     }
 }

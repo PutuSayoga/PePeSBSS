@@ -32,7 +32,15 @@ namespace FrontEnd.Web.Mvc.Controllers
             var listStaff = _staffServices.GetAllStaff();
             var model = new KelolaStaffModel()
             {
-                DaftarStaff = listStaff
+                DaftarStaff = listStaff.Select(x => new SimpleStaff()
+                {
+                    Id = x.Id,
+                    NamaLengkap = x.NamaLengkap,
+                    Nip = x.Nip,
+                    Jabatan = x.Jabatan,
+                    PanitiaAcara = x.Panitia == null ?
+                    "-" : $"{x.Panitia.Acara} sie {x.Panitia.Divisi}"
+                }).ToList()
             };
             return View(model);
         }
@@ -91,12 +99,12 @@ namespace FrontEnd.Web.Mvc.Controllers
                     Username = staff.Username
                 }
             };
-            if (staff.APanitia != null)
+            if (staff.Panitia != null)
             {
                 model.Panitia = new TambahPanitiaModel()
                 {
-                    Acara = staff.APanitia.Acara,
-                    Divisi = staff.APanitia.Divisi
+                    Acara = staff.Panitia.Acara,
+                    Divisi = staff.Panitia.Divisi
                 };
             }
 
@@ -272,7 +280,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 JumlahPertanyaan = soal.JumlahPertanyaan,
                 Kategori = soal.Kategori,
                 Deskripsi = soal.Deskripsi,
-                ListPertanyaanAkademik = soal.PertanyaanS
+                ListPertanyaanAkademik = soal.ListPertanyaan
                     .Select(x => new KelolaPertanyaanAkademikModel()
                     {
                         Id = x.Id,
@@ -455,7 +463,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 Target = soal.Target,
                 JumlahPertanyaan = soal.JumlahPertanyaan,
                 Deskripsi = soal.Deskripsi,
-                ListPertanyaanWawancara = soal.PertanyaanS
+                ListPertanyaanWawancara = soal.ListPertanyaan
                     .Select(x => new CrudPertanyaanWawancaraModel()
                     {
                         Id = x.Id,

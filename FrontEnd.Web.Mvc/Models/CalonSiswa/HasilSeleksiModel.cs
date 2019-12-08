@@ -8,5 +8,6 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
     public class HasilSeleksiModel
     {
         public string Status { get; set; }
+        public DateTime TanggalUjian { get; set; }
     }
 }

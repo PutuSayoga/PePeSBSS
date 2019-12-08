@@ -17,13 +17,13 @@ namespace FrontEnd.Web.Mvc.Controllers
     {
         private readonly ICalonSiswa _calonSiswaService;
         private readonly IStaffSma _staffSmaService;
-        private readonly IUjian _tesAkademikService;
+        private readonly IPendaftaran _pendaftaranService;
 
-        public AuthController(ICalonSiswa calonSiswaService, IStaffSma staffSmaService, IUjian tesAkademikService)
+        public AuthController(ICalonSiswa calonSiswaService, IStaffSma staffSmaService, IPendaftaran pendaftaranService)
         {
             _calonSiswaService = calonSiswaService;
             _staffSmaService = staffSmaService;
-            _tesAkademikService = tesAkademikService;
+            _pendaftaranService = pendaftaranService;
         }
 
         public IActionResult Index()
@@ -75,9 +75,11 @@ namespace FrontEnd.Web.Mvc.Controllers
                 }
                 else
                 {
+                    int akunId = _pendaftaranService.GetAkunPendaftaranId(model.NoPendaftaran);
                     var userClaims = new List<Claim>()
                     {
                         new Claim(ClaimTypes.Name, model.NoPendaftaran),
+                        new Claim(ClaimTypes.NameIdentifier, akunId.ToString()),
                         new Claim(ClaimTypes.Role, "Calon Siswa")
                     };
                     var userIdentity = new ClaimsIdentity(userClaims, "CalonSiswaLogin");

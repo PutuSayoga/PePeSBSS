@@ -13,6 +13,6 @@ namespace BackEnd.Domains
         public byte? WaktuTempuh { get; set; }
         public string Transportasi { get; set; }
 
-        public CalonSiswa ACalonSiswa { get; set; }
+        public CalonSiswa CalonSiswa { get; set; }
     }
 }

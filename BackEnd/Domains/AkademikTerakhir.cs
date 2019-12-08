@@ -14,6 +14,6 @@ namespace BackEnd.Domains
         public string NoSeriSkhun { get; set; }
         public string NoSeriIjazah { get; set; }
 
-        public CalonSiswa ACalonSiswa { get; set; }
+        public CalonSiswa CalonSiswa { get; set; }
     }
 }

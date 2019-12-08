@@ -9,9 +9,9 @@ namespace BackEnd.Domains
         public int PertanyaanId { get; set; }
         public int AkunPendaftaranId { get; set; }
         public string Jawaban { get; set; }
-        public bool Nilai { get; set; }
+        public bool IsCorrect { get; set; }
 
-        public AkunPendaftaran AAkunPendaftaran { get; set; }
-        public Pertanyaan APertanyaan { get; set; }
+        public AkunPendaftaran AkunPendaftaran { get; set; }
+        public Pertanyaan Pertanyaan { get; set; }
     }
 }

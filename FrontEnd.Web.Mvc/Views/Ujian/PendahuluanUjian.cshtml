@@ -1,0 +1,39 @@
+﻿@model CrudSoalAkademik
+@if (Model == null)
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Peraturan & Keterangan</h6>
+        </div>
+        <div class="card-body">
+            <h3 class="text-dark">
+                Seleksi ini sudah dikerjakan
+            </h3>
+            <a asp-controller="Ujian" asp-action="Index" class="btn btn-secondary">Kembali</a>
+        </div>
+    </div>
+}
+else
+{
+    <h1 class="mb-3">@Model.Judul</h1>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Peraturan & Keterangan</h6>
+        </div>
+        <div class="card-body">
+            <div>
+                <label asp-for="BatasWaktu"></label>:<label>@Model.BatasWaktu menit</label>
+            </div>
+            <div>
+                <label asp-for="JumlahPertanyaan"></label>:<label>@Model.JumlahPertanyaan pertanyaan</label>
+            </div>
+            <div>
+                <label asp-for="Kategori"></label>:<label>@Model.Kategori</label>
+            </div>
+            <div>
+                <label asp-for="Deskripsi"></label>:<label>@Model.Deskripsi</label>
+            </div>
+            <a asp-controller="Ujian" asp-action="MulaiMengerjakan" asp-route-soalId="@Model.Id" class="btn btn-primary">Mulai Mengerjakan</a>
+        </div>
+    </div>
+}

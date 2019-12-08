@@ -11,6 +11,6 @@
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public Panitia APanitia { get; set; }
+        public Panitia Panitia { get; set; }
     }
 }

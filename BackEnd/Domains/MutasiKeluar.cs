@@ -10,6 +10,6 @@ namespace BackEnd.Domains
         public string Alasan { get; set; }
         public DateTime TanggalKeluar { get; set; }
 
-        public Siswa ASiswa { get; set; }
+        public Siswa Siswa { get; set; }
     }
 }

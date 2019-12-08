@@ -8,6 +8,6 @@ namespace BackEnd.Abstraction
     public interface ISeleksiPenerimaan
     {
         List<AkunPendaftaran> GetAllWithJalur(string jalur);
-        void SelectionNonReguler(int akunId, bool isLolos);
+        void UpdateSelection(int akunId, bool isLolos);
     }
 }

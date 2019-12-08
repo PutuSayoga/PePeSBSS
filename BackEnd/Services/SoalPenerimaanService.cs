@@ -13,9 +13,21 @@ namespace BackEnd.Services
         private readonly IDbConnectionHelper _connectionHelper;
 
         public SoalPenerimaanService(IDbConnectionHelper connectionString)
+            => _connectionHelper = connectionString;
+
+        #region Not Interface Implementation
+        public bool IsUsed(int id)
         {
-            _connectionHelper = connectionString;
+            string sqlQuery = @"Select IsUsed FROM Soal WHERE Id = @Id";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var result = connection.Execute(sql: sqlQuery, param: new { Id = id });
+
+                return result == 1;
+            }
         }
+        #endregion
 
         public List<Soal> GetAllSoalAkademik()
         {
@@ -52,7 +64,7 @@ namespace BackEnd.Services
                 using(var multiResult = connection.QueryMultiple(sqlQuery, new { Id = id }))
                 {
                     var soal = multiResult.Read<Soal>().FirstOrDefault();
-                    soal.PertanyaanS = multiResult.Read<Pertanyaan>().ToList();
+                    soal.ListPertanyaan = multiResult.Read<Pertanyaan>().ToList();
 
                     return soal;
                 }
@@ -162,19 +174,6 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQuery, param: newData);
             }
         }
-
-        public bool IsUsed(int id)
-        {
-            string sqlQuery = @"Select IsUsed FROM Soal WHERE Id = @Id";
-            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                var result = connection.Execute(sql: sqlQuery, param: new { Id = id });
-
-                return result == 1;
-            }
-        }
-
         public Pertanyaan GetPertanyaan(int id, int soalId)
         {
             string sqlQuery = @"SELECT * FROM Pertanyaan WHERE Id = @Id AND SoalId = @SoalId";
@@ -199,7 +198,6 @@ namespace BackEnd.Services
                 return pertanyaan;
             }
         }
-
         public void SavePengaturanSoal(Pengaturan pengaturan)
         {
             string sqlQuery = @"UPDATE Pengaturan SET

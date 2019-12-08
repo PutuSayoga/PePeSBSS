@@ -13,8 +13,8 @@ namespace BackEnd.Domains
         public string Status { get; set; }
         public DateTime JadwalTes { get; set; }
 
-        public CalonSiswa ACalonSiswa { get; set; }
-        public RangkumanTesAkademik ARekapTesAkademik { get; set; }
-        public ICollection<HasilTes> HasilTesS { get; set; }
+        public CalonSiswa CalonSiswa { get; set; }
+        public RangkumanTesAkademik RangkumanTesAkademik { get; set; }
+        public List<HasilTes> ListHasilTes { get; set; }
     }
 }

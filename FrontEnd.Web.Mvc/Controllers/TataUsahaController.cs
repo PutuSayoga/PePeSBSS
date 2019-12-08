@@ -28,15 +28,16 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         public IActionResult KelolaMutasiMasuk()
         {
+            ViewBag.Pesan = TempData["Pesan"];
             var akun = _pendaftaranService.GetAllAkunPendaftaranMutasi();
             var model = new KelolaMutasiMasukModel()
             {
                 ListAkunMutasi = akun.Select(x => new AkunMutasiMasuk()
                 {
                     Id = x.Id,
-                    NamaLengkap = x.ACalonSiswa.NamaLengkap,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
                     NoPendaftaran = x.NoPendaftaran,
-                    SekolahAsal = x.ACalonSiswa.AAkademikTerakhir.NamaSekolah,
+                    SekolahAsal = x.CalonSiswa.AkademikTerakhir.NamaSekolah,
                     Status = x.Status
                     
                 }).ToList()
@@ -74,7 +75,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult DaftarBaruAkunMutasi(KelolaMutasiMasukModel model)
+        public IActionResult DaftarBaruMutasiMasuk(KelolaMutasiMasukModel model)
         {
             if (!((model.MutasiMasuk.TanggalUjian >= DateTime.Now) &&
                     (model.MutasiMasuk.TanggalUjian <= DateTime.Now.AddDays(3))))
@@ -95,21 +96,26 @@ namespace FrontEnd.Web.Mvc.Controllers
                 {
                     JalurPendaftaran = model.MutasiMasuk.JalurPendaftaran,
                     JadwalTes = model.MutasiMasuk.TanggalUjian,
-                    ACalonSiswa = new CalonSiswa()
+                    CalonSiswa = new CalonSiswa()
                     {
                         Nik = model.MutasiMasuk.Nik,
                         NamaLengkap = model.MutasiMasuk.NamaLengkap,
                         Nisn = model.MutasiMasuk.Nisn,
-                        AAkademikTerakhir = new AkademikTerakhir()
+                        AkademikTerakhir = new AkademikTerakhir()
                         {
                             NamaSekolah = model.MutasiMasuk.SekolahAsal
                         }
                     }
                 };
-                string noPendaftaran = _pendaftaranService.AddNewAkunPendaftaran(newAkun);
-                int akunId = _pendaftaranService.GetAkunPendaftaranId(noPendaftaran);
+                int akunId = _pendaftaranService.AddNewAkunPendaftaran(newAkun);
                 return RedirectToAction(nameof(BuktiPendaftaran), new { id = akunId });
             }
+        }
+        public IActionResult DaftarUlangMutasi(int id) 
+        {
+            _pendaftaranService.ReRegist(id);
+            TempData["Pesan"] = "Daftar ulang berhasil";
+            return RedirectToAction(nameof(KelolaMutasiMasuk));
         }
         public IActionResult BuktiPendaftaran(int id)
         {
@@ -118,7 +124,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 Id = detailAkun.Id,
                 NoPendaftaran = detailAkun.NoPendaftaran,
-                NamaLengkap = detailAkun.ACalonSiswa.NamaLengkap,
+                NamaLengkap = detailAkun.CalonSiswa.NamaLengkap,
                 JalurPendaftaran = detailAkun.JalurPendaftaran,
                 Password = detailAkun.Password,
                 JadwalTes = detailAkun.JadwalTes
@@ -134,9 +140,9 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 Alasan = mutasiKeluar.Alasan,
                 SiswaId = mutasiKeluar.SiswaId,
-                Kelas = mutasiKeluar.ASiswa.AKelas.NamaKelas,
-                NamaLengkap = mutasiKeluar.ASiswa.ACalonSiswa.NamaLengkap,
-                Nis = mutasiKeluar.ASiswa.Nis,
+                Kelas = mutasiKeluar.Siswa.Kelas.NamaKelas,
+                NamaLengkap = mutasiKeluar.Siswa.CalonSiswa.NamaLengkap,
+                Nis = mutasiKeluar.Siswa.Nis,
                 Tujuan = mutasiKeluar.Tujuan,
                 TanggalKeluar = mutasiKeluar.TanggalKeluar
             };

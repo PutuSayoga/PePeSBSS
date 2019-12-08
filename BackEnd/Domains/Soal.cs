@@ -16,6 +16,6 @@ namespace BackEnd.Domains
         public string Status { get; set; }
         public bool IsUsed { get; set; }
 
-        public ICollection<Pertanyaan> PertanyaanS { get; set; }
+        public List<Pertanyaan> ListPertanyaan { get; set; }
     }
 }

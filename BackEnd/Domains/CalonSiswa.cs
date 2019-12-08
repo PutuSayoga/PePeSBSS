@@ -10,12 +10,12 @@ namespace BackEnd.Domains
         public string Nisn { get; set; }
         public string NamaLengkap { get; set; }
 
-        public AkademikTerakhir AAkademikTerakhir { get; set; }
-        public DataDiri ADataDiri { get; set; }
-        public Penunjang APenunjang { get; set; }
-        public Prestasi APrestasi { get; set; }
-        public ICollection<AkunPendaftaran> AkunPendaftaranS { get; set; }
-        public ICollection<Penanggungjawab> PenanggungjawabS { get; set; }
-        public ICollection<Rapor> RaporS { get; set; }
+        public AkademikTerakhir AkademikTerakhir { get; set; }
+        public DataDiri DataDiri { get; set; }
+        public Penunjang Penunjang { get; set; }
+        public Prestasi Prestasi { get; set; }
+        public List<AkunPendaftaran> ListAkunPendaftaran { get; set; }
+        public List<Penanggungjawab> ListPenanggungjawab { get; set; }
+        public List<Rapor> ListNilaiRapor { get; set; }
     }
 }

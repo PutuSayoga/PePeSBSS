@@ -21,25 +21,39 @@ namespace BackEnd.Services
                 FROM CalonSiswa cs JOIN AkunPendaftaran ap ON cs.Id=ap.CalonSiswaId 
                 FULL JOIN RangkumanTesAkademik ra ON ap.Id = ra.AkunPendaftaranId
                 WHERE JalurPendaftaran=@Jalur AND Status='Sudah Ujian'";
+            List<AkunPendaftaran> akunSeleksi;
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                var akunSeleksi = connection.Query<AkunPendaftaran, CalonSiswa, RangkumanTesAkademik, AkunPendaftaran>(
+                akunSeleksi = connection.Query<AkunPendaftaran, CalonSiswa, RangkumanTesAkademik, AkunPendaftaran>(
                     sql: sqlQuery,
                     map: (ap, cs, ra) =>
                     {
-                        ap.ACalonSiswa = cs;
-                        ap.ARekapTesAkademik = ra;
+                        ap.CalonSiswa = cs;
+                        ap.RangkumanTesAkademik = ra;
                         return ap;
                     },
                     splitOn: "NamaLengkap, AkunPendaftaranId",
                     param: new { Jalur = jalur })
                     .ToList();
-                return akunSeleksi;
             }
+            if (jalur.Equals("Khusus") || jalur.Equals("Reguler") || jalur.Equals("Mutasi"))
+            {
+                foreach (var item in akunSeleksi)
+                {
+                    item.RangkumanTesAkademik.NilaiAkhir = TotalMark(item.RangkumanTesAkademik.NilaiMipa, item.RangkumanTesAkademik.NilaiIps, item.RangkumanTesAkademik.NilaiTpa);
+                }
+            }
+            return akunSeleksi;
         }
 
-        public void SelectionNonReguler(int akunId, bool isLolos)
+        public double TotalMark(double nilaiMipa, double nilaiIps, double nilaiTpa)
+        {
+            double skorAkhir = ((0.3 * nilaiMipa) + (0.3 * nilaiIps) + (0.4 * nilaiTpa));
+            return Math.Round(skorAkhir, 2);
+        }
+
+        public void UpdateSelection(int akunId, bool isLolos)
         {
             string sqlUpdateStatus = @"UPDATE AkunPendaftaran SET Status = @Status WHERE Id = @AkunId";
             string status = isLolos ? "Lolos" : "Tidak Lolos";

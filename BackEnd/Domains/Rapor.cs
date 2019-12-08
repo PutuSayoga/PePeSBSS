@@ -13,6 +13,6 @@ namespace BackEnd.Domains
         public double? Semester4 { get; set; }
         public double? Semester5 { get; set; }
 
-        public CalonSiswa ACalonSiswa { get; set; }
+        public CalonSiswa CalonSiswa { get; set; }
     }
 }

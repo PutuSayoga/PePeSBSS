@@ -9,7 +9,7 @@ namespace BackEnd.Domains
         public double NilaiMipa { get; set; }
         public double NilaiIps { get; set; }
         public double NilaiTpa { get; set; }
-
-        public AkunPendaftaran AAkunPendaftaran { get; set; }
+        public double NilaiAkhir { get; set; }
+        public AkunPendaftaran AkunPendaftaran { get; set; }
     }
 }

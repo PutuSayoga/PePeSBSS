@@ -4,35 +4,35 @@
     <div class="col-lg-9">
         <div class="card shadow mb-4">
             <div class="d-block card-header py-3">
-                <h5 class="m-0 font-weight-bold text-primary">Pertanyaan</h5>
+                <h5 class="m-0 font-weight-bold text-primary">Pertanyaan @Model.NoPertanyaan</h5>
             </div>
             <div class="card-body">
-                <form asp-controller="Test" asp-action="Seleksi" method="post">
-                    <div class="border-bottom mb-2">@Html.Raw(Model.Pertanyaan.Pertanyaan)</div>
+                <form asp-controller="Ujian" asp-action="JawabSoalAkademik" method="post">
+                    <div class="border-bottom mb-2">@Html.Raw(Model.Pertanyaan)</div>
                     <div class="border-bottom mb-2">
-                        <input hidden asp-for="Pertanyaan.PertanyaanId" value="@Model.Pertanyaan.PertanyaanId" />
-                        <input hidden asp-for="Pertanyaan.SoalId" value="@Model.Pertanyaan.SoalId" />
+                        <input hidden asp-for="PertanyaanId" value="@Model.PertanyaanId" />
+                        <input hidden asp-for="SoalId" value="@Model.SoalId" />
                         <div class="radio">
-                            <input type="radio" class="mr-2" value="A" asp-for="Pertanyaan.JawabanCalonSiswa" />
-                            A. @Model.Pertanyaan.OpsiA
+                            <input type="radio" class="mr-2" value="A" asp-for="JawabanCalonSiswa" />
+                            A. @Model.OpsiA
                         </div>
                         <div class="radio">
-                            <input type="radio" class="mr-2" value="B" asp-for="Pertanyaan.JawabanCalonSiswa" />
-                            B. @Model.Pertanyaan.OpsiB
+                            <input type="radio" class="mr-2" value="B" asp-for="JawabanCalonSiswa" />
+                            B. @Model.OpsiB
                         </div>
                         <div class="radio">
-                            <input type="radio" class="mr-2" value="C" asp-for="Pertanyaan.JawabanCalonSiswa" />
-                            C. @Model.Pertanyaan.OpsiC
+                            <input type="radio" class="mr-2" value="C" asp-for="JawabanCalonSiswa" />
+                            C. @Model.OpsiC
                         </div>
                         <div class="radio">
-                            <input type="radio" class="mr-2" value="D" asp-for="Pertanyaan.JawabanCalonSiswa" />
-                            D. @Model.Pertanyaan.OpsiD
+                            <input type="radio" class="mr-2" value="D" asp-for="JawabanCalonSiswa" />
+                            D. @Model.OpsiD
                         </div>
-                        @if (Model.Pertanyaan.OpsiE != null)
+                        @if (Model.OpsiE != null)
                         {
                             <div class="radio">
-                                <input type="radio" class="mr-2" value="E" asp-for="Pertanyaan.JawabanCalonSiswa">
-                                E. @Model.Pertanyaan.OpsiE
+                                <input type="radio" class="mr-2" value="E" asp-for="JawabanCalonSiswa">
+                                E. @Model.OpsiE
                             </div>
                         }
                     </div>
@@ -40,20 +40,19 @@
                         <div style="text-align: left;" class="col-6">
                             @if (Model.PrevId != -1)
                             {
-                                <a asp-controller="Ujian" asp-action="JawabSoalAkademik" asp-route-qid="@Model.PrevId" asp-route-soalId="@Model.Pertanyaan.SoalId"
-                                   class="btn btn-info text-white">Selanjutnya</a>
+                                <button type="submit" name="@nameof(Model.Tujuan)" value="@Model.PrevId" class="btn btn-info text-white">Sebelumnya</button>
                             }
                         </div>
                         <div style="text-align:right;" class="col-6">
                             @if (Model.NextId != -1)
                             {
-                                <a asp-controller="Ujian" asp-action="JawabSoalAkademik" asp-route-qid="@Model.NextId" asp-route-soalId="@Model.Pertanyaan.SoalId"
-                                   class="btn btn-info text-white">Selanjutnya</a>
+                                <button type="submit" name="@nameof(Model.Tujuan)" value="@Model.NextId" class="btn btn-info text-white">Selanjutnya</button>
                             }
                             else
                             {
-                                <a asp-controller="Ujian" asp-action="Index"
-                                   class="btn btn-info text-white">Selesai</a>
+                                <button type="submit" asp-controller="Ujian" asp-action="SelesaiUjianAkademik" class="btn btn-info text-white">
+                                    Selesai
+                                </button>
                             }
                         </div>
                     </div>
@@ -62,21 +61,24 @@
         </div>
     </div>
 
-@*SideMap*@
-<div class="col-lg-3">
+    @*SideMap*@
+    <div class="col-lg-3">
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 style="text-align:center" id="sisawaktu"
                     class="m-0 font-weight-bold text-dark">
-                    
+                    -- : -- : --
                 </h6>
             </div>
-            @*<div class="card-body row">
-                @for (int j = 0; j < model.listpertanyaan.count(); j++)
+            <div class="card-body row">
+                @for (int j = 0; j < Model.MapPertanyaan.Count; j++)
                 {
-                    <a href="#pertanyaan@(j+1)" class="col-3">@(j + 1)</a>
+                    <div class="col-3">
+                        <a asp-controller="Ujian" asp-action="JawabSoalAkademik" asp-route-soalId="@Model.SoalId"
+                           asp-route-qid="@Model.MapPertanyaan[j]" class="btn btn-default border">@(j + 1)</a>
+                    </div>
                 }
-            </div>*@
+            </div>
         </div>
     </div>
 </div>
@@ -84,10 +86,9 @@
 @section Scripts {
     <script>
         const timeText = "@Model.BatasWaktu";
+        console.log(timeText);
         const time = moment(timeText, "MM-DD-YYYY hh:mm:ss A");
-        const timeLeft = moment.utc(time - moment()).format("HH:mm:ss");
-
-        $('#sisaWaktu').text(timeLeft);
+        console.log(time);
         setInterval(() => {
             const timeLeft = moment.utc(time - moment()).format("HH:mm:ss");
             $("#sisawaktu").text(timeLeft);

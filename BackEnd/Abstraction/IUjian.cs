@@ -7,10 +7,13 @@ namespace BackEnd.Abstraction
 {
     public interface IUjian
     {
-        int? GetAkademikId(string noPendaftaran, string kategoriSoal);
-        int? GetWawancaraId(string noPendaftaran, string targetSoal);
-        List<int> GetSoalIdPengerjaan(string noPendaftaran);
-        void Submit(List<HasilTes> listJawaban, string noPendataran);
-        Ujian StartTest(int akunId, int soalId);
+        bool? IsDone(int akunPendaftaranId, int soalId);
+        void StartUjian(int akunId, int soalId);
+        void SaveAnswer(HasilTes jawaban);
+        string GetAnswer(int akunId, int soalId, int pertanyaanId);
+        Ujian GetUjian(int akunId, int soalId);
+        void FinishUjian(int akunId, int soalId);
+        int GetSoalPengerjaanAkademikId(string noPendaftaran, string kategoriSoal);
+        int GetSoalPengerjaanWawancaraId(string noPendaftaran, string targetSoal);
     }
 }
