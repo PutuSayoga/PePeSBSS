@@ -65,16 +65,16 @@
                                         <p class="card bg-primary text-white">@akun.Status</p>
                                     }
                                 <td class="text-center">
-                                    <a href="#">Rincian</a>
-                                    <a> | </a>
                                     <a asp-controller="TataUsaha" asp-action="BuktiPendaftaran" asp-route-id="@akun.Id">
                                         Bukti Pendaftaran
                                     </a>
+                                    <a> | </a>
+                                    <a href="#">Rincian</a>
                                 </td>
                                 <td class="text-center">
                                     @if (akun.Status.Equals("Lolos"))
                                     {
-                                        <form asp-controller="TataUsaha" asp-action="DaftarUlangMutasi" asp-route-id="@akun.Id">
+                                        <form asp-controller="TataUsaha" asp-action="DaftarUlangMutasi" asp-route-id="@akun.Id" method="post">
                                             <button class="btn btn-primary">Daftar Ulang</button>
                                         </form>
                                     }

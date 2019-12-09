@@ -52,7 +52,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Nisn = model.Nisn
                     }
                 };
-                int akunId = _pendaftaranService.AddNewAkunPendaftaran(newAkun);
+                int akunId = _pendaftaranService.NewRegist(newAkun);
                 return RedirectToAction(nameof(BuktiPendaftaran), new { id = akunId });
             }
         }

@@ -15,7 +15,7 @@ namespace XUnitTesting
         public void Mark_CorectAnswer(int corectAnswer, int totalPertanyaan, double expected)
         {
             // Arrange
-            var _testPenerimaanService = new UjianService(null, null);
+            var _testPenerimaanService = new UjianService(null, null, null);
 
             // Action
             double actual = _testPenerimaanService.Mark(corectAnswer, totalPertanyaan);

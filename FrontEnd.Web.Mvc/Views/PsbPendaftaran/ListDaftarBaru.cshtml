@@ -22,7 +22,6 @@ else
                             <th><b>Nama Lengkap     </b></th>
                             <th><b>Jalur Pendaftaran</b></th>
                             <th><b>Status           </b></th>
-                            <th><b>Bukti Pendaftaran</b></th>
                             <th><b>Aksi             </b></th>
                         </tr>
                     </thead>
@@ -56,10 +55,13 @@ else
                                     }
                                 </td>
                                 <td class="text-center">
-                                    <a asp-controller="PSBPendaftaran" asp-action="BuktiPendaftaran" asp-route-id="@akunPendaftaran.Id">Lihat</a>
-                                </td>
-                                <td class="text-center">
-                                    <a href="#">Rincian</a>
+                                    <a asp-controller="PSBPendaftaran" asp-action="BuktiPendaftaran" asp-route-id="@akunPendaftaran.Id">
+                                        Bukti Pendaftaran
+                                    </a>
+                                    <a> | </a>
+                                    <a href="#">
+                                        Rincian
+                                    </a>
                                 </td>
                             </tr>
                         }

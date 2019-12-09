@@ -6,6 +6,7 @@ using System.Linq;
 using FrontEnd.Web.Mvc.Models.Admin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using FrontEnd.Web.Mvc.Models.TataUsaha;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
@@ -14,10 +15,12 @@ namespace FrontEnd.Web.Mvc.Controllers
     {
         private readonly IStaffSma _staffServices;
         private readonly ISoalPenerimaan _soalService;
-        public AdminController(IStaffSma staffServices, ISoalPenerimaan soalService)
+        private readonly ISiswa _siswaService;
+        public AdminController(IStaffSma staffServices, ISoalPenerimaan soalService, ISiswa siswaService)
         {
             _staffServices = staffServices;
             _soalService = soalService;
+            _siswaService = siswaService;
         }
 
         public IActionResult Index()
@@ -519,7 +522,20 @@ namespace FrontEnd.Web.Mvc.Controllers
         #region Siswa
         public IActionResult DaftarSiswa()
         {
-            return View();
+            var siswa = _siswaService.GetAllSiswa();
+            var model = new DaftarSiswaModel()
+            {
+                ListSiswaView = siswa.Select(x => new SiswaView()
+                {
+                    Id = x.Id,
+                    JenisKelamin = x.CalonSiswa.DataDiri == null ? "-" : 
+                        x.CalonSiswa.DataDiri.IsPerempuan ? "Perempuan" : "Laki-laki",
+                    NamaKelas = x.Kelas == null ? "-" : x.Kelas.NamaKelas,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
+                    Nis = x.Nis
+                }).ToList()
+            };
+            return View(model);
         }
         #endregion
 

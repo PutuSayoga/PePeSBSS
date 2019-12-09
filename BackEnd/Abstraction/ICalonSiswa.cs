@@ -21,7 +21,6 @@ namespace BackEnd.Abstraction
         AkunPendaftaran GetDetailRapor(string noPendaftaran);
         AkunPendaftaran GetDetailPrestasi(string noPendaftaran);
         AkunPendaftaran GetDetailAkademikTerakhir(string noPendaftaran);
-
-        AkunPendaftaran CekStatus(string noPendaftaran);
+        AkunPendaftaran GetSimpleAkun(string noPendaftaran);
     }
 }

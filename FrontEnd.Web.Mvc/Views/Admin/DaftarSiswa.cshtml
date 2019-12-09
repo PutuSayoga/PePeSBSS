@@ -1,49 +1,5 @@
-﻿@*@{
-    ViewBag.Title = "Daftar Siswa";
+﻿@model DaftarSiswaModel
+@{
+    ViewBag.Title = "Daftar Siswa Aktif";
+    await Html.RenderPartialAsync("DaftarSiswaShared", Model.ListSiswaView);
 }
-
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Daftar Siswa</h6>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
-                <thead>
-                    <tr>
-                        <th><b>Nomor Induk Siswa</b></th>
-                        <th><b>Nama Lengkap     </b></th>
-                        <th><b>Kelas            </b></th>
-                        <th><b>Jenis Kelamin    </b></th>
-                        <th><b>Aksi             </b></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>155150201111281</td>
-                        <td>Putu Gede Sayoga</td>
-                        <td>XII MIPA 1</td>
-                        <td>L</td>
-                        <td>
-                            <a href="#">Rincian</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
- Modal 
-<div id="ModalTambahSoalAkademik" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Tambah panitia</h4>
-                <button class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-        </div>
-    </div>
-</div>*@

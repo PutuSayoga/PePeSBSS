@@ -63,7 +63,8 @@ namespace FrontEnd.Web.Mvc.Controllers
                     NamaLengkap = x.CalonSiswa.NamaLengkap,
                     NilaiMipa = x.RangkumanTesAkademik.NilaiMipa,
                     NilaiIps = x.RangkumanTesAkademik.NilaiIps,
-                    NilaiTpa = x.RangkumanTesAkademik.NilaiTpa
+                    NilaiTpa = x.RangkumanTesAkademik.NilaiTpa,
+                    SkorAkhir = x.RangkumanTesAkademik.NilaiAkhir
                 })
                 .OrderByDescending(x => x.SkorAkhir)
                 .ToList()

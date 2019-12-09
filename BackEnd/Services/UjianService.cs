@@ -22,7 +22,6 @@ namespace BackEnd.Services
         }
 
         #region Not Interface Implementation
-        
         public void FinishedStatusUjian(int akunId, int soalId)
         {
             string sqlQuery = @"UPDATE Ujian SET IsDone=1 WHERE AkunPendaftaranId = @AkunPendaftaranId AND SoalId = @SoalId";
@@ -32,7 +31,6 @@ namespace BackEnd.Services
                 var ujian = connection.Execute(sql: sqlQuery, param: new { AkunPendaftaranId = akunId, SoalId = soalId });
             }
         }
-
         public void CheckUjian(int akunId, int soalId)
         {
             var soal = _soalService.GetDetailSoal(soalId);
@@ -52,7 +50,6 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQuery, param: listHasilTes);
             }
         }
-
         public List<HasilTes> GetHasilUjian(int akunId, int soalId)
         {
             string sqlQuery = @"SELECT * FROM HasilTes WHERE AkunPendaftaranId=@AkunPendaftaranId AND SoalId=@SoalId";
@@ -65,7 +62,6 @@ namespace BackEnd.Services
                 return listHasilTes;
             }
         }
-
         public void RecapHasilUjian(int akunPendaftaranId, int soalId)
         {
             var listHasilTes = GetHasilUjian(akunPendaftaranId, soalId);
@@ -86,7 +82,6 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQueryUpdateNilai, param: new { Nilai = nilai, AkunPendaftaranId = akunPendaftaranId });
             }
         }
-
         public bool isExistInRangkumanAkademik(int akunId)
         {
             string sqlQueryIsExist = @"SELECT 1 FROM RangkumanTesAkademik WHERE AkunPendaftaranId=@AkunPendaftaranId";
@@ -97,13 +92,11 @@ namespace BackEnd.Services
                 return isExist;
             }
         }
-
         public double Mark(int jawabanBenar, int jumlahPertanyaan)
         {
             double skor = (double)jawabanBenar * (100.0 / (double)jumlahPertanyaan);
             return Math.Round(skor, 2);
         }
-
         public void UpdateStatusSudahUjian(int akunId)
         {
             string sqlUpdateStatus = @"UPDATE AkunPendaftaran SET Status = 'Sudah Ujian' WHERE Id = @AkunId";

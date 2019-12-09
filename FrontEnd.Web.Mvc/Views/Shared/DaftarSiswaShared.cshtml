@@ -1,5 +1,47 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model List<SiswaView>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Daftar Siswa</h6>
+    </div>
+    <div class="card-body">
+        @if (Model.Count < 1)
+        {
+            <div>
+                Kosong
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
+                    <thead class="table-warning text-dark">
+                        <tr>
+                            <th><b>Nomor Induk Siswa  </b></th>
+                            <th><b>Nama Lengkap       </b></th>
+                            <th><b>Jenis Kelamin      </b></th>
+                            <th><b>Kelas              </b></th>
+                            <th><b>Aksi               </b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var siswa in Model)
+                        {
+                            <tr>
+                                <td>@siswa.Nis</td>
+                                <td>@siswa.NamaLengkap</td>
+                                <td>@siswa.JenisKelamin</td>
+                                <td>@siswa.NamaKelas</td>
+                                <td class="text-center">
+                                    <a href="#" >
+                                        Rincian
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

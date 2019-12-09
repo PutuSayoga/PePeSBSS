@@ -55,18 +55,14 @@ namespace BackEnd.Services
         }
         #endregion
 
-        public AkunPendaftaran CekStatus(string noPendaftaran)
+        public AkunPendaftaran GetSimpleAkun(string noPendaftaran)
         {
-            string sqlQuery = @"SELECT Status FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
+            string sqlQuery = @"SELECT * FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-
-                var result = connection.QueryFirst<AkunPendaftaran>(
-                    sql: sqlQuery,
-                    param: new { NoPendaftaran = noPendaftaran });
-
-                return result;
+                var akun = connection.QueryFirstOrDefault<AkunPendaftaran>(sql: sqlQuery, param: new { NoPendaftaran = noPendaftaran });
+                return akun;
             }
         }
 

@@ -26,6 +26,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         {
             return View();
         }
+
         public IActionResult KelolaMutasiMasuk()
         {
             ViewBag.Pesan = TempData["Pesan"];
@@ -44,35 +45,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
             ViewBag.Pesan = TempData["Pesan"];
             return View(model);
-        }
-        public IActionResult CariSiswa(string nis)
-        {
-            var model = new CrudMutasiKeluar()
-            {
-                SiswaId = 1,
-                Alasan = "Gak Kuat",
-                Kelas = "X IPA 1",
-                NamaLengkap = "Test",
-                Nis = "000001",
-                Tujuan = "SMA 1 Test"
-            };
-            return Json(model);
-        }
-
-        public IActionResult KelolaMutasiKeluar()
-        {
-            var model = new KelolaMutasiKeluarModel()
-            {
-                ListMutasiKeluar = new List<CrudMutasiKeluar>()
-                {
-                    new CrudMutasiKeluar(){NamaLengkap="tes"}
-                }
-            };
-            return View(model);
-        }
-        public IActionResult DaftarSiswa()
-        {
-            return View();
         }
         [HttpPost]
         public IActionResult DaftarBaruMutasiMasuk(KelolaMutasiMasukModel model)
@@ -107,11 +79,12 @@ namespace FrontEnd.Web.Mvc.Controllers
                         }
                     }
                 };
-                int akunId = _pendaftaranService.AddNewAkunPendaftaran(newAkun);
+                int akunId = _pendaftaranService.NewRegist(newAkun);
                 return RedirectToAction(nameof(BuktiPendaftaran), new { id = akunId });
             }
         }
-        public IActionResult DaftarUlangMutasi(int id) 
+        [HttpPost]
+        public IActionResult DaftarUlangMutasi(int id)
         {
             _pendaftaranService.ReRegist(id);
             TempData["Pesan"] = "Daftar ulang berhasil";
@@ -133,7 +106,23 @@ namespace FrontEnd.Web.Mvc.Controllers
             return View(model);
         }
 
-        public IActionResult DetailMutasiKeluar(int id)
+        public IActionResult KelolaMutasiKeluar()
+        {
+            var listKeluar = _siswaService.GetAllMutasiKeluar();
+            var model = new KelolaMutasiKeluarModel()
+            {
+                ListMutasiKeluar = listKeluar.Select(x => new CrudMutasiKeluar()
+                {
+                    Nis = x.Nis,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
+                    Tujuan = x.MutasiKeluar.Tujuan,
+                    SiswaId = x.Id
+                }).ToList()
+            };
+
+            return View(model);
+        }
+        public IActionResult RincianMutasiKeluar(int id)
         {
             var mutasiKeluar = _siswaService.GetMutasiKeluar(id);
             var model = new CrudMutasiKeluar()
@@ -148,19 +137,48 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
             return Json(model);
         }
-
+        public IActionResult CariSiswa(string nis)
+        {
+            var siswa = _siswaService.SearchSiswaForMutasiKeluar(nis);
+            var model = new CrudMutasiKeluar()
+            {
+                SiswaId = siswa.Id,
+                Kelas = siswa.Kelas == null ? "-" : siswa.Kelas.NamaKelas,
+                NamaLengkap = siswa.CalonSiswa.NamaLengkap,
+                Nis = siswa.Nis
+            };
+            return Json(model);
+        }
+        [HttpPost]
         public IActionResult TambahMutasiKeluar(KelolaMutasiKeluarModel model)
         {
-            int siswaId = _siswaService.GetSiswaId(model.MutasiKeluar.Nis);
             var mutasiKeluar = new MutasiKeluar()
             {
                 Alasan = model.MutasiKeluar.Alasan,
                 Tujuan = model.MutasiKeluar.Tujuan,
                 TanggalKeluar = DateTime.Now,
-                SiswaId = siswaId
+                SiswaId = model.MutasiKeluar.SiswaId
             };
-            _siswaService.CreateMutasiKeluar(mutasiKeluar);
+            _siswaService.NewMutasiKeluar(mutasiKeluar);
             return RedirectToAction(nameof(KelolaMutasiKeluar));
+        }
+
+        public IActionResult DaftarSiswa()
+        {
+            var siswa = _siswaService.GetAllSiswa();
+            var model = new DaftarSiswaModel()
+            {
+                ListSiswaView = siswa.Select(x => new SiswaView()
+                {
+                    Id = x.Id,
+                    JenisKelamin = x.CalonSiswa.DataDiri == null ? "-" :
+                        x.CalonSiswa.DataDiri.IsPerempuan ? "Perempuan" : "Laki-laki",
+                    NamaKelas = x.Kelas == null ? "-" : x.Kelas.NamaKelas,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
+                    Nis = x.Nis
+                }).ToList()
+            };
+            return View(model);
         }
     }
 }

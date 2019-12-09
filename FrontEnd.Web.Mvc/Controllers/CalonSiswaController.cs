@@ -30,11 +30,11 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         public IActionResult HasilSeleksi()
         {
-            var akun = _calonSiswaService.CekStatus(User.Identity.Name);
+            var akun = _calonSiswaService.GetSimpleAkun(User.Identity.Name);
             var model = new HasilSeleksiModel()
             {
                 Status = akun.Status,
-                TanggalUjian = akun.JadwalTes
+                TanggalUjian = akun.JadwalTes.ToString("dddd, dd MMMM yyyy", new System.Globalization.CultureInfo("id-ID"))
             };
             return View(model);
         }

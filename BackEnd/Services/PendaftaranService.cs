@@ -21,26 +21,27 @@ namespace BackEnd.Services
         }
 
         #region Not Interface Implementation
-        public void CreateCalonSiswa(CalonSiswa newCalonSiswa)
+        public void InsertCalonSiswa(CalonSiswa newCalonSiswa)
         {
-            string sqlInsertCalonSIswa = @"INSERT INTO CalonSiswa(Nik, Nisn, NamaLengkap) 
+            string sqlInsertCalonSiswa = @"INSERT INTO CalonSiswa(Nik, Nisn, NamaLengkap) 
                 VALUES(@Nik, @Nisn, @NamaLengkap)";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                connection.Execute(sql: sqlInsertCalonSIswa, param: newCalonSiswa);
+                connection.Execute(sql: sqlInsertCalonSiswa, param: newCalonSiswa);
             }
         }
-        public AkunPendaftaran CreateAkunPendaftaran(AkunPendaftaran newAkun)
+        public void InsertSiswa(Siswa newSiswa)
         {
-            newAkun.NoPendaftaran = CreateNoPendaftaran(newAkun.JalurPendaftaran);
-            newAkun.CalonSiswaId = GetCalonSiswaId(newAkun.CalonSiswa.Nik);
-            string passCreated = _securityRelateHelper.GeneratePassword();
-            newAkun.Password = _securityRelateHelper.Encrypt(passCreated);
-
-            return newAkun;
+            string sqlInsertSiswa = @"INSERT INTO Siswa(CalonSiswaId, TanggalMasuk, Nis, Status) 
+                VALUES(@CalonSiswaId, @TanggalMasuk, @Nis, @Status)";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlInsertSiswa, param: newSiswa);
+            }
         }
-        public void SaveAkunPendaftaran(AkunPendaftaran newAkun)
+        public void InsertAkunPendaftaran(AkunPendaftaran newAkun)
         {
             string sqlInsertAkun = @"INSERT INTO AkunPendaftaran(CalonSiswaId, NoPendaftaran, Password, JalurPendaftaran, JadwalTes) 
                 VALUES(@CalonSiswaId, @NoPendaftaran, @Password, @JalurPendaftaran, @JadwalTes)";
@@ -52,10 +53,10 @@ namespace BackEnd.Services
 
             if (newAkun.JalurPendaftaran.Equals("Mutasi"))
             {
-                SaveAkademikLama(newAkun.CalonSiswaId, newAkun.CalonSiswa.AkademikTerakhir.NamaSekolah);
+                InsertAkademikLama(newAkun.CalonSiswaId, newAkun.CalonSiswa.AkademikTerakhir.NamaSekolah);
             }
         }
-        public void SaveAkademikLama(int calonSiswaId, string namaSekolah)
+        public void InsertAkademikLama(int calonSiswaId, string namaSekolah)
         {
             string sqlQuery = @"INSERT INTO AkademikTerakhir(CalonSiswaId, NamaSekolah) VALUES(@CalonSiswaId, @NamaSekolah)";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -63,6 +64,15 @@ namespace BackEnd.Services
                 connection.Open();
                 connection.Execute(sql: sqlQuery, param: new { CalonSiswaId = calonSiswaId, NamaSekolah = namaSekolah });
             }
+        }
+        public AkunPendaftaran CreateAkunPendaftaran(AkunPendaftaran newAkun)
+        {
+            newAkun.NoPendaftaran = CreateNoPendaftaran(newAkun.JalurPendaftaran);
+            newAkun.CalonSiswaId = GetCalonSiswaId(newAkun.CalonSiswa.Nik);
+            string passCreated = _securityRelateHelper.GeneratePassword();
+            newAkun.Password = _securityRelateHelper.Encrypt(passCreated);
+
+            return newAkun;
         }
         public string CreateNoPendaftaran(string jalurPendaftaran)
         {
@@ -74,6 +84,36 @@ namespace BackEnd.Services
                 string noPendaftaran = connection.QueryFirstOrDefault<string>(
                     sql: sqlCreateNoPendaftaran, param: new { JalurPendaftaran = jalurPendaftaran });
                 return noPendaftaran;
+            }
+        }
+        public Siswa CreateSiswa(AkunPendaftaran akun)
+        {
+            var siswa = new Siswa()
+            {
+                CalonSiswaId = akun.CalonSiswaId,
+                TanggalMasuk = DateTime.Now,
+                Status = "Aktif",
+                Nis = CreateNis()
+            };
+            return siswa;
+        }
+        public string CreateNis()
+        {
+            string sqlCreateNis = @"SELECT MAX(Nis)+1 FROM Siswa";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                string nis = connection.QueryFirstOrDefault<string>(sql: sqlCreateNis);
+                return nis;
+            }
+        }
+        public void UpdateStatusDaftarUlang(int akunId)
+        {
+            string sqlReRegist = @"UPDATE AkunPendaftaran SET Status = 'Daftar Ulang' WHERE Id = @Id";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlReRegist, param: new { Id = akunId });
             }
         }
         public bool IsExistCalonSiswa(string nik)
@@ -99,19 +139,19 @@ namespace BackEnd.Services
         }
         #endregion
 
-        public int AddNewAkunPendaftaran(AkunPendaftaran newAkun)
+        public int NewRegist(AkunPendaftaran newAkun)
         {
             // Cek apa calon siswa sudah pernah mendaftar
             bool exist = IsExistCalonSiswa(newAkun.CalonSiswa.Nik);
             if (!exist)
             {
-                CreateCalonSiswa(newAkun.CalonSiswa);
+                InsertCalonSiswa(newAkun.CalonSiswa);
             }
             var completeAkun = CreateAkunPendaftaran(newAkun);
-            SaveAkunPendaftaran(completeAkun);
-            int calonSiswaId = GetAkunPendaftaranId(completeAkun.NoPendaftaran);
+            InsertAkunPendaftaran(completeAkun);
+            int akunPendaftaranId = GetAkunPendaftaranId(completeAkun.NoPendaftaran);
 
-            return calonSiswaId;
+            return akunPendaftaranId;
         }
 
         public int GetAkunPendaftaranId(string noPedaftaran)
@@ -128,12 +168,10 @@ namespace BackEnd.Services
         
         public void ReRegist(int akunId)
         {
-            string sqlReRegist = @"UPDATE AkunPendaftaran SET Status = 'Daftar Ulang' WHERE Id = @Id";
-            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                connection.Execute(sql: sqlReRegist, param: new { Id = akunId });
-            }
+            UpdateStatusDaftarUlang(akunId);
+            var akunPendaftaran = GetAkunPendaftaran(akunId);
+            var newSiswa = CreateSiswa(akunPendaftaran);
+            InsertSiswa(newSiswa);
         }
 
         public AkunPendaftaran GetAkunPendaftaran(int akunId)
