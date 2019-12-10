@@ -69,7 +69,7 @@ namespace FrontEnd.Web.Mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Ujian}/{action=Index}/{id?}");
+                    pattern: "{controller=PsbTes}/{action=Index}/{id?}");
             });
         }
     }

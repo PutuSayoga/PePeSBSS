@@ -43,7 +43,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                     
                 }).ToList()
             };
-            ViewBag.Pesan = TempData["Pesan"];
+            ViewBag.Pesan = TempData["Pesan"] as string;
             return View(model);
         }
         [HttpPost]

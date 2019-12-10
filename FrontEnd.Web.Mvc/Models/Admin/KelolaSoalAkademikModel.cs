@@ -1,5 +1,4 @@
-﻿using BackEnd.Domains;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FrontEnd.Web.Mvc.Models.Admin
@@ -9,7 +8,6 @@ namespace FrontEnd.Web.Mvc.Models.Admin
         public List<CrudSoalAkademik> ListSoal { get;  set; }
         public CrudSoalAkademik SoalAkademik { get; set; }
     }
-
     public class CrudSoalAkademik
     {
         [Display(Name = "Judul Soal", Prompt = "Masukkan judul soal")]

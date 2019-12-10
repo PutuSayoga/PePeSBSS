@@ -2,7 +2,7 @@
 
 namespace FrontEnd.Web.Mvc.Models.Admin
 {
-    public class KelolaPertanyaanAkademikModel
+    public class CrudPertanyaanAkademikModel
     {
         public int SoalId { get; set; }
         public int Id { get; set; }

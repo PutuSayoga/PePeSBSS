@@ -79,7 +79,9 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CrudPertanyaanWawancara.Isi" class="col-form-label"></label>
-                        <textarea id="editor" asp-for="CrudPertanyaanWawancara.Isi" class="form-control"></textarea>
+                        <span class="text-danger">*</span>
+                        <textarea id="editor" asp-for="CrudPertanyaanWawancara.Isi" class="form-control" cols="3"></textarea>
+                        <span asp-validation-for="CrudPertanyaanWawancara.Isi"></span>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
@@ -107,7 +109,7 @@
                     <div class="form-group">
                         <label asp-for="CrudPertanyaanWawancara.Isi" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <textarea asp-for="CrudPertanyaanWawancara.Isi" class="form-control"></textarea>
+                        <textarea asp-for="CrudPertanyaanWawancara.Isi" class="form-control" cols="3"></textarea>
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>

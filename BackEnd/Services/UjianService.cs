@@ -12,17 +12,15 @@ namespace BackEnd.Services
     public class UjianService : IUjian
     {
         private readonly IDbConnectionHelper _connectionHelper;
-        private readonly IPendaftaran _pendaftaranService;
         private readonly ISoalPenerimaan _soalService;
         public UjianService(IDbConnectionHelper connectionHelper, ISoalPenerimaan soalPenerimaanService, IPendaftaran pendaftaranService)
         {
             _connectionHelper = connectionHelper;
             _soalService = soalPenerimaanService;
-            _pendaftaranService = pendaftaranService;
         }
 
         #region Not Interface Implementation
-        public void FinishedStatusUjian(int akunId, int soalId)
+        public void UpdateFinishStatusUjian(int akunId, int soalId)
         {
             string sqlQuery = @"UPDATE Ujian SET IsDone=1 WHERE AkunPendaftaranId = @AkunPendaftaranId AND SoalId = @SoalId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -66,7 +64,7 @@ namespace BackEnd.Services
         {
             var listHasilTes = GetHasilUjian(akunPendaftaranId, soalId);
             var kategori = _soalService.GetSimpleSoal(soalId).Kategori;
-            bool isExistInRangkuman = isExistInRangkumanAkademik(akunPendaftaranId);
+            bool isExistInRangkuman = IsExistInRangkumanAkademik(akunPendaftaranId);
             double nilai = Mark(listHasilTes.Count(x => x.IsCorrect), listHasilTes.Count());
 
             string sqlQueryInsertRecap = @"INSERT INTO RangkumanTesAkademik(AkunPendaftaranId) VALUES(@AkunPendaftaranId)";
@@ -82,7 +80,7 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQueryUpdateNilai, param: new { Nilai = nilai, AkunPendaftaranId = akunPendaftaranId });
             }
         }
-        public bool isExistInRangkumanAkademik(int akunId)
+        public bool IsExistInRangkumanAkademik(int akunId)
         {
             string sqlQueryIsExist = @"SELECT 1 FROM RangkumanTesAkademik WHERE AkunPendaftaranId=@AkunPendaftaranId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -106,20 +104,40 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlUpdateStatus, param: new { AkunId = akunId });
             }
         }
-        #endregion
-
-        public void SaveAnswers(List<HasilTes> listJawaban)
+        public string GetJalurPendaftaran(string noPendaftaran)
         {
-            string sqlQuery = @"INSERT INTO HasilTes(SoalId, PertanyaanId, Jawaban, AkunPendaftaranId) 
-                                VALUES(@SoalId, @PertanyaanId, @Jawaban, @AkunPendaftaranId)";
+            string sqlQuery = $"SELECT JalurPendaftaran FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var jalurPendaftaran = connection.QuerySingle<string>(sql: sqlQuery, param: new { NoPendaftaran = noPendaftaran });
+                return jalurPendaftaran;
+            }
+        }
+        public void SaveNewUjian(Ujian newData)
+        {
+            string sqlQuery = @"INSERT INTO Ujian(AkunPendaftaranId, SoalId, WaktuBerakhir) 
+                VALUES(@AkunPendaftaranId, @SoalId, @WaktuBerakhir)";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                connection.Execute(sql: sqlQuery, param: newData);
+            }
+        }
+        public void SaveNewAnswers(List<HasilTes> listJawaban)
+        {
+            string sqlQuery = @"INSERT INTO HasilTes(SoalId, PertanyaanId, AkunPendaftaranId, Jawaban) 
+                                VALUES(@SoalId, @PertanyaanId, @AkunPendaftaranId, @Jawaban)";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
                 connection.Execute(sql: sqlQuery, param: listJawaban);
             }
         }
+        #endregion
 
-        public void SaveAnswer(HasilTes jawaban)
+
+        public void SaveAnswerAkademik(HasilTes jawaban)
         {
             string sqlQuery = @"UPDATE HasilTes SET Jawaban=@Jawaban 
                 WHERE SoalId=@SoalId AND PertanyaanId=@PertanyaanId AND AkunPendaftaranId=@AkunPendaftaranId";
@@ -129,13 +147,8 @@ namespace BackEnd.Services
             }
         }
 
-        public void StartUjian(int akunPendaftaranId, int soalId)
+        public void StartUjianAkademik(int akunPendaftaranId, int soalId)
         {
-            string sqlCreateNewUjian = @"INSERT INTO Ujian(AkunPendaftaranId, SoalId, WaktuBerakhir) 
-                VALUES(@AkunPendaftaranId, @SoalId, @WaktuBerakhir)";
-            string sqlCreateNewHasilTes = @"INSERT INTO HasilTes(AkunPendaftaranId, SoalId, PertanyaanId)
-                VALUES(@AkunPendaftaranId, @SoalId, @PertanyaanId)";
-            
             var soal = _soalService.GetDetailSoal(soalId);
             var ujianBaru = new Ujian()
             {
@@ -143,20 +156,15 @@ namespace BackEnd.Services
                 AkunPendaftaranId = akunPendaftaranId,
                 WaktuBerakhir = DateTime.Now.AddMinutes(soal.BatasWaktu)
             };
-            var listHasilTes = soal.ListPertanyaan.Select(x => new HasilTes()
+            var jawabanKosong = soal.ListPertanyaan.Select(x => new HasilTes()
             {
                 AkunPendaftaranId = akunPendaftaranId,
-                SoalId = x.SoalId,
+                SoalId = soalId,
                 PertanyaanId = x.Id
-            });
+            }).ToList();
 
-            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                connection.Execute(sql: sqlCreateNewUjian, param: ujianBaru);
-                connection.Execute(sql: sqlCreateNewHasilTes, param: listHasilTes);
-            }
-
+            SaveNewUjian(ujianBaru);
+            SaveNewAnswers(jawabanKosong);
             UpdateStatusSudahUjian(akunPendaftaranId);
         }
 
@@ -189,7 +197,7 @@ namespace BackEnd.Services
             }
         }
 
-        public string GetAnswer(int akunId, int soalId, int pertanyaanId)
+        public string GetAnswerAkademik(int akunId, int soalId, int pertanyaanId)
         {
             string sqlQuery = @"SELECT Jawaban FROM HasilTes WHERE SoalId=@SoalId AND PertanyaanId=@PertanyaanId AND AkunPendaftaranId=@AkunPendaftaranId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -201,16 +209,16 @@ namespace BackEnd.Services
             }
         }
 
-        public void FinishUjian(int akunId, int soalId)
+        public void FinishUjianAkademik(int akunId, int soalId)
         {
-            FinishedStatusUjian(akunId, soalId);
+            UpdateFinishStatusUjian(akunId, soalId);
             CheckUjian(akunId, soalId);
             RecapHasilUjian(akunId, soalId);
         }
-        
+
         public int GetSoalPengerjaanAkademikId(string noPendaftaran, string kategoriSoal)
         {
-            string jalurPendaftaran = _pendaftaranService.GetJalurPendaftaran(noPendaftaran);
+            string jalurPendaftaran = GetJalurPendaftaran(noPendaftaran);
             string sqlQuery = $"SELECT Soal{kategoriSoal}{jalurPendaftaran} FROM Pengaturan WHERE Id = 1";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
@@ -222,14 +230,31 @@ namespace BackEnd.Services
 
         public int GetSoalPengerjaanWawancaraId(string noPendaftaran, string targetSoal)
         {
-            string jalurPendaftaran = _pendaftaranService.GetJalurPendaftaran(noPendaftaran);
-            string sqlQuery = $"SELECT SoalWawancara{targetSoal}{jalurPendaftaran} FROM Pengaturan Id = 1";
+            string jalurPendaftaran = GetJalurPendaftaran(noPendaftaran);
+            string sqlQuery = $"SELECT SoalWawancara{targetSoal}{jalurPendaftaran} FROM Pengaturan WHERE Id = 1";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
                 var soalId = connection.QuerySingle<int>(sql: sqlQuery);
                 return soalId;
             }
+        }
+
+        public void SaveWawancara(List<HasilTes> listHasil)
+        {
+            int soalId = listHasil[0].SoalId; 
+            int akunId = listHasil[0].AkunPendaftaranId;
+            var newUjian = new Ujian()
+            {
+                AkunPendaftaranId = akunId,
+                SoalId = soalId,
+                WaktuBerakhir = DateTime.Now,
+                IsDone = true
+            };
+
+            SaveNewAnswers(listHasil);
+            SaveNewUjian(newUjian);
+            UpdateFinishStatusUjian(akunId, soalId);
         }
     }
 }

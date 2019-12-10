@@ -1,4 +1,4 @@
-﻿@model KelolaPertanyaanAkademikModel
+﻿@model CrudPertanyaanAkademikModel
 @{
     ViewBag.Title = "Tambah Pertanyaan Akademik ";
 }
@@ -9,13 +9,13 @@
     <div class="card-body">
         <form asp-controller="Admin" asp-action="TambahPertanyaanAkademik" method="post">
             <div>
-                <input hidden asp-for="SoalId" value="@ViewBag.SoalId" />
+                <input hidden asp-for="SoalId" value="@Model.SoalId" />
             </div>
             <div class="form-group">
                 <label asp-for="Isi" class="col-form-label"></label>
                 <span class="text-danger">*</span>
                 <textarea id="editor" asp-for="Isi" class="form-control"
-                          placeholder="Pertanyaan"></textarea>
+                          placeholder="Pertanyaan" cols="3"></textarea>
                 <span asp-validation-for="Isi" class="text-danger"></span>
             </div>
             <div class="form-group">

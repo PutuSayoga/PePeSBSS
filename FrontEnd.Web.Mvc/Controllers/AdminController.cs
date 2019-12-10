@@ -212,7 +212,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["Pesan"] = "Gagal menambah soal, Data tidak valid";
-                return RedirectToAction(nameof(KelolaSoalAkademik));
             }
             else
             {
@@ -225,8 +224,8 @@ namespace FrontEnd.Web.Mvc.Controllers
                 };
                 _soalService.AddSoal(soalAkademikBaru);
                 TempData["Pesan"] = "Soal berhasil ditambah";
-                return RedirectToAction(nameof(KelolaSoalAkademik));
             }
+            return RedirectToAction(nameof(KelolaSoalAkademik));
         }
         [HttpPost]
         public IActionResult HapusSoalAkademik(int id, string nama)
@@ -255,7 +254,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["Pesan"] = $"Gagal mengubah soal, Data tidak valid";
-                return RedirectToAction(nameof(KelolaSoalAkademik));
             }
             else
             {
@@ -269,8 +267,8 @@ namespace FrontEnd.Web.Mvc.Controllers
                 };
                 _soalService.UpdateSoal(dataBaru);
                 TempData["Pesan"] = $"Soal {dataBaru.Judul} berhasil diubah";
-                return RedirectToAction(nameof(KelolaSoalAkademik));
             }
+            return RedirectToAction(nameof(KelolaSoalAkademik));
         }
         public IActionResult RincianSoalAkademik(int id)
         {
@@ -284,7 +282,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 Kategori = soal.Kategori,
                 Deskripsi = soal.Deskripsi,
                 ListPertanyaanAkademik = soal.ListPertanyaan
-                    .Select(x => new KelolaPertanyaanAkademikModel()
+                    .Select(x => new CrudPertanyaanAkademikModel()
                     {
                         Id = x.Id,
                         SoalId = x.SoalId,
@@ -302,12 +300,15 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpGet]
         public IActionResult TambahPertanyaanAkademik(int soalId)
         {
-            ViewBag.SoalId = soalId;
-            return View();
+            var model = new CrudPertanyaanAkademikModel()
+            {
+                SoalId = soalId
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult TambahPertanyaanAkademik(KelolaPertanyaanAkademikModel model)
+        public IActionResult TambahPertanyaanAkademik(CrudPertanyaanAkademikModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -334,7 +335,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         public IActionResult UbahPertanyaanAkademik(int id, int soalId)
         {
             var pertanyaanAkademik = _soalService.GetPertanyaan(id, soalId);
-            var model = new KelolaPertanyaanAkademikModel()
+            var model = new CrudPertanyaanAkademikModel()
             {
                 Id = pertanyaanAkademik.Id,
                 SoalId = pertanyaanAkademik.SoalId,
@@ -349,22 +350,30 @@ namespace FrontEnd.Web.Mvc.Controllers
             return View(model);
         }
         [HttpPost]
-        public IActionResult UbahPertanyaanAkademik(KelolaPertanyaanAkademikModel model)
+        public IActionResult UbahPertanyaanAkademik(CrudPertanyaanAkademikModel model)
         {
-            var newData = new Pertanyaan()
+            if (!ModelState.IsValid)
             {
-                SoalId = model.SoalId,
-                Id = model.Id,
-                Isi = model.Isi,
-                OpsiA = model.OpsiA,
-                OpsiB = model.OpsiB,
-                OpsiC = model.OpsiC,
-                OpsiD = model.OpsiD,
-                OpsiE = model.OpsiE,
-                Jawaban = model.Jawaban
-            };
-            _soalService.UpdatePertanyaan(newData);
-            return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.SoalId });
+                ViewBag.Pesan = "Data tidak valid";
+                return View();
+            }
+            else
+            {
+                var newData = new Pertanyaan()
+                {
+                    SoalId = model.SoalId,
+                    Id = model.Id,
+                    Isi = model.Isi,
+                    OpsiA = model.OpsiA,
+                    OpsiB = model.OpsiB,
+                    OpsiC = model.OpsiC,
+                    OpsiD = model.OpsiD,
+                    OpsiE = model.OpsiE,
+                    Jawaban = model.Jawaban
+                };
+                _soalService.UpdatePertanyaan(newData);
+                return RedirectToAction(nameof(RincianSoalAkademik), new { id = model.SoalId });
+            }
         }
         [HttpPost]
         public IActionResult HapusPertanyaanAkademik(int soalId, int id)
@@ -382,7 +391,15 @@ namespace FrontEnd.Web.Mvc.Controllers
             var listSoalWawancara = _soalService.GetAllSoalWawancara();
             var model = new KelolaSoalWawancaraModel()
             {
-                ListSoal = listSoalWawancara
+                ListSoal = listSoalWawancara.Select(x => new CrudSoalWawancara()
+                {
+                    Deskripsi = x.Deskripsi,
+                    Id = x.Id,
+                    Jalur = x.Jalur,
+                    Judul = x.Judul,
+                    JumlahPertanyaan = x.JumlahPertanyaan,
+                    Target = x.Target
+                }).ToList()
             };
 
             return View(model);
@@ -393,7 +410,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["Pesan"] = $"Gagal menambah soal, Data tidak valid";
-                return RedirectToAction(nameof(KelolaSoalWawancara));
             }
             else
             {
@@ -407,8 +423,8 @@ namespace FrontEnd.Web.Mvc.Controllers
                 };
                 _soalService.AddSoal(soalWawancaraBaru);
                 TempData["Pesan"] = "Soal berhasil ditambah";
-                return RedirectToAction(nameof(KelolaSoalWawancara));
             }
+            return RedirectToAction(nameof(KelolaSoalWawancara));
         }
         [HttpPost]
         public IActionResult HapusSoalWawancara(int id, string nama)
@@ -437,7 +453,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             if (!ModelState.IsValid)
             {
                 TempData["Pesan"] = $"Gagal mengubah soal, Data tidak valid";
-                return RedirectToAction(nameof(KelolaSoalWawancara));
             }
             else
             {
@@ -452,11 +467,12 @@ namespace FrontEnd.Web.Mvc.Controllers
                 };
                 _soalService.UpdateSoal(dataBaru);
                 TempData["Pesan"] = $"Soal {dataBaru.Judul} berhasil diubah";
-                return RedirectToAction(nameof(KelolaSoalWawancara));
             }
+            return RedirectToAction(nameof(KelolaSoalWawancara));
         }
         public IActionResult RincianSoalWawancara(int id)
         {
+            ViewBag.Pesan = TempData["Pesan"] as string;
             var soal = _soalService.GetDetailSoal(id);
             var model = new RincianSoalWawancaraModel()
             {
@@ -479,12 +495,19 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpPost]
         public IActionResult TambahPertanyaanWawancara(RincianSoalWawancaraModel model)
         {
-            var newPertanyaan = new Pertanyaan()
+            if (!ModelState.IsValid)
             {
-                SoalId = model.Id,
-                Isi = model.CrudPertanyaanWawancara.Isi
-            };
-            _soalService.AddPertanyaan(newPertanyaan);
+                TempData["Pesan"] = "Data tidak valid";
+            }
+            else
+            {
+                var newPertanyaan = new Pertanyaan()
+                {
+                    SoalId = model.Id,
+                    Isi = model.CrudPertanyaanWawancara.Isi
+                };
+                _soalService.AddPertanyaan(newPertanyaan);
+            }
             return RedirectToAction(nameof(RincianSoalWawancara), new { id = model.Id });
         }
         [HttpGet]
@@ -502,13 +525,20 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpPost]
         public IActionResult UbahPertanyaanWawancara(RincianSoalWawancaraModel model)
         {
-            var newData = new Pertanyaan()
+            if (!ModelState.IsValid)
             {
-                Id = model.CrudPertanyaanWawancara.Id,
-                SoalId = model.CrudPertanyaanWawancara.SoalId,
-                Isi = model.CrudPertanyaanWawancara.Isi
-            };
-            _soalService.UpdatePertanyaan(newData);
+                TempData["Pesan"] = "Data tidak valid";
+            }
+            else
+            {
+                var newData = new Pertanyaan()
+                {
+                    Id = model.CrudPertanyaanWawancara.Id,
+                    SoalId = model.CrudPertanyaanWawancara.SoalId,
+                    Isi = model.CrudPertanyaanWawancara.Isi
+                };
+                _soalService.UpdatePertanyaan(newData);
+            }
             return RedirectToAction(nameof(RincianSoalWawancara), new { id = model.CrudPertanyaanWawancara.SoalId });
         }
         [HttpPost]
@@ -528,7 +558,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 ListSiswaView = siswa.Select(x => new SiswaView()
                 {
                     Id = x.Id,
-                    JenisKelamin = x.CalonSiswa.DataDiri == null ? "-" : 
+                    JenisKelamin = x.CalonSiswa.DataDiri == null ? "-" :
                         x.CalonSiswa.DataDiri.IsPerempuan ? "Perempuan" : "Laki-laki",
                     NamaKelas = x.Kelas == null ? "-" : x.Kelas.NamaKelas,
                     NamaLengkap = x.CalonSiswa.NamaLengkap,
@@ -541,7 +571,7 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult PengaturanSoal()
         {
-            ViewBag.Pesan = TempData["Pesan"];
+            ViewBag.Pesan = TempData["Pesan"] as string;
             var soalAkademik = _soalService.GetAllSoalAkademik();
             var soalWawancara = _soalService.GetAllSoalWawancara();
             var pengaturanSoal = _soalService.GetPengaturanSoal();

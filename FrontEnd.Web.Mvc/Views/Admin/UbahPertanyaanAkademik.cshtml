@@ -1,4 +1,4 @@
-﻿@model KelolaPertanyaanAkademikModel
+﻿@model CrudPertanyaanAkademikModel
 @{
     ViewBag.Title = "Ubah Pertanyaan Akademik ";
 }
@@ -16,7 +16,7 @@
                 <label asp-for="Isi" class="col-form-label"></label>
                 <span class="text-danger">*</span>
                 <textarea id="editor" asp-for="Isi" class="form-control"
-                          placeholder="Pertanyaan">@Model.Isi</textarea>
+                          placeholder="Pertanyaan" cols="3">@Model.Isi</textarea>
                 <span asp-validation-for="Isi" class="text-danger"></span>
             </div>
             <div class="form-group">

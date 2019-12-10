@@ -282,17 +282,6 @@ namespace BackEnd.Services
             }
         }
 
-        public string GetJalurPendaftaran(string noPendaftaran)
-        {
-            string sqlQuery = $"SELECT JalurPendaftaran FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
-            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
-            {
-                connection.Open();
-                var jalurPendaftaran = connection.QuerySingle<string>(sql: sqlQuery, param: new { NoPendaftaran = noPendaftaran });
-                return jalurPendaftaran;
-            }
-        }
-
         public AkunPendaftaran SearchAkunPendaftaran(string noPendaftaran)
         {
             int akunId = GetAkunPendaftaranId(noPendaftaran);

@@ -1,0 +1,29 @@
+﻿<h1 class="mb-3">Wawancara Selesai</h1>
+<div class="col-lg-9">
+    <div class="card shadow mb-4">
+        <div class="d-block card-header py-3">
+            <h5 class="m-0 font-weight-bold text-primary"></h5>
+        </div>
+        <div class="card-body">
+            <p>
+                Calon siswa / orang tua ini sudah mengikuti test wawancara.<br />
+                Silahkan tekan tombol dibawah untuk kembali ke halaman Test Wawancara<br />
+                @if (User.IsInRole("Waka Kesiswaan"))
+                {
+                    <a class="btn btn-primary" asp-controller="WakaKesiswaan"
+                       asp-action="TestWawancara">Test Wawancara</a>
+                }
+                else if (User.IsInRole("Psb Tes"))
+                {
+                    <a class="btn btn-primary" asp-controller="PsbTes"
+                       asp-action="TestWawancara">Test Wawancara</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary" asp-controller="PsbTes"
+                       asp-action="TestWawancara">Test Wawancara PsbTes</a>
+                }
+            </p>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,7 @@ namespace FrontEnd.Web.Mvc.Controllers
     public class PsbTesController : Controller
     {
         private readonly ISeleksiPenerimaan _seleksiPenerimaanService;
-        public PsbTesController(ISeleksiPenerimaan seleksiPenerimaanService)
+        public PsbTesController(ISeleksiPenerimaan seleksiPenerimaanService, IPendaftaran pendaftaranService)
         {
             _seleksiPenerimaanService = seleksiPenerimaanService;
         }
@@ -23,7 +23,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             return View();
         }
 
-        [HttpGet]
         public IActionResult SeleksiJalurKhusus()
         {
             var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Khusus");
@@ -43,12 +42,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
 
             return View(model);
-        }
-        [HttpPost]
-        public IActionResult SeleksiJalurKhusus(int id, bool isLolos)
-        {
-            _seleksiPenerimaanService.UpdateSelection(id, isLolos);
-            return RedirectToAction(nameof(SeleksiJalurKhusus));
         }
         public IActionResult SeleksiJalurReguler()
         {
@@ -101,6 +94,31 @@ namespace FrontEnd.Web.Mvc.Controllers
                 }).ToList()
             };
             return View(model);
+        }
+        [HttpPost]
+        public IActionResult Seleksi(int id, bool isLolos)
+        {
+            _seleksiPenerimaanService.UpdateSelection(id, isLolos);
+            return RedirectToAction(nameof(SeleksiJalurKhusus));
+        }
+
+        public IActionResult TestWawancara()
+        {
+            ViewBag.Pesan = TempData["Pesan"] as string;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult TestWawancara(TestWawancaraModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Pesan = "Data tidak valid";
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("PendahuluanWawancara", "Ujian", new { noPendaftaran = model.NoPendaftaran, target = model.Target });
+            }
         }
     }
 }

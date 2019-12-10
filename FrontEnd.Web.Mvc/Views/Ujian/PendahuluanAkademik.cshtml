@@ -33,7 +33,7 @@ else
             <div>
                 <label asp-for="Deskripsi"></label>:<label>@Model.Deskripsi</label>
             </div>
-            <a asp-controller="Ujian" asp-action="MulaiMengerjakan" asp-route-soalId="@Model.Id" class="btn btn-primary">Mulai Mengerjakan</a>
+            <a asp-controller="Ujian" asp-action="MulaiMengerjakanAkademik" asp-route-soalId="@Model.Id" class="btn btn-primary">Mulai Mengerjakan</a>
         </div>
     </div>
 }

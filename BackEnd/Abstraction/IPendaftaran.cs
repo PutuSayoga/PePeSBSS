@@ -15,6 +15,5 @@ namespace BackEnd.Abstraction
         AkunPendaftaran GetAkunPendaftaran(int akunId);
         AkunPendaftaran SearchAkunPendaftaran(string noPendaftaran);
         int GetAkunPendaftaranId(string noPedaftaran);
-        string GetJalurPendaftaran(string noPendaftaran);
     }
 }

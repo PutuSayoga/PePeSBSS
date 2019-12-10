@@ -1,0 +1,24 @@
+﻿@model PendahuluanWawancaraModel
+
+<h1 class="mb-3">@Model.SoalWawancara.Judul</h1>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Peraturan & Keterangan</h6>
+    </div>
+    <div class="card-body">
+        <div>
+            <label asp-for="SoalWawancara.Jalur"></label>:<label>Jalur @Model.SoalWawancara.Jalur</label>
+        </div>
+        <div>
+            <label asp-for="SoalWawancara.JumlahPertanyaan"></label>:<label>@Model.SoalWawancara.JumlahPertanyaan pertanyaan</label>
+        </div>
+        <div>
+            <label asp-for="SoalWawancara.Kategori"></label>:<label>@Model.SoalWawancara.Kategori</label>
+        </div>
+        <div>
+            <label asp-for="SoalWawancara.Deskripsi"></label>:<label>@Model.SoalWawancara.Deskripsi</label>
+        </div>
+        <a class="btn btn-primary" asp-controller="Ujian" asp-action="Wawancara" 
+           asp-route-soalId="@Model.SoalWawancara.Id" asp-route-noPendaftaran="@Model.NoPendaftaran">Mulai Wawancara</a>
+    </div>
+</div>

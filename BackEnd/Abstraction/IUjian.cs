@@ -8,11 +8,12 @@ namespace BackEnd.Abstraction
     public interface IUjian
     {
         bool? IsDone(int akunPendaftaranId, int soalId);
-        void StartUjian(int akunId, int soalId);
-        void SaveAnswer(HasilTes jawaban);
-        string GetAnswer(int akunId, int soalId, int pertanyaanId);
         Ujian GetUjian(int akunId, int soalId);
-        void FinishUjian(int akunId, int soalId);
+        void StartUjianAkademik(int akunId, int soalId);
+        void SaveAnswerAkademik(HasilTes jawaban);
+        string GetAnswerAkademik(int akunId, int soalId, int pertanyaanId);
+        void FinishUjianAkademik(int akunId, int soalId);
+        void SaveWawancara(List<HasilTes> listHasil);
         int GetSoalPengerjaanAkademikId(string noPendaftaran, string kategoriSoal);
         int GetSoalPengerjaanWawancaraId(string noPendaftaran, string targetSoal);
     }
