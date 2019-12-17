@@ -73,7 +73,7 @@
             <div class="card-body row">
                 @for (int j = 0; j < Model.MapPertanyaan.Count; j++)
                 {
-                    <div class="col-3">
+                    <div class="col-lg-2 col-3 mt-1">
                         <a asp-controller="Ujian" asp-action="JawabSoalAkademik" asp-route-soalId="@Model.SoalId"
                            asp-route-qid="@Model.MapPertanyaan[j]" class="btn btn-default border">@(j + 1)</a>
                     </div>

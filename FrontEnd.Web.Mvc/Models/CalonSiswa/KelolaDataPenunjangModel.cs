@@ -13,9 +13,9 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
         [Display(Name = "Daya Listrik", Prompt = "Daya listrik rumah yang ditempati")]
         public int? DayaListrik { get; set; }
         [Display(Name = "Jarak Tempuh", Prompt = "Dari rumah ke SMA BSS")]
-        public double? JarakTempuh { get; set; }
+        public float? JarakTempuh { get; set; }
         [Display(Name = "Waktu Tempuh", Prompt = "Dari rumah ke SMA BSS")]
-        public byte? WaktuTempuh { get; set; }
+        public int? WaktuTempuh { get; set; }
         [Display(Name = "Transportasi", Prompt = "Kendaraan yang digunakan untuk pergi ke sekolah")]
         public string Transportasi { get; set; }
     }

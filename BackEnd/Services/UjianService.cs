@@ -22,7 +22,7 @@ namespace BackEnd.Services
         #region Not Interface Implementation
         public void UpdateFinishStatusUjian(int akunId, int soalId)
         {
-            string sqlQuery = @"UPDATE Ujian SET IsDone=1 WHERE AkunPendaftaranId = @AkunPendaftaranId AND SoalId = @SoalId";
+            string sqlQuery = @"UPDATE Ujian SET IsSelesai=1 WHERE AkunPendaftaranId = @AkunPendaftaranId AND SoalId = @SoalId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -33,19 +33,21 @@ namespace BackEnd.Services
         {
             var soal = _soalService.GetDetailSoal(soalId);
             var kunciJawaban = soal.ListPertanyaan.ToDictionary(x => x.Id, y => y.Jawaban.ToString());
-            var listHasilTes = GetHasilUjian(akunId, soalId);
-            for (int i = 0; i < listHasilTes.Count; i++)
+            var listHasilUjian = GetHasilUjian(akunId, soalId);
+            for (int i = 0; i < listHasilUjian.Count; i++)
             {
-                int pertanyaanId = listHasilTes[i].PertanyaanId;
-                if (listHasilTes[i].Jawaban.Equals(kunciJawaban[pertanyaanId], StringComparison.OrdinalIgnoreCase))
-                    listHasilTes[i].IsCorrect = true;
+                int pertanyaanId = listHasilUjian[i].PertanyaanId;
+                if (listHasilUjian[i].Jawaban == kunciJawaban[pertanyaanId])
+                    listHasilUjian[i].IsBenar = true;
+                else
+                    listHasilUjian[i].IsBenar = false;
             }
-            string sqlQuery = @"UPDATE HasilTes SET IsCorrect = @IsCorrect
+            string sqlQuery = @"UPDATE HasilTes SET IsBenar = @IsBenar
                                 WHERE AkunPendaftaranId = @AkunPendaftaranId AND PertanyaanId = @PertanyaanId AND SoalId = @SoalId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                connection.Execute(sql: sqlQuery, param: listHasilTes);
+                connection.Execute(sql: sqlQuery, param: listHasilUjian);
             }
         }
         public List<HasilTes> GetHasilUjian(int akunId, int soalId)
@@ -57,15 +59,16 @@ namespace BackEnd.Services
                 var listHasilTes = connection
                     .Query<HasilTes>(sql: sqlQuery, param: new { AkunPendaftaranId = akunId, SoalId = soalId })
                     .ToList();
+                
                 return listHasilTes;
             }
         }
         public void RecapHasilUjian(int akunPendaftaranId, int soalId)
         {
-            var listHasilTes = GetHasilUjian(akunPendaftaranId, soalId);
+            var listHasilUjian = GetHasilUjian(akunPendaftaranId, soalId);
             var kategori = _soalService.GetSimpleSoal(soalId).Kategori;
             bool isExistInRangkuman = IsExistInRangkumanAkademik(akunPendaftaranId);
-            double nilai = Mark(listHasilTes.Count(x => x.IsCorrect), listHasilTes.Count());
+            double nilai = Mark(listHasilUjian.Count(x => x.IsBenar), listHasilUjian.Count());
 
             string sqlQueryInsertRecap = @"INSERT INTO RangkumanTesAkademik(AkunPendaftaranId) VALUES(@AkunPendaftaranId)";
             string sqlQueryUpdateNilai = $"UPDATE RangkumanTesAkademik SET Nilai{kategori} = @Nilai WHERE AkunPendaftaranId = @AkunPendaftaranId";
@@ -178,7 +181,7 @@ namespace BackEnd.Services
             }
             else if (DateTime.Now < ujian.WaktuBerakhir)
             {
-                return ujian.IsDone;
+                return ujian.IsSelesai;
             }
             else
             {
@@ -249,7 +252,7 @@ namespace BackEnd.Services
                 AkunPendaftaranId = akunId,
                 SoalId = soalId,
                 WaktuBerakhir = DateTime.Now,
-                IsDone = true
+                IsSelesai = true
             };
 
             SaveNewAnswers(listHasil);

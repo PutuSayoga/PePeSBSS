@@ -81,7 +81,6 @@
     <Build Include="Tables\Siswa\Siswa.sql" />
     <Build Include="Tables\Kelas\Kelas.sql" />
     <Build Include="Tables\Siswa\MutasiKeluar.sql" />
-    <Build Include="Tables\Jawaban.sql" />
     <Build Include="Tables\Pengaturan.sql" />
     <Build Include="Tables\Ujian.sql" />
   </ItemGroup>

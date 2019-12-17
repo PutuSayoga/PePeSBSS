@@ -14,7 +14,7 @@ namespace BackEnd.Domains
         public DateTime JadwalTes { get; set; }
 
         public CalonSiswa CalonSiswa { get; set; }
-        public RangkumanTesAkademik RangkumanTesAkademik { get; set; }
+        public RangkumanTesAkademik Rekap { get; set; }
         public List<HasilTes> ListHasilTes { get; set; }
     }
 }

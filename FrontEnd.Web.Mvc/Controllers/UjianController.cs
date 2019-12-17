@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [AllowAnonymous]
-    //[Authorize(Roles = "Calon Siswa")]
+    //[AllowAnonymous]
+    [Authorize]
     public class UjianController : Controller
     {
         private readonly ISoalPenerimaan _soalPenerimaanService;
@@ -25,17 +25,21 @@ namespace FrontEnd.Web.Mvc.Controllers
             _pendaftaranService = pendaftaranService;
             _soalPenerimaanService = soalPenerimaanService;
         }
+        
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles = "Calon Siswa")]
         public IActionResult MulaiMengerjakanAkademik(int soalId)
         {
             int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             _ujianService.StartUjianAkademik(akunId, soalId);
             return RedirectToAction(nameof(JawabSoalAkademik), new { soalId });
         }
+        
+        [Authorize(Roles = "Calon Siswa")]
         public IActionResult PendahuluanAkademik(string kategori)
         {
             int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -64,11 +68,15 @@ namespace FrontEnd.Web.Mvc.Controllers
                 return RedirectToAction(nameof(JawabSoalAkademik), new { soalId = soalPengerjaanId });
             }
         }
+        
+        [Authorize(Roles = "Calon Siswa")]
         public IActionResult SelesaiUjianAkademik()
         {
             return View();
         }
+        
         [HttpPost]
+        [Authorize(Roles = "Calon Siswa")]
         public IActionResult SelesaiUjianAkademik(JawabSoalAkademikModel model)
         {
             int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -83,7 +91,9 @@ namespace FrontEnd.Web.Mvc.Controllers
             _ujianService.FinishUjianAkademik(akunId, model.SoalId);
             return View();
         }
+        
         [HttpGet]
+        [Authorize(Roles = "Calon Siswa")]
         public IActionResult JawabSoalAkademik(int soalId, int? qid)
         {
             int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
@@ -127,7 +137,9 @@ namespace FrontEnd.Web.Mvc.Controllers
                 return View(model);
             }
         }
+        
         [HttpPost]
+        [Authorize(Roles = "Calon Siswa")]
         public IActionResult JawabSoalAkademik(JawabSoalAkademikModel model)
         {
             int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));

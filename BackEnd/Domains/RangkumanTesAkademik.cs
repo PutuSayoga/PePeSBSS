@@ -10,6 +10,7 @@ namespace BackEnd.Domains
         public double NilaiIps { get; set; }
         public double NilaiTpa { get; set; }
         public double NilaiAkhir { get; set; }
+        public bool IsLolos { get; set; }
         public AkunPendaftaran AkunPendaftaran { get; set; }
     }
 }

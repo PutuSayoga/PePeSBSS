@@ -7,7 +7,7 @@ namespace BackEnd.Abstraction
 {
     public interface ISeleksiPenerimaan
     {
-        List<AkunPendaftaran> GetAllWithJalur(string jalur);
+        List<AkunPendaftaran> GetAllFinishUjianWithJalur(string jalur);
         void UpdateSelection(int akunId, bool isLolos);
     }
 }

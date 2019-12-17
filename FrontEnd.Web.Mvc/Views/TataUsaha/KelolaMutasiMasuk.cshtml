@@ -74,7 +74,7 @@
                                 <td class="text-center">
                                     @if (akun.Status.Equals("Lolos"))
                                     {
-                                        <form asp-controller="TataUsaha" asp-action="DaftarUlangMutasi" asp-route-id="@akun.Id" method="post">
+                                        <form asp-controller="TataUsaha" asp-action="DaftarUlangMutasiMasuk" asp-route-id="@akun.Id" method="post">
                                             <button class="btn btn-primary">Daftar Ulang</button>
                                         </form>
                                     }

@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [Authorize(Roles = "PSB Pendaftaran, Admin")]
+    [Authorize(Roles = "PSB Pendaftaran")]
+    //[Authorize]
     public class PsbPendaftaranController : Controller
     {
         private IPendaftaran _pendaftaranService;
@@ -29,8 +30,8 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpPost]
         public IActionResult DaftarBaru(DaftarBaruModel model)
         {
-            if(!model.JalurPendaftaran.Equals("Reguler"))
-                if(!((model.JadwalTes >= DateTime.Now) && (model.JadwalTes <= DateTime.Now.AddDays(3))))
+            if (!model.JalurPendaftaran.Equals("Reguler"))
+                if (!((model.JadwalTes >= DateTime.Now) && (model.JadwalTes <= DateTime.Now.AddDays(3))))
                     ModelState.AddModelError(nameof(DaftarBaruModel.JadwalTes),
                         "Jadwal tes maksimal dilaksanakan 3 hari setelah daftar baru");
 

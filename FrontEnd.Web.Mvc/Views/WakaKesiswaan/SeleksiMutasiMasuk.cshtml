@@ -40,7 +40,7 @@
                                 <td>@akun.NilaiTpa</td>
                                 <td>@akun.SkorAkhir</td>
                                 <td class="text-center">
-                                    @if (akun.Keterangan)
+                                    @if (akun.IsLolos)
                                     {
                                         <p class="card bg-success text-white">Lolos</p>
                                     }
@@ -55,7 +55,7 @@
                                 <td class="text-center">
                                     <form asp-controller="WakaKesiswaan" asp-action="SeleksiMutasiMasuk">
                                         <input type="hidden" name="id" value="@akun.Id" />
-                                        <input type="hidden" name="isLolos" value="@akun.Keterangan" />
+                                        <input type="hidden" name="isLolos" value="@akun.IsLolos" />
                                         <button class="btn btn-primary" type="submit">Perbarui Status</button>
                                     </form>
                                 </td>

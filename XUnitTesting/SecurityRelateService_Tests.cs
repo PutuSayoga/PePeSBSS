@@ -11,7 +11,7 @@ namespace XUnitTesting
     public class SecurityRelateService_Tests
     {
         [Fact]
-        public void GeneratePassword_Length8()
+        public void GeneratePassword_CorrectDefaultOutput()
         {
             // Arrange
             var securityRelate = new SecurityRelateHelper();
@@ -20,67 +20,12 @@ namespace XUnitTesting
             var password = securityRelate.GeneratePassword();
 
             // Assert
-            Assert.Equal(8, password.Length);
-        }
-        [Fact]
-        public void GeneratePassword_CharDiferent4orMore()
-        {
-            // Arrange
-            var securityRelate = new SecurityRelateHelper();
-
-            // Action
-            var password = securityRelate.GeneratePassword();
-
-            // Assert
-            Assert.True(password.Distinct().Count() >= 4);
-        }
-        [Fact]
-        public void GeneratePassword_AnyCapitalAlphabet()
-        {
-            // Arrange
-            var securityRelate = new SecurityRelateHelper();
-
-            // Action
-            var password = securityRelate.GeneratePassword();
-
-            // Assert
-            Assert.True(password.IndexOfAny("ABCDEFGHJKLMNOPQRSTUVWXYZ".ToCharArray()) != -1);
-        }
-        [Fact]
-        public void GeneratePassword_AnyNormalAlphabet()
-        {
-            // Arrange
-            var securityRelate = new SecurityRelateHelper();
-
-            // Action
-            var password = securityRelate.GeneratePassword();
-
-            // Assert
-            Assert.True(password.IndexOfAny("abcdefghijkmnopqrstuvwxyz".ToCharArray()) != -1);
-        }
-        [Fact]
-        public void GeneratePassword_AnyNumber()
-        {
-            // Arrange
-            var securityRelate = new SecurityRelateHelper();
-
-            // Action
-            var password = securityRelate.GeneratePassword();
-
-            // Assert
-            Assert.True(password.IndexOfAny("0123456789".ToCharArray()) != -1);
-        }
-        [Fact]
-        public void GeneratePassword_AnyUnicChar()
-        {
-            // Arrange
-            var securityRelate = new SecurityRelateHelper();
-
-            // Action
-            var password = securityRelate.GeneratePassword();
-
-            // Assert
-            Assert.True(password.IndexOfAny("!@$?_-".ToCharArray()) != -1);
+            Assert.Equal(8, password.Length); // Panjang 8 karakter
+            Assert.True(password.Distinct().Count() >= 4); // Karakter beda 4 atau lebih
+            Assert.True(password.IndexOfAny("ABCDEFGHJKLMNOPQRSTUVWXYZ".ToCharArray()) != -1); // Ada huruf kapital
+            Assert.True(password.IndexOfAny("abcdefghijkmnopqrstuvwxyz".ToCharArray()) != -1); // Ada huruf kecil
+            Assert.True(password.IndexOfAny("0123456789".ToCharArray()) != -1); // Ada angka
+            Assert.True(password.IndexOfAny("!@$?_-".ToCharArray()) != -1); // Ada karakter unik
         }
 
         [Theory]

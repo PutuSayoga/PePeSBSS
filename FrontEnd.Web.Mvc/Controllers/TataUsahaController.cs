@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [Authorize(Roles ="Tata Usaha, Admin")]
+    [Authorize(Roles = "Tata Usaha")]
+    //[Authorize]
     public class TataUsahaController:Controller
     {
         private readonly IPendaftaran _pendaftaranService;
@@ -84,7 +85,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             }
         }
         [HttpPost]
-        public IActionResult DaftarUlangMutasi(int id)
+        public IActionResult DaftarUlangMutasiMasuk(int id)
         {
             _pendaftaranService.ReRegist(id);
             TempData["Pesan"] = "Daftar ulang berhasil";
@@ -139,7 +140,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         public IActionResult CariSiswa(string nis)
         {
-            var siswa = _siswaService.SearchSiswaForMutasiKeluar(nis);
+            var siswa = _siswaService.SearchSiswa(nis);
             var model = new CrudMutasiKeluar()
             {
                 SiswaId = siswa.Id,
@@ -163,10 +164,10 @@ namespace FrontEnd.Web.Mvc.Controllers
             return RedirectToAction(nameof(KelolaMutasiKeluar));
         }
 
-        public IActionResult DaftarSiswa()
+        public IActionResult ListDaftarSiswa()
         {
             var siswa = _siswaService.GetAllSiswa();
-            var model = new DaftarSiswaModel()
+            var model = new ListDaftarSiswaModel()
             {
                 ListSiswaView = siswa.Select(x => new SiswaView()
                 {

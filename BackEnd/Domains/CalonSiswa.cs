@@ -17,5 +17,6 @@ namespace BackEnd.Domains
         public List<AkunPendaftaran> ListAkunPendaftaran { get; set; }
         public List<Penanggungjawab> ListPenanggungjawab { get; set; }
         public List<Rapor> ListNilaiRapor { get; set; }
+        public Siswa Siswa { get; set; }
     }
 }

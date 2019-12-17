@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [Authorize(Roles = "PSB Tes, Admin")]
+    [Authorize(Roles = "PSB Tes")]
+    //[Authorize]
     public class PsbTesController : Controller
     {
         private readonly ISeleksiPenerimaan _seleksiPenerimaanService;
@@ -25,7 +26,7 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult SeleksiJalurKhusus()
         {
-            var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Khusus");
+            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Khusus");
             var model = new SeleksiModel()
             {
                 ListAkun = listAkun.Select(x => new AkunSeleksi()
@@ -34,10 +35,11 @@ namespace FrontEnd.Web.Mvc.Controllers
                     NoPendaftaran = x.NoPendaftaran,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NamaLengkap = x.CalonSiswa.NamaLengkap,
-                    NilaiIps = x.RangkumanTesAkademik.NilaiIps,
-                    NilaiTpa = x.RangkumanTesAkademik.NilaiTpa,
-                    NilaiMipa = x.RangkumanTesAkademik.NilaiMipa,
-                    SkorAkhir = x.RangkumanTesAkademik.NilaiAkhir
+                    NilaiIps = x.Rekap.NilaiIps,
+                    NilaiTpa = x.Rekap.NilaiTpa,
+                    NilaiMipa = x.Rekap.NilaiMipa,
+                    SkorAkhir = x.Rekap.NilaiAkhir,
+                    IsLolos = x.Rekap.IsLolos
                 }).ToList()
             };
 
@@ -45,19 +47,19 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         public IActionResult SeleksiJalurReguler()
         {
-            var akun = _seleksiPenerimaanService.GetAllWithJalur("Reguler");
+            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Reguler");
             var model = new SeleksiModel()
             {
-                ListAkun = akun.Select(x => new AkunSeleksi()
+                ListAkun = listAkun.Select(x => new AkunSeleksi()
                 {
                     Id = x.Id,
                     NoPendaftaran = x.NoPendaftaran,
                     JalurPendaftaran = x.JalurPendaftaran,
                     NamaLengkap = x.CalonSiswa.NamaLengkap,
-                    NilaiMipa = x.RangkumanTesAkademik.NilaiMipa,
-                    NilaiIps = x.RangkumanTesAkademik.NilaiIps,
-                    NilaiTpa = x.RangkumanTesAkademik.NilaiTpa,
-                    SkorAkhir = x.RangkumanTesAkademik.NilaiAkhir
+                    NilaiMipa = x.Rekap.NilaiMipa,
+                    NilaiIps = x.Rekap.NilaiIps,
+                    NilaiTpa = x.Rekap.NilaiTpa,
+                    SkorAkhir = x.Rekap.NilaiAkhir
                 })
                 .OrderByDescending(x => x.SkorAkhir)
                 .ToList()
@@ -67,10 +69,10 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         public IActionResult SeleksiJalurMitra()
         {
-            var akun = _seleksiPenerimaanService.GetAllWithJalur("Mitra");
+            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Mitra");
             var model = new SeleksiModel()
             {
-                ListAkun = akun.Select(x => new AkunSeleksi()
+                ListAkun = listAkun.Select(x => new AkunSeleksi()
                 {
                     Id = x.Id,
                     NamaLengkap = x.CalonSiswa.NamaLengkap,
@@ -82,10 +84,10 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         public IActionResult SeleksiJalurPrestasi()
         {
-            var akun = _seleksiPenerimaanService.GetAllWithJalur("Prestasi");
+            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Prestasi");
             var model = new SeleksiModel()
             {
-                ListAkun = akun.Select(x => new AkunSeleksi()
+                ListAkun = listAkun.Select(x => new AkunSeleksi()
                 {
                     Id = x.Id,
                     NamaLengkap = x.CalonSiswa.NamaLengkap,
@@ -104,7 +106,6 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult TestWawancara()
         {
-            ViewBag.Pesan = TempData["Pesan"] as string;
             return View();
         }
         [HttpPost]

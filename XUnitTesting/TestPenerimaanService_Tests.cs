@@ -12,7 +12,8 @@ namespace XUnitTesting
         [Theory]
         [InlineData(27, 40, 67.5)]
         [InlineData(17, 50, 34)]
-        public void Mark_CorectAnswer(int corectAnswer, int totalPertanyaan, double expected)
+        [InlineData(0, 50, 0)]
+        public void Mark_CorectOutput(int corectAnswer, int totalPertanyaan, double expected)
         {
             // Arrange
             var _testPenerimaanService = new UjianService(null, null, null);

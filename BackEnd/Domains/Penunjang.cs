@@ -9,8 +9,8 @@ namespace BackEnd.Domains
         public string Pembiaya { get; set; }
         public string StatusTempatTinggal { get; set; }
         public int? DayaListrik { get; set; }
-        public double? JarakTempuh { get; set; }
-        public byte? WaktuTempuh { get; set; }
+        public float? JarakTempuh { get; set; }
+        public int? WaktuTempuh { get; set; }
         public string Transportasi { get; set; }
 
         public CalonSiswa CalonSiswa { get; set; }

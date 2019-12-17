@@ -71,7 +71,7 @@ namespace BackEnd.Services
             throw new NotImplementedException();
         }
 
-        public Siswa SearchSiswaForMutasiKeluar(string nis)
+        public Siswa SearchSiswa(string nis)
         {
             string sqlQuery = @"SELECT s.Id, s.Nis, cs.NamaLengkap, k.NamaKelas 
                 FROM Siswa s JOIN CalonSiswa cs ON s.CalonSiswaId = cs.Id
@@ -95,7 +95,7 @@ namespace BackEnd.Services
             }
         }
 
-        public Siswa GetSiswa(int id)
+        public Siswa GetDetailSiswa(int id)
         {
             throw new NotImplementedException();
         }

@@ -11,7 +11,7 @@ namespace BackEnd.Abstraction
         List<Siswa> GetAllMutasiKeluar();
         void NewMutasiKeluar(MutasiKeluar mutasi);
         MutasiKeluar GetMutasiKeluar(int id);
-        Siswa SearchSiswaForMutasiKeluar(string nis);
-        Siswa GetSiswa(int id);
+        Siswa SearchSiswa(string nis);
+        Siswa GetDetailSiswa(int id);
     }
 }

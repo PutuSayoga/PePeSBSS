@@ -1,0 +1,5 @@
+﻿@model ListDaftarSiswaModel
+@{
+    ViewBag.Title = "Daftar Siswa Aktif";
+    await Html.RenderPartialAsync("ListDaftarSiswaShared", Model.ListSiswaView);
+}

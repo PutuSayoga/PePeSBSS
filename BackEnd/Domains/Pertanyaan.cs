@@ -14,5 +14,7 @@ namespace BackEnd.Domains
         public string OpsiD { get; set; }
         public string OpsiE { get; set; }
         public char Jawaban { get; set; }
+
+        public Soal Soal { get; set; }
     }
 }

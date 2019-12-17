@@ -3,7 +3,7 @@
 	AkunPendaftaranId INT,
 	SoalId INT,
 	WaktuBerakhir DATETIME,
-	[IsDone] BIT DEFAULT 0,
+	IsSelesai BIT DEFAULT 0,
 	CONSTRAINT [FK_UjianToAkunPendaftaran] 
 		FOREIGN KEY (AkunPendaftaranId) REFERENCES AkunPendaftaran(Id),
 	CONSTRAINT [FK_UjianToSoal] 

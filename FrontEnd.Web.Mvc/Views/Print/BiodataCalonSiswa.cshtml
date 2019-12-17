@@ -1,0 +1,689 @@
+﻿@model BiodataModel
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        table {
+            width: 100%;
+            border-spacing: 0px;
+        }
+
+        td {
+            border: none;
+            border-collapse: collapse;
+            padding-bottom: 4px;
+        }
+
+            td.label {
+                padding-right: 10px;
+                white-space: nowrap;
+                width: 220px;
+            }
+
+            td.colon {
+                width: 1px;
+            }
+
+            td.value {
+                padding-left: 10px;
+            }
+
+        p.title {
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        td.score {
+            white-space: nowrap;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <img style="margin-right: 20px;" src="~/img/LogoSMABSS.Small.png" width="70" height="70"
+             asp-append-version="true" />
+        <p align="center">
+            <b>SEKOLAH MENENGAH ATAS BRAWIJAYA SMART SCHOOL</b><br>
+            Jl. Cipayung No. 10 Malang Telp. (0341) 584 654 kode pos : 65145 <br>
+            Website: www.smabss.ub.ac.id email: smabss@ub.ac.id
+        </p>
+    </div>
+
+    <hr size="5" color="black">
+    <p style="text-align: center; font-size: 16px;">
+        <b>FORMULIR PENERIMAAN SISWA BARU SMA BSS MALANG</b><br>
+    </p>
+
+    <p style="font-size: 14px; margin-bottom: 20px; margin-top: 30px;"><b>BIODATA SISWA</b></p>
+    <table>
+        <tr>
+            <td class="label">No Pendaftaran</td>
+            <td class="colon">:</td>
+            <td class="value">
+                @Model.DataDiri.NoPendaftaran
+                <img style="position: absolute; right: 0; width: 165px; height: 220px; float: right; border: 2px solid black;"
+                     src="#" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Nama Lengkap</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.NamaLengkap</td>
+        </tr>
+        <tr>
+            <td class="label">Nama Panggilan</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.NamaPanggilan</td>
+        </tr>
+        <tr>
+            <td class="label">Jenis Kelamin</td>
+            <td class="colon">:</td>
+            <td class="value">
+                @if (@Model.DataDiri.IsPerempuan)
+                {
+                    @: Perempuan
+                }
+                else
+                {
+                    @: Laki-laki
+                }
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Nomor Induk Kependudukan</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.Nik</td>
+        </tr>
+        <tr>
+            <td class="label">Tempat/Tanggal Lahir</td>
+            <td class="colon">:</td>
+            <td class="value">
+                @Model.DataDiri.TempatLahir /
+                @(Model.DataDiri.TanggalLahir.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("id-ID")))
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Agama</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.Agama</td>
+        </tr>
+        <tr>
+            <td class="label">Alamat Jalan</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.Alamat</td>
+        </tr>
+        <tr>
+            <td class="label">a. RT / RW</td>
+            <td class="colon">:</td>
+            <td class="value">
+            @if (Model.DataDiri.Rt != null || Model.DataDiri.Rw != null) {
+                @Model.DataDiri.Rt<span> / </span>@Model.DataDiri.Rw
+            }
+            </td>
+        </tr>
+        <tr>
+            <td class="label">b. Nama Dusun/Desa/Kelurahan</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.DusunDesaLurah</td>
+        </tr>
+        <tr>
+            <td class="label">c. Kecamatan</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.Kecamatan</td>
+        </tr>
+        <tr>
+            <td class="label">d. Kota/Kabupaten</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.KotaKabupaten</td>
+        </tr>
+        <tr>
+            <td class="label">e. Kode Pos</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.KodePos</td>
+        </tr>
+        <tr>
+            <td class="label">Nomor Telepon</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.NoTelp</td>
+        </tr>
+        <tr>
+            <td class="label">Nomor HP</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.NoHp</td>
+        </tr>
+        <tr>
+            <td class="label">Email</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.Email</td>
+        </tr>
+        <tr>
+            <td class="label">Hobby</td>
+            <td class="colon">:</td>
+            <td class="value">@Model.DataDiri.Hobi</td>
+        </tr>
+        <tr>
+            <td class="label">Cita-cita</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Anak ke-</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Status Tempat Tinggal</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Alat Transportasi</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Jarak Rumah ke Sekolah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Waktu Tempuh ke Sekolah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <p class="title" style="font-size: 14px;"><b>DATA PERIODIK SISWA</b></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Berat / Tinggi Badan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Golongan Darah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Penyakit yang Pernah Diderita</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Kelainan Jasmani</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <p class="title" style="font-size: 14px;"><b>DATA SEKOLAH</b></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Asal Sekolah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Jenis Sekolahh</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Status Sekolah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Alamat Sekolah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">NISN</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">No Peserta Ujian Nasional</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">No Seri SKHUN</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">No Seri IJAZAH</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <p class="title" style="font-size: 14px;"><b>PRESTASI SISWA</b></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">1a. Jenis</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">1b. Tingkat</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">1c. Nama</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">1d. Tahun</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">1e. Penyelenggara</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">2a. Jenis</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">2b. Tingkat</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">2c. Nama</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">2d. Tahun</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">2e. Penyelenggara</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">3a. Jenis</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">3b. Tingkat</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">3c. Nama</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">3d. Tahun</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">3e. Penyelenggara</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+    </table>
+    <p style="text-align: center; font-size: 14px; margin-bottom: 5px; margin-top: 5px; text-decoration: underline;">
+        <b>
+            DATA NILAI
+            RAPOR
+        </b>
+    </p>
+    <table>
+        <tr>
+            <td style="width: 100%;">Mata Pelajaran</td>
+            <td class="score">Semester 1</td>
+            <td class="score">Semester 2</td>
+            <td class="score">Semester 3</td>
+            <td class="score">Semester 4</td>
+            <td class="score">Semester 5</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: left;">11. Pendidikan Kewarganegaraan</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+            <td class="score">75</td>
+        </tr>
+    </table>
+    <p style="text-align: center; font-size: 14px; margin-bottom: 5px; margin-top: 5px; text-decoration: underline;">
+        <b>DATA ORANG TUA / WALI MURID</b>
+    </p>
+    <table>
+        <tr>
+            <td colspan="3">
+                <p class="title" style="font-size: 14px;"><b>A. Data Ayah</b></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">1. Nama Ayah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">2. Tempat/Tanggal Lahir</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">3. Alamat</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">4. Agama</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">5. Pendidikan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">6. Pekerjaan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">7. Penghasilan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">8. Nomor Telepon</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">9. Nomor HP</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">10. Email</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">11. Status Ayah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">12. Keterangan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <p class="title" style="font-size: 14px;"><b>B. Data Ibu</b></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">1. Nama Ibu</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">2. Tempat/Tanggal Lahir</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">3. Alamat</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">4. Agama</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">5. Pendidikan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">6. Pekerjaan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">7. Penghasilan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">8. Nomor Telepon</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">9. Nomor HP</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">10. Email</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">11. Status Ayah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">12. Keterangan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <p class="title" style="font-size: 14px;"><b>C. Data Wali Murid</b></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">1. Nama Wali</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">2. Tempat/Tanggal Lahir</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">3. Alamat</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">4. Agama</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">5. Pendidikan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">6. Pekerjaan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">7. Penghasilan</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">8. Nomor Telepon</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">9. Nomor HP</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">10. Email</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <p class="title" style="font-size: 14px;"><b>Data Penunjang</b></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">Yg membiayai sekolah</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Daya Listrik</td>
+            <td class="colon">:</td>
+            <td class="value"></td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <br />
+
+    <div style="display: flex;">
+        <div style="flex: 1;">
+            <span>Mengetahui</span>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <span>(Orang Tua)</span>
+        </div>
+        <div style="text-align: right;">
+            <span>Malang, 26 Deb 2019</span><br />
+            <span>Hormat kami,</span>
+            <br />
+            <br />
+            <br />
+            <br />
+            <span>(Nama)</span>
+        </div>
+
+    </div>
+    <script>
+        print();
+    </script>
+</body>
+
+</html>

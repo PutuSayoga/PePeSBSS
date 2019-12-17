@@ -20,6 +20,6 @@ namespace FrontEnd.Web.Mvc.Models.PsbTes
         public double NilaiIps { get; set; }
         public double NilaiTpa { get; set; }
         public double SkorAkhir{ get; set; }
-        public bool Keterangan { get { return SkorAkhir > 70; } }
+        public bool IsLolos { get; set; }
     }
 }

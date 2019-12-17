@@ -6,6 +6,8 @@ namespace FrontEnd.Web.Mvc.Models.CalonSiswa
 {
     public class KelolaDataDiriModel
     {
+        [Display(Name ="Nomor Induk Kependudukan")]
+        public string Nik { get; set; }
         [Required(ErrorMessage = "Nama lengkap tidak boleh kosong")]
         [Display(Name ="Nama Lengkap", Prompt = "Nama lengkap sesuai KK")]
         public string NamaLengkap { get; set; }

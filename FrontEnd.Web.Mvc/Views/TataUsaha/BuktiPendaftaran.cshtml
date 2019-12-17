@@ -1,24 +1,7 @@
 ﻿@model BuktiPendaftaranModel
+
 @{
     ViewBag.Title = "Bukti Pendaftaran Mutasi Masuk";
+    await Html.RenderPartialAsync("BuktiPendaftaranShared", Model);
 }
-
-<div class="col-md-10 col-lg-8">
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Bukti Pendaftaran</h6>
-        </div>
-        <div class="card-body">
-            @{
-                await Html.RenderPartialAsync("BuktiPendaftaranShared", Model);
-            }
-            <div class="fa-pull-right">
-                <button onclick="window.open('/Print/BuktiPendaftaran/@Model.Id', 'newwindow', 'width=800,height=500'); return false;"
-                        class="btn btn-warning text-white">
-                    Cetak
-                </button>
-                <a asp-controller="TataUsaha" asp-action="KelolaMutasiMasuk" class="btn btn-secondary">Selesai</a>
-            </div>
-        </div>
-    </div>
-</div>
+@* Tata Usaha *@

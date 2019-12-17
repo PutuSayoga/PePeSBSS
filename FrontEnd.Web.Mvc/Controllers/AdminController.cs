@@ -11,6 +11,7 @@ using FrontEnd.Web.Mvc.Models.TataUsaha;
 namespace FrontEnd.Web.Mvc.Controllers
 {
     [Authorize(Roles = "Admin")]
+    //[Authorize]
     public class AdminController : Controller
     {
         private readonly IStaffSma _staffServices;
@@ -550,10 +551,10 @@ namespace FrontEnd.Web.Mvc.Controllers
         #endregion
 
         #region Siswa
-        public IActionResult DaftarSiswa()
+        public IActionResult ListDaftarSiswa()
         {
             var siswa = _siswaService.GetAllSiswa();
-            var model = new DaftarSiswaModel()
+            var model = new ListDaftarSiswaModel()
             {
                 ListSiswaView = siswa.Select(x => new SiswaView()
                 {

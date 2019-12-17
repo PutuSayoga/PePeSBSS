@@ -17,7 +17,32 @@ namespace BackEnd.Services
             throw new NotImplementedException();
         }
 
-        public void InsertIntoKelas(int calonSiswaId)
+        public void AddSiswaToKelas(int calonSiswaId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteSiswaFromKelas()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateNewKelas()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateKelas()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteKelas()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetDetailKelas()
         {
             throw new NotImplementedException();
         }

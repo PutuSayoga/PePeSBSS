@@ -1,19 +1,29 @@
-﻿@model KelolaSoalAkademikModel
+﻿@model KelolaKelasModel
 @{
     ViewBag.Title = "Kelola Kelas";
 }
 
-@if (Model.ListSoal.Count() < 1)
-{
-    <div>Kosong</div>
-}
-else
-{
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">List Kelas</h6>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Kelola Kelas</h6>
+    </div>
+    <div class="card-body">
+        <div class="mb-4">
+            <p>
+                Tekan tombol Buat dibawah untuk membuat kelas baru
+            </p>
+            <button data-target="#ModalTambahKelas" data-toggle="modal" class="btn btn-success btn-icon-split">
+                <span class="icon text-white"><i class="fas fa-pen"></i></span>
+                <span class="text">Buat Kelas</span>
+            </button>
         </div>
-        <div class="card-body">
+
+        @if (Model.ListKelas.Count() < 1)
+        {
+            @: kosong
+        }
+        else
+        {
             <div class="table-responsive">
                 <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
                     <thead class="table-warning text-dark">
@@ -26,37 +36,40 @@ else
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var soalAkademik in Model.ListSoal)
+                        @foreach (var kelas in Model.ListKelas)
                         {
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>@kelas.NamaKelas</td>
+                                <td>@kelas.Kategori</td>
+                                <td>@kelas.Tingkat</td>
+                                <td>@kelas.JumlahSiswa</td>
                                 <td>
-                                    <a asp-controller="WakaKesiswaan" asp-action="RincianKelas" asp-route-id=""
-                                       class="btn btn-info">
-                                        Rincian
-                                    </a>
-                                    <button data-target="#ModalUbahKelas" data-toggle="modal" class="btn btn-warning">
-                                        Ubah
-                                    </button>
-                                    <form asp-controller="WakaKesiswaan" asp-action="HapusKelas" asp-route-id=""
+                                    <form asp-controller="WakaKesiswaan" asp-action="HapusKelas" asp-route-id="@kelas.Id"
                                           method="post" class="delete-button mt-1">
-                                        <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus Soal @soalAkademik.Judul?')"
+                                        <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus kelas @kelas.NamaKelas?')"
                                                 class="btn btn-danger">
                                             Hapus
                                         </button>
                                     </form>
+                                    <button onclick="UbahKelas(@kelas.Id)" data-toggle="modal" class="btn btn-warning">
+                                        Ubah
+                                    </button>
+                                    <button data-target="#ModalAnggotaSiswa" data-toggle="modal" class="btn btn-info">
+                                        Anggota
+                                    </button>
+                                    <a asp-controller="WakaKesiswaan" asp-action="TambahSiswa" asp-route-id="@kelas.Id" class="btn btn-success">
+                                        Tentukan
+                                    </a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
             </div>
-        </div>
+
+        }
     </div>
-}
+</div>
 
 @*Modal*@
 <div id="ModalTambahKelas" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
@@ -67,7 +80,47 @@ else
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                
+                <form method="post" asp-controller="WakaKesiswaan" asp-action="TambahKelas">
+                    <div class="form-group">
+                        <label asp-for="CrudKelas.NamaKelas" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <input asp-for="CrudKelas.NamaKelas" class="form-control" />
+                        <span asp-validation-for="CrudKelas.NamaKelas" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CrudKelas.Kategori" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <select asp-for="CrudKelas.Kategori" class="form-control">
+                            <option selected></option>
+                            <option value="IPA">IPA</option>
+                            <option value="IPS">IPS</option>
+                        </select>
+                        <span asp-validation-for="CrudKelas.Kategori" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CrudKelas.Tingkat" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <select asp-for="CrudKelas.Tingkat" class="form-control">
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span asp-validation-for="CrudKelas.Tingkat" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="CrudKelas.MaxSiswa" class="col-form-label"></label>
+                        <label class="text-danger">**</label>
+                        <input asp-for="CrudKelas.MaxSiswa" class="form-control" />
+                        <span asp-validation-for="CrudKelas.MaxSiswa" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <span class="text-danger">**</span>) Jika 0 kelas tersebut tidak memiliki jumlah maksimal
+                    </div>
+                    <div class="my-1 fa-pull-right">
+                        <button class="btn border" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Tambah Kelas</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -80,11 +133,73 @@ else
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <form class="form" method="post" asp-controller="WakaKesiswaan" asp-action="UbahKelas">
+                    <div class="form-group">
+                        <label asp-for="CrudKelas.NamaKelas" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <input asp-for="CrudKelas.NamaKelas" class="form-control" />
+                        <span asp-validation-for="CrudKelas.NamaKelas" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CrudKelas.Kategori" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <select asp-for="CrudKelas.Kategori" class="form-control">
+                            <option selected></option>
+                            <option value="IPA">IPA</option>
+                            <option value="IPS">IPS</option>
+                        </select>
+                        <span asp-validation-for="CrudKelas.Kategori" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CrudKelas.Tingkat" class="col-form-label"></label>
+                        <span class="text-danger">*</span>
+                        <select asp-for="CrudKelas.Tingkat" class="form-control">
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span asp-validation-for="CrudKelas.Tingkat" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="CrudKelas.MaxSiswa" class="col-form-label"></label>
+                        <label class="text-danger">**</label>
+                        <input asp-for="CrudKelas.MaxSiswa" class="form-control" />
+                        <span asp-validation-for="CrudKelas.MaxSiswa" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <span class="text-danger">**</span>) Jika 0 kelas tersebut tidak memiliki jumlah maksimal
+                    </div>
+                    <div class="my-1 fa-pull-right">
+                        <button class="btn border" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Ubah Kelas</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+<div id="ModalAnggotaSiswa" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Anggota Kelas</h4>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div>
+                    no | Nis | nama lengkap
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts{
     <script>
@@ -94,6 +209,20 @@ else
     }
 
     //Ajax ubah soal
+    function UbahSoalAkademikModal(id) {
+        $("#ModalUbahKelas .form").hide();
+        $("#ModalUbahKelas .spinner-border").show();
+        $('#ModalUbahKelas').modal();
 
+        $.get(`/WakaKesiswaan/UbahKelas/${id}`, (data) => {
+            $("#ModalUbahKelas .form").show();
+            $("#ModalUbahKelas .spinner-border").hide();
+            $('#ModalUbahKelas .form [name="CrudKelas.Id"]').val(data.id);
+            $('#ModalUbahKelas .form [name="CrudKelas.NamaKelas"]').val(data.namaKelas);
+            $('#ModalUbahKelas .form [name="CrudKelas.Kategori"]').val(data.kategori);
+            $('#ModalUbahKelas .form [name="CrudKelas.Tingkat"]').val(data.tingkat);
+            $('#ModalUbahKelas .form [name="CrudKelas.MaxSiswa"]').val(data.maxSiswa);
+        });
+    }
     </script>
 }

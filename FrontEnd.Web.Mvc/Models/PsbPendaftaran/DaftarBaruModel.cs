@@ -16,7 +16,7 @@ namespace FrontEnd.Web.Mvc.Models.PsbPendaftaran
         public string NamaLengkap { get; set; }
         [Required(ErrorMessage = "NIK tidak boleh kosong")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Masukkan NIK yang benar")]
-        [Display(Name = "Nomor Induk Keluarga", Prompt ="NIK yang tercantum pada KK")]
+        [Display(Name = "Nomor Induk Kependudukan", Prompt ="NIK yang tercantum pada KK")]
         [StringLength(16, MinimumLength =16, ErrorMessage ="Panjang NIK 16 karakter")]
         public string Nik { get; set; }
         [Required(ErrorMessage = "NISN tidak boleh kosong")]

@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
-    [Authorize(Roles = "Calon Siswa, Admin")]
+    [Authorize(Roles = "Calon Siswa")]
+    //[Authorize]
     public class CalonSiswaController : Controller
     {
         private readonly ICalonSiswa _calonSiswaService;

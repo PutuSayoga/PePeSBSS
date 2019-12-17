@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.Web.Mvc.Models.TataUsaha
 {
-    public class DaftarSiswaModel
+    public class ListDaftarSiswaModel
     {
         public List<SiswaView> ListSiswaView { get; set; }
     }
