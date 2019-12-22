@@ -25,7 +25,8 @@ namespace FrontEnd.Web.Mvc.Controllers
             _pendaftaranService = pendaftaranService;
             _soalPenerimaanService = soalPenerimaanService;
         }
-        
+
+        [Authorize(Roles = "Calon Siswa")]
         public IActionResult Index()
         {
             return View();
@@ -154,7 +155,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             return RedirectToAction("JawabSoalAkademik", "Ujian", new { soalId = model.SoalId, qid = model.Tujuan });
         }
 
-        [Authorize(Roles = ("Waka Kesiswaan, Psb Tes"))]
+        [Authorize(Roles = ("Waka Kesiswaan, PSB Tes"))]
         public IActionResult PendahuluanWawancara(string noPendaftaran, string target)
         {
             int akunId = _pendaftaranService.GetAkunPendaftaranId(noPendaftaran);
@@ -185,7 +186,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             }
         }
 
-        [Authorize(Roles = ("Waka Kesiswaan, Psb Tes"))]
+        [Authorize(Roles = ("Waka Kesiswaan, PSB Tes"))]
         public IActionResult Wawancara(string noPendaftaran, int soalId)
         {
             int akunId = _pendaftaranService.GetAkunPendaftaranId(noPendaftaran);
@@ -205,14 +206,14 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = ("Waka Kesiswaan, Psb Tes"))]
+        [Authorize(Roles = ("Waka Kesiswaan, PSB Tes"))]
         public IActionResult SelesaiWawancara()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = ("Waka Kesiswaan, Psb Tes"))]
+        [Authorize(Roles = ("Waka Kesiswaan, PSB Tes"))]
         public IActionResult SelesaiWawancara(WawancaraModel model)
         {
             int akunId = model.AkunPendaftaranId, soalId = model.SoalId;

@@ -159,8 +159,7 @@
 :root .fa-flip-horizontal,
 :root .fa-flip-vertical,
 :root .fa-flip-both {
-  -webkit-filter: none;
-          filter: none; }
+  -webkit-filter: none; }
 
 .fa-stack {
   display: inline-block;

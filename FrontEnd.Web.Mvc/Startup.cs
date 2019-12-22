@@ -62,6 +62,7 @@ namespace FrontEnd.Web.Mvc
             {
                 app.UseStatusCodePagesWithRedirects("/Error/404");
             }
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();

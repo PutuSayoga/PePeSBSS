@@ -20,7 +20,7 @@ namespace FrontEnd.Web.Mvc.Models.PsbPendaftaran
         [StringLength(16, MinimumLength =16, ErrorMessage ="Panjang NIK 16 karakter")]
         public string Nik { get; set; }
         [Required(ErrorMessage = "NISN tidak boleh kosong")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Masukkan NIK yang benar")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Masukkan NISN yang benar")]
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Panjang NISN 10 karakter")]
         [Display(Name = "Nomor Induk Siswa Nasional", Prompt ="NISN pendaftar")]
         public string Nisn { get; set; }

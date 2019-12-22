@@ -26,7 +26,7 @@ namespace BackEnd.Services
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                var ujian = connection.Execute(sql: sqlQuery, param: new { AkunPendaftaranId = akunId, SoalId = soalId });
+                connection.Execute(sql: sqlQuery, param: new { AkunPendaftaranId = akunId, SoalId = soalId });
             }
         }
         public void CheckUjian(int akunId, int soalId)
@@ -89,8 +89,11 @@ namespace BackEnd.Services
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
-                bool isExist = connection.QueryFirstOrDefault<bool>(sql: sqlQueryIsExist, param: new { AkunPendaftaranId = akunId });
-                return isExist;
+                int isExist = connection.QueryFirstOrDefault<int>(sql: sqlQueryIsExist, param: new { AkunPendaftaranId = akunId });
+                if (isExist == 1)
+                    return true;
+                else
+                    return false;
             }
         }
         public double Mark(int jawabanBenar, int jumlahPertanyaan)

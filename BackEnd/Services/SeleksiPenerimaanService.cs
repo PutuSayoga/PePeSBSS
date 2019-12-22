@@ -52,30 +52,38 @@ namespace BackEnd.Services
         {
             if (jalur.Equals("Reguler"))
             {
-                foreach (var item in listAkunSeleksi)
-                {
-                    item.Rekap.NilaiAkhir = TotalMark(item.Rekap.NilaiMipa, item.Rekap.NilaiIps, item.Rekap.NilaiTpa);
-                }
+                SetmarkForReguler(ref listAkunSeleksi);
             }
             else if (jalur.Equals("Khusus") || jalur.Equals("Mutasi"))
             {
-                foreach (var item in listAkunSeleksi)
-                {
-                    item.Rekap.NilaiAkhir = TotalMark(item.Rekap.NilaiMipa, item.Rekap.NilaiIps, item.Rekap.NilaiTpa);
-                    item.Rekap.IsLolos = IsPass(item.Rekap.NilaiAkhir);
-                }
+                SetmarkForKhusus(ref listAkunSeleksi);
             }
         }
 
-        public double TotalMark(double nilaiMipa, double nilaiIps, double nilaiTpa)
+        public void SetmarkForReguler(ref List<AkunPendaftaran> listAkunSeleksi)
         {
-            double skorAkhir = ((0.3 * nilaiMipa) + (0.3 * nilaiIps) + (0.4 * nilaiTpa));
-            return Math.Round(skorAkhir, 2);
+            foreach (var item in listAkunSeleksi)
+            {
+                double skorAkhir = ((0.3 * item.Rekap.NilaiMipa) + (0.3 * item.Rekap.NilaiIps) + (0.4 * item.Rekap.NilaiTpa));
+                Math.Round(skorAkhir, 2);
+                item.Rekap.NilaiAkhir = skorAkhir;
+            }
         }
 
-        public bool IsPass(double skorAkhir)
+        public void SetmarkForKhusus(ref List<AkunPendaftaran> listAkunSeleksi)
         {
-            return skorAkhir > 50;
+            foreach (var item in listAkunSeleksi)
+            {
+                double skorAkhir = ((0.3 * item.Rekap.NilaiMipa) + (0.3 * item.Rekap.NilaiIps) + (0.4 * item.Rekap.NilaiTpa));
+                bool isPass;
+                if (skorAkhir > 50)
+                    isPass = true;
+                else
+                    isPass = false;
+                Math.Round(skorAkhir, 2);
+                item.Rekap.NilaiAkhir = skorAkhir;
+                item.Rekap.IsLolos = isPass;
+            }
         }
 
         public void UpdateSelection(int akunId, bool isLolos)

@@ -86,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema.publish.xml" />
+    <None Include="SchemaTest.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Schema.refactorlog" />
