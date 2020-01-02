@@ -84,6 +84,7 @@ namespace BackEnd.Services
         }
         public void UpdateStaff(Staff newData)
         {
+            newData.Password = _securityRelateHelper.Encrypt(newData.Password);
             string sqlQuery = @"UPDATE Staff 
                 SET NamaLengkap = @NamaLengkap, Jabatan = @Jabatan, NoHp = @NoHp, Email = @Email, Password = @Password 
                 WHERE Id = @Id";

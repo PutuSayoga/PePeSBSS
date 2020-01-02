@@ -71,7 +71,7 @@ namespace FrontEnd.Web.Mvc
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=WakaKesiswaan}/{action=Index}/{id?}");
+                    pattern: "{controller=Auth}/{action=Index}/{id?}");
             });
         }
     }

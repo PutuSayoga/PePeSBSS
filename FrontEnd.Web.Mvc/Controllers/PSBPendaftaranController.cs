@@ -31,7 +31,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         public IActionResult DaftarBaru(DaftarBaruModel model)
         {
             if (!model.JalurPendaftaran.Equals("Reguler"))
-                if (!((model.JadwalTes >= DateTime.Now) && (model.JadwalTes <= DateTime.Now.AddDays(3))))
+                if (!((model.JadwalTes >= DateTime.Now.Date) && (model.JadwalTes <= DateTime.Now.AddDays(3))))
                     ModelState.AddModelError(nameof(DaftarBaruModel.JadwalTes),
                         "Jadwal tes maksimal dilaksanakan 3 hari setelah daftar baru");
 

@@ -5,34 +5,50 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Bukti Pendaftaran</h6>
         </div>
-        <div class="card-body border-0">
-            <table class="table">
+        <div class="card-body">
+            <table class="table-borderless">
                 <tbody>
                     <tr>
-                        <td width="300px">
-                            <label asp-for="@Model.NoPendaftaran"></label>
-                        </td>
+                        <td><label asp-for="@Model.NoPendaftaran"></label></td>
+                        <td><label>:</label></td>
+                        <td><label>@Model.NoPendaftaran</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.JalurPendaftaran"></label></td>
+                        <td><label>:</label></td>
+                        <td><label>@Model.JalurPendaftaran</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.NamaLengkap"></label></td>
+                        <td><label>:</label></td>
+                        <td><label>@Model.NamaLengkap</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.isLunas"></label></td>
+                        <td><label>:</label></td>
                         <td>
-                            <input class="form-control" readonly asp-for="NoPendaftaran"/>
+                            @if (Model.isLunas)
+                            {
+                                <label>Lunas</label>
+                            }
+                            else
+                            {
+                                <label>Tidak Lunas</label>
+                            }
                         </td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.Password"></label></td>
+                        <td><label>:</label></td>
+                        <td><label>@Model.Password</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="@Model.JadwalTes"></label></td>
+                        <td><label>:</label></td>
+                        <td><label>@Model.JadwalTes</label></td>
                     </tr>
                 </tbody>
             </table>
-            <div>
-                <label asp-for="@Model.JalurPendaftaran"></label>:<label>@Model.JalurPendaftaran</label>
-            </div>
-            <div>
-                <label asp-for="@Model.NamaLengkap"></label>:<label>@Model.NamaLengkap</label>
-            </div>
-            <div>
-                <label asp-for="@Model.isLunas"></label>:<label>@Model.isLunas</label>
-            </div>
-            <div>
-                <label asp-for="@Model.Password"></label>:<label>@Model.Password</label>
-            </div>
-            <div>
-                <label asp-for="@Model.JadwalTes"></label>:<label>@Model.JadwalTes</label>
-            </div>
             <div class="fa-pull-right">
                 <button onclick="window.open('/Print/BuktiPendaftaran/@Model.Id', 'newwindow', 'width=800,height=500'); return false;"
                         class="btn btn-warning text-white">
