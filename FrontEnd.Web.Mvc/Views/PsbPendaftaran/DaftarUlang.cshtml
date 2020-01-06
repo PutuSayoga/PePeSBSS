@@ -3,51 +3,84 @@
     ViewBag.Title = "Daftar Ulang";
 }
 
-    <div class="mb-5">
-        <p>Cari nomor pendaftaran</p>
-        <form asp-controller="PsbPendaftaran" asp-action="DaftarUlang" method="get">
-            <div class="input-group col-md-6">
-                <input class="form-control" name="noPendaftaran">
-                <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fas fa-search fa-sm"></i>
-                    </button>
-                </div>
+<div class="mb-5">
+    <p>Cari nomor pendaftaran</p>
+    <form asp-controller="PsbPendaftaran" asp-action="DaftarUlang" method="get">
+        <div class="input-group col-md-6">
+            <input class="form-control" name="noPendaftaran">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
             </div>
-        </form>
-        @if (ViewBag.Pesan != null)
-        {
-            <br />
-            <div class="alert alert-danger" role="alert">
+        </div>
+    </form>
+    @if (ViewBag.Pesan != null)
+    {
+        <br />
+        <div class="alert alert-danger" role="alert">
             @ViewBag.Pesan
         </div>
-        }
-    </div>
+    }
+</div>
 <!-- Search Result -->
 @if (Model != null)
 {
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Akun Pendaftaran</h6>
-        </div>
-        <div class="card-body">
-            <form method="post" asp-controller="PsbPendaftaran" asp-action="DaftarUlang">
-                <label asp-for="NoPendaftaran"></label>:<label>@Model.NoPendaftaran</label><br />
-                <label asp-for="JalurPendaftaran"></label>:<label>@Model.JalurPendaftaran</label><br />
-                <label asp-for="NamaLengkap"></label>:<label>@Model.NamaLengkap</label><br />
-                <label asp-for="Status"></label>:<label>@Model.Status</label><br />
-                <div class="my-1 fa-pull-right">
-                    @if (Model.Status.Equals("Lolos"))
-                    {
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-success">Daftar Ulang</button>
-                    }
-                    else if (Model.Status.Equals("Daftar Ulang"))
-                    {
-                        <p class="text-dark">Sudah daftar ulang</p>
-                    }
-                </div>
-            </form>
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Akun Pendaftaran</h6>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-controller="PsbPendaftaran" asp-action="DaftarUlang">
+                    <table class="table-borderless">
+                        <tr>
+                            <td><label asp-for="NoPendaftaran"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.NoPendaftaran</label></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="JalurPendaftaran"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.JalurPendaftaran</label></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="NamaLengkap"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.NamaLengkap</label></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="Status"></label></td>
+                            <td><label> : </label></td>
+                            <td>
+                                @if (Model.Status.Equals("Lolos"))
+                                {
+                                    <label class="alert-success text-success">@Model.Status</label>
+                                }
+                                else if (Model.Status.Equals("Tidak Lolos"))
+                                {
+                                    <label class="alert-danger text-danger">@Model.Status</label>
+                                }
+                                else
+                                {
+                                    <label>@Model.Status</label>
+                                }
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="my-1 fa-pull-right">
+                        @if (Model.Status.Equals("Lolos"))
+                        {
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-success">Daftar Ulang</button>
+                        }
+                        else if (Model.Status.Equals("Daftar Ulang"))
+                        {
+                            <p class="alert alert-warning text-warning ">Sudah daftar ulang</p>
+                        }
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 }

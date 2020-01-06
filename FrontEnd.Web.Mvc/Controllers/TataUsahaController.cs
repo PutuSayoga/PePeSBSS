@@ -140,7 +140,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         public IActionResult CariSiswa(string nis)
         {
-            var siswa = _siswaService.SearchSiswa(nis);
+            var siswa = _siswaService.SearchSiswaForMutasiKeluar(nis);
             var model = new CrudMutasiKeluar()
             {
                 SiswaId = siswa.Id,

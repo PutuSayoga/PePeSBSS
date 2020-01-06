@@ -14,20 +14,42 @@
                     <h6 class="m-0 font-weight-bold text-primary">Rincian Staff</h6>
                 </div>
                 <div class="card-body">
-                    <div>
-                        <div><label asp-for="Staff.Nip"></label>:<label>@Model.Staff.Nip</label></div>
-                        <div><label asp-for="Staff.NamaLengkap"></label>:<label>@Model.Staff.NamaLengkap</label></div>
-                        <div><label asp-for="Staff.Email"></label>:<label>@Model.Staff.Email</label></div>
-                        <div><label asp-for="Staff.NoHp"></label>:<label>@Model.Staff.NoHp</label></div>
-                        <div><label asp-for="Staff.Jabatan"></label>:<label>@Model.Staff.Jabatan</label></div>
-                        <div><label asp-for="Staff.Username"></label>:<label>@Model.Staff.Username</label></div>
-                        <div>
-                            <button data-target="#ModalUbahStaff" data-toggle="modal"
-                                    class="btn btn-warning fa-pull-right">
-                                Perbarui informasi
-                            </button>
-                        </div>
-                    </div>
+                    <table class="table-borderless">
+                        <tr>
+                            <td><label asp-for="Staff.Nip"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.Staff.Nip</label></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="Staff.NamaLengkap"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.Staff.NamaLengkap</label></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="Staff.Email"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.Staff.Email</label></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="Staff.NoHp"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.Staff.NoHp</label></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="Staff.Jabatan"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.Staff.Jabatan</label></td>
+                        </tr>
+                        <tr>
+                            <td><label asp-for="Staff.Username"></label></td>
+                            <td><label> : </label></td>
+                            <td><label>@Model.Staff.Username</label></td>
+                        </tr>
+                    </table>
+                    <button data-target="#ModalUbahStaff" data-toggle="modal"
+                            class="btn btn-warning fa-pull-right">
+                        Perbarui informasi
+                    </button>
                 </div>
             </div>
         </div>
@@ -48,30 +70,40 @@
                         <h6 class="m-0 font-weight-bold text-primary">Panitia</h6>
                     </div>
                     <div class="card-body">
+                        <table class="table-borderless">
+                            <tr>
+                                <td><label asp-for="Panitia.Acara"></label></td>
+                                <td><label> : </label></td>
+                                <td><label>@Model.Panitia.Acara</label></td>
+                            </tr>
+                            <tr>
+                                <td><label asp-for="Panitia.Divisi"></label></td>
+                                <td><label> : </label></td>
+                                <td><label>@Model.Panitia.Divisi</label></td>
+                            </tr>
+                        </table>
                         <div>
-                            <div><label asp-for="Panitia.Acara"></label>:<label>@Model.Panitia.Acara</label></div>
-                            <div><label asp-for="Panitia.Divisi"></label>:<label>@Model.Panitia.Divisi</label></div>
-                            <div>
-                                <form asp-controller="Admin" asp-action="HapusPanitia" asp-route-staffId="@Model.Id" method="post">
-                                    <button type="submit" class="btn btn-danger fa-pull-right"
-                                            onclick="return confirm('Apa anda yakin ingin menghapus panitia dari staff ini?')">
-                                        Hapus Panitia
-                                    </button>
-                                </form>
-                            </div>
+                            <form asp-controller="Admin" asp-action="HapusPanitia" asp-route-staffId="@Model.Id" method="post">
+                                <button type="submit" class="btn btn-danger fa-pull-right"
+                                        onclick="return confirm('Apa anda yakin ingin menghapus panitia dari staff ini?')">
+                                    Hapus Panitia
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         }
     </div>
-    <div>
-        <a asp-controller="Admin" asp-action="KelolaStaff" class="btn btn-secondary btn-icon-split">
-            <span class="icon text-white"><i class="fas fa-arrow-left"></i></span>
-            <span class="text">Kembali</span>
-        </a>
-    </div>
 </div>
+
+<div>
+    <a asp-controller="Admin" asp-action="KelolaStaff" class="btn btn-secondary btn-icon-split">
+        <span class="icon text-white"><i class="fas fa-arrow-left"></i></span>
+        <span class="text">Kembali</span>
+    </a>
+</div>
+
 @*Modal*@
 <div id="ModalTambahPanitia" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
     <div class="modal-dialog">
@@ -134,7 +166,7 @@
                     <div class="form-group">
                         <label asp-for="Staff.NamaLengkap" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="Staff.NamaLengkap" class="form-control"/>
+                        <input asp-for="Staff.NamaLengkap" class="form-control" />
                         <span asp-validation-for="Staff.NamaLengkap" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -184,13 +216,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts{
-     Additional script 
-    <script>
-    @if (ViewBag.Pesan != null)
-    {
-        @: alert("@ViewBag.Pesan");
-    }
-    </script>
-}

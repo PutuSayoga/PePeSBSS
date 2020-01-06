@@ -35,7 +35,7 @@
             </li>
             <li class="nav-item nav-link">
                 <a class="nav-link" asp-controller="WakaKesiswaan" asp-action="Index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-bookmark"></i>
                     <span>Halaman Utama</span>
                 </a>
             </li>
@@ -43,15 +43,21 @@
             <li class="sidebar-heading">Kelas</li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="WakaKesiswaan" asp-action="KelolaKelas">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-door-closed"></i>
                     <span>Kelola Kelas</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="WakaKesiswaan" asp-action="TentukanKelas">
+                    <i class="fas fa-fw fa-marker"></i>
+                    <span>Tentukan Kelas</span>
+                </a>
+            </li>
             <li><hr class="sidebar-divider" /></li>
-            <li class="sidebar-heading">Kelas</li>
+            <li class="sidebar-heading">Mutasi Masuk</li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="WakaKesiswaan" asp-action="SeleksiMutasiMasuk">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-pencil-ruler"></i>
                     <span>Seleksi Mutasi Masuk</span>
                 </a>
             </li>
@@ -59,7 +65,7 @@
             <li class="sidebar-heading">Wawancara</li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Wakakesiswaan" asp-action="TestWawancara">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-smile-beam"></i>
                     <span>Test Wawancara</span>
                 </a>
             </li>
@@ -117,6 +123,12 @@
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
         <script src="~/lib/startbootstrap-sb-admin-2/js/sb-admin-2.min.js" type="text/javascript"></script>
     </environment>
+    <script>
+    @if (ViewBag.Pesan != null)
+    {
+        @: alert("@ViewBag.Pesan");
+    }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

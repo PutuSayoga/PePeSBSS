@@ -28,22 +28,21 @@
                     <tbody>
                         @foreach (var akun in Model.ListAkun)
                         {
-                        <tr>
-                            <td>@akun.NoPendaftaran</td>
-                            <td>@akun.NamaLengkap</td>
-                            <td class="text-center">
-                                <a href="#">Lihat</a>
-                            </td>
-                            <td class="text-center">
-                                <a href="#">Lihat</a>
-                            </td>
-                            <td class="text-center">
-                                <button data-target="#ModalSeleksiMitra" data-toggle="modal"
-                                        class="btn btn-primary" type="submit">
-                                    Seleksi
-                                </button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>@akun.NoPendaftaran</td>
+                                <td>@akun.NamaLengkap</td>
+                                <td class="text-center">
+                                    <a href="#">Lihat</a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="#">Lihat</a>
+                                </td>
+                                <td class="text-center">
+                                    <button onclick="SeleksiMitra('@akun.NoPendaftaran', '@akun.NamaLengkap')" data-toggle="modal" class="btn btn-primary">
+                                        Seleksi
+                                    </button>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -56,26 +55,40 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Seleksi Mitra</h4>
+                <h4 class="modal-title">Seleksi</h4>
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body align-items-center">
-                <h6>Peserta dengan nomor pendaftaran - dinyatakan:</h6>
+                <h6><span name="namaCalonSiswa">-</span> dengan nomor pendaftaran <span name="noPendaftaran">-</span> dinyatakan:</h6>
                 <div class="row">
-                    <form asp-controller="PsbTes" asp-action="SeleksiNonReguler">
-                        <input type="hidden" name="id" value="-" />
-                        <input type="hidden" name="jalur" value="-" />
-                        <input type="hidden" name="isLolos" value="false" />
-                        <button class="btn btn-danger btn-lg" type="submit">Tidak Lolos</button>
-                    </form>
-                    <form asp-controller="PsbTes" asp-action="SeleksiNonReguler">
-                        <input type="hidden" name="id" value="-" />
-                        <input type="hidden" name="jalur" value="-" />
-                        <input type="hidden" name="isLolos" value="true" />
-                        <button class="btn btn-success btn-lg" type="submit">Lolos</button>
-                    </form>
+                    <div class="col formTdkLolos" style="text-align:center">
+                        <form asp-controller="PsbTes" asp-action="SeleksiJalurMitra">
+                            <input type="hidden" name="noPendaftaran" value="-" />
+                            <input type="hidden" name="isLolos" value="false" />
+                            <button class="btn btn-danger btn-lg" type="submit">Tidak Lolos</button>
+                        </form>
+                    </div>
+                    <div class="col formLolos" style="text-align:center">
+                        <form asp-controller="PsbTes" asp-action="SeleksiJalurMitra">
+                            <input type="hidden" name="noPendaftaran" value="-" />
+                            <input type="hidden" name="isLolos" value="true" />
+                            <button class="btn btn-success btn-lg" type="submit">Lolos</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        function SeleksiMitra(noPendaftaran, namaLengkap) {
+            $('#ModalSeleksiMitra').modal();
+            $('#ModalSeleksiMitra [name="noPendaftaran"]').text(noPendaftaran);
+            $('#ModalSeleksiMitra [name="namaCalonSiswa"]').text(namaLengkap);
+            $('#ModalSeleksiMitra .formTdkLolos [name="noPendaftaran"]').val(noPendaftaran);
+            $('#ModalSeleksiMitra .formLolos [name="noPendaftaran"]').val(noPendaftaran);
+        }
+    </script>
+}

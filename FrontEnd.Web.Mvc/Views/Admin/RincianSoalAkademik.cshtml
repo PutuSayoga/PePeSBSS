@@ -22,16 +22,16 @@
                         <div class="card-body">
                             <div class="border mb-1">@Html.Raw(pertanyaan.Isi)</div>
                             <div class="border mb-1">
-                                <div>Opsi A:@pertanyaan.OpsiA</div>
-                                <div>Opsi B:@pertanyaan.OpsiB</div>
-                                <div>Opsi C:@pertanyaan.OpsiC</div>
-                                <div>Opsi D:@pertanyaan.OpsiD</div>
+                                <div>Opsi A: @pertanyaan.OpsiA</div>
+                                <div>Opsi B: @pertanyaan.OpsiB</div>
+                                <div>Opsi C: @pertanyaan.OpsiC</div>
+                                <div>Opsi D: @pertanyaan.OpsiD</div>
                                 @if (pertanyaan.OpsiE != null)
                                 {
                                     <div>Opsi E:@pertanyaan.OpsiE</div>
                                 }
                             </div>
-                            <div class="border mb-1 border-success">@pertanyaan.Jawaban</div>
+                            <div class="border mb-1 border-success">Kunci Jawaban: @pertanyaan.Jawaban</div>
                             <div class="fa-pull-right mb-2">
                                 <a asp-controller="Admin" asp-action="UbahPertanyaanAkademik" 
                                    asp-route-id="@pertanyaan.Id" asp-route-soalId="@pertanyaan.SoalId" class="btn btn-warning">
@@ -59,17 +59,38 @@
                 <h6 class="m-0 font-weight-bold text-primary">Keterangan</h6>
             </div>
             <div class="card-body">
-                <div><label asp-for="JudulSoal"></label> : <a>@Model.JudulSoal</a></div>
-                <div><label asp-for="Kategori"></label> : <a>@Model.Kategori</a></div>
-                <div> <label asp-for="JumlahPertanyaan"></label> : <a>@Model.JumlahPertanyaan</a></div>
-                <div><label asp-for="BatasWaktu"></label> : <a>@Model.BatasWaktu</a></div>
-                <div><label asp-for="Deskripsi"></label> : <a>@Model.Deskripsi</a></div>
-
-                <a asp-controller="Admin" asp-action="TambahPertanyaanAkademik" 
-                   asp-route-soalId="@Model.Id" class="btn btn-success btn-icon-split">
+                <a asp-controller="Admin" asp-action="TambahPertanyaanAkademik"
+                   asp-route-soalId="@Model.Id" class="btn btn-success btn-icon-split mb-1">
                     <span class="icon text-white"><i class="fas fa-pen"></i></span>
                     <span class="text">Tambah Pertanyaan</span>
                 </a>
+                <table class="table">
+                    <tr>
+                        <td><label asp-for="JudulSoal" class="align-baseline"></label></td>
+                        <td><label> : </label></td>
+                        <td><label>@Model.JudulSoal</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="Kategori"></label></td>
+                        <td><label> : </label></td>
+                        <td><label>@Model.Kategori</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="JumlahPertanyaan"></label></td>
+                        <td><label> : </label></td>
+                        <td><label>@Model.JumlahPertanyaan</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="BatasWaktu"></label></td>
+                        <td><label> : </label></td>
+                        <td><label>@Model.BatasWaktu Menit</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="Deskripsi"></label></td>
+                        <td><label> : </label></td>
+                        <td><label>@Model.Deskripsi</label></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -78,14 +99,3 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-
-@section Scripts{
-    <script>
-    @if (ViewBag.Pesan != null)
-    {
-        @: alert("@ViewBag.Pesan");
-    }
-
-    //Ajax ubah soal
-    </script>
-}

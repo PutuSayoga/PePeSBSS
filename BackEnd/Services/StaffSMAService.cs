@@ -20,7 +20,7 @@ namespace BackEnd.Services
         }
 
         #region Not Interface Implementation
-        public bool IsExistInStaff(string column, string value)
+        private bool IsExistInStaff(string column, string value)
         {
             string sqlQuery = $"SELECT {column} FROM Staff WHERE {column} = @Value";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -125,7 +125,6 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQuery, param: new { Id = id });
             }
         }
-
         public void AddPanitiaToStaff(Panitia newPanitia)
         {
             string sqlQuery = @"INSERT INTO Panitia(StaffId, Acara, Divisi) 

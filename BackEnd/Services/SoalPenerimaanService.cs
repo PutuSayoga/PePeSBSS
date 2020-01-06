@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace BackEnd.Services
 {
-    public class SoalPenerimaanService : ISoalPenerimaan
+    public class SoalPenerimaanService : ISoal
     {
         private readonly IDbConnectionHelper _connectionHelper;
 
@@ -16,7 +16,7 @@ namespace BackEnd.Services
             => _connectionHelper = connectionString;
 
         #region Not Interface Implementation
-        public bool IsUsed(int id)
+        private bool IsUsed(int id)
         {
             string sqlQuery = @"Select IsUsed FROM Soal WHERE Id = @Id";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -53,7 +53,6 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public Soal GetDetailSoal(int id)
         {
             string sqlQuery = @"Select * from Soal Where Id = @Id;
@@ -115,7 +114,6 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQuery, param: newData);
             }
         }
-
         public void AddPertanyaan(Pertanyaan newPertanyaan)
         {
             string sqlQuery = @"INSERT INTO Pertanyaan(SoalId, Isi, OpsiA, OpsiB, OpsiC, OpsiD, OpsiE, Jawaban)
@@ -187,7 +185,6 @@ namespace BackEnd.Services
                 return pertanyaan;
             }
         }
-
         public Pengaturan GetPengaturanSoal()
         {
             string sqlQuery = @"SELECT * FROM Pengaturan WHERE Id = 1";

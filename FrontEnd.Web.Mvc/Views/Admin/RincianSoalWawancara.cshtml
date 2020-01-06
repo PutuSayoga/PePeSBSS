@@ -46,16 +46,37 @@
                 <h6 class="m-0 font-weight-bold text-primary">Keterangan</h6>
             </div>
             <div class="card-body">
-                <div><label asp-for="JudulSoal"></label> : <a>@Model.JudulSoal</a></div>
-                <div><label asp-for="Jalur"></label> : <a>@Model.Jalur</a></div>
-                <div><label asp-for="Target"></label> : <a>@Model.Target</a></div>
-                <div> <label asp-for="JumlahPertanyaan"></label> : <a>@Model.JumlahPertanyaan</a></div>
-                <div><label asp-for="Deskripsi"></label> : <a>@Model.Deskripsi</a></div>
-
-                <button data-target="#ModalTambahPertanyaanWawancara" data-toggle="modal" class="btn btn-success btn-icon-split">
+                <button data-target="#ModalTambahPertanyaanWawancara" data-toggle="modal" class="btn btn-success btn-icon-split mb-1">
                     <span class="icon text-white"><i class="fas fa-pen"></i></span>
                     <span class="text">Tambah Pertanyaan</span>
                 </button>
+                <table class="table">
+                    <tr>
+                        <td><label asp-for="JudulSoal"></label></td>
+                        <td> : </td>
+                        <td><label>@Model.JudulSoal</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="Jalur"></label></td>
+                        <td> : </td>
+                        <td><label>@Model.Jalur</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="Target"></label></td>
+                        <td> : </td>
+                        <td><label>@Model.Target</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="JumlahPertanyaan"></label></td>
+                        <td> : </td>
+                        <td><label>@Model.JumlahPertanyaan</label></td>
+                    </tr>
+                    <tr>
+                        <td><label asp-for="Deskripsi"></label></td>
+                        <td> : </td>
+                        <td><label>@Model.Deskripsi</label></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -69,7 +90,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Soal Akademik</h4>
+                <h4 class="modal-title">Tambah Soal Wawancara</h4>
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -96,7 +117,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Soal Akademik</h4>
+                <h4 class="modal-title">Tambah Soal Wawancara</h4>
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -131,14 +152,7 @@
             });
     </script>
     <script>
-    @if (ViewBag.Pesan != null)
-    {
-        @: alert("@ViewBag.Pesan");
-    }
-
-    //Ajax ubah soal
-    </script>
-    <script>
+        //Ajax ubah soal
         function ubahPertanyaanWawancaraModal(id, soalId) {
             $("#ModalUbahPertanyaanWawancara .form").hide();
             $("#ModalUbahPertanyaanWawancara .spinner-border").show();
@@ -153,5 +167,4 @@
             });
         }
     </script>
-
 }

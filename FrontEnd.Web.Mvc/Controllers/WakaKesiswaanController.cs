@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FrontEnd.Web.Mvc.Models.WakaKesiswaan;
 using System.Threading.Tasks;
+using BackEnd.Domains;
 
 namespace FrontEnd.Web.Mvc.Controllers
 {
@@ -14,11 +15,13 @@ namespace FrontEnd.Web.Mvc.Controllers
     //[Authorize]
     public class WakaKesiswaanController : Controller
     {
-        private readonly ISeleksiPenerimaan _seleksiPenerimaanService;
+        private readonly ISeleksi _seleksiPenerimaanService;
+        private readonly ISiswa _siswaService;
         private readonly IKelas _kelasService;
-        public WakaKesiswaanController(ISeleksiPenerimaan seleksiPenerimaanService, IKelas kelasService)
+        public WakaKesiswaanController(ISeleksi seleksiPenerimaanService, ISiswa siswaService, IKelas kelasService)
         {
             _seleksiPenerimaanService = seleksiPenerimaanService;
+            _siswaService = siswaService;
             _kelasService = kelasService;
         }
 
@@ -29,7 +32,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         [HttpGet]
         public IActionResult SeleksiMutasiMasuk()
         {
-            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Mutasi");
+            var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Mutasi");
             var model = new SeleksiModel()
             {
                 ListAkun = listAkun.Select(x => new AkunSeleksi()
@@ -49,23 +52,99 @@ namespace FrontEnd.Web.Mvc.Controllers
             return View(model);
         }
         [HttpPost]
-        public IActionResult SeleksiMutasiMasuk(int id, bool isLolos)
+        public IActionResult SeleksiMutasiMasuk(string noPendaftaran, bool isLolos)
         {
-            _seleksiPenerimaanService.UpdateSelection(id, isLolos);
+            string result = _seleksiPenerimaanService.UpdateStatusPendaftar(noPendaftaran, isLolos);
+            TempData["Pesan"] = $"Berhasil seleksi, {result}";
             return RedirectToAction(nameof(SeleksiMutasiMasuk));
         }
         public IActionResult KelolaKelas()
         {
+            var kelas = _kelasService.GetAllKelas();
             var model = new KelolaKelasModel()
             {
-                ListKelas = new List<CrudKelas>()
+                ListKelas = kelas.Select(x => new CrudKelas()
                 {
-                    new CrudKelas(){Id=1, JumlahSiswa=0, Kategori="IPA", MaxSiswa=10, NamaKelas="X IPA 1", Tingkat=10}
-                }
+                    Id = x.Id,
+                    JumlahSiswa = x.JumlahSiswa,
+                    Kategori = x.Kategori,
+                    MaxSiswa = x.MaxSiswa,
+                    NamaKelas = x.NamaKelas,
+                    Tingkat = x.Tingkat
+                }).ToList()
             };
+            ViewBag.Pesan = TempData["Pesan"] as string;
             return View(model);
         }
-
+        [HttpPost]
+        public IActionResult TambahKelas(KelolaKelasModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = "Gagal menambah kelas, Data tidak valid";
+            }
+            else
+            {
+                var kelasBaru = new Kelas()
+                {
+                    JumlahSiswa = model.CrudKelas.JumlahSiswa,
+                    MaxSiswa = model.CrudKelas.MaxSiswa,
+                    Kategori = model.CrudKelas.Kategori,
+                    NamaKelas = model.CrudKelas.NamaKelas,
+                    Tingkat = model.CrudKelas.Tingkat,
+                };
+                _kelasService.CreateNewKelas(kelasBaru);
+                TempData["Pesan"] = "Kelas berhasil ditambah";
+            }
+            return RedirectToAction(nameof(KelolaKelas));
+        }
+        [HttpPost]
+        public IActionResult UbahKelas(KelolaKelasModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = $"Gagal mengubah kelas, Data tidak valid";
+            }
+            else if (model.CrudKelas.MaxSiswa < model.CrudKelas.JumlahSiswa)
+            {
+                TempData["Pesan"] = $"Gagal mengubah kelas, max siswa tidak boleh lebih kecil dari jumlah siswa";
+            }
+            else
+            {
+                var dataBaru = new Kelas()
+                {
+                    Id = model.CrudKelas.Id,
+                    Kategori = model.CrudKelas.Kategori,
+                    MaxSiswa = model.CrudKelas.MaxSiswa,
+                    NamaKelas = model.CrudKelas.NamaKelas,
+                    Tingkat = model.CrudKelas.Tingkat,
+                };
+                _kelasService.UpdateKelas(dataBaru);
+                TempData["Pesan"] = $"Kelas {dataBaru.NamaKelas} berhasil diubah";
+            }
+            return RedirectToAction(nameof(KelolaKelas));
+        }
+        public IActionResult RincianKelas(int id)
+        {
+            var kelas = _kelasService.GetDetailKelas(id);
+            var model = new CrudKelas()
+            {
+                Id = kelas.Id,
+                JumlahSiswa = kelas.JumlahSiswa,
+                Kategori = kelas.Kategori,
+                MaxSiswa = kelas.MaxSiswa,
+                NamaKelas = kelas.NamaKelas,
+                Tingkat = kelas.Tingkat
+            };
+            return Json(model);
+        }
+        [HttpPost]
+        public IActionResult HapusKelas(int id, string nama)
+        {
+            _kelasService.DeleteKelas(id);
+            TempData["Pesan"] = $"Berhasil menghapus kelas {nama}";
+            return RedirectToAction(nameof(KelolaKelas));
+        }
         public IActionResult TestWawancara()
         {
             return View();
@@ -82,6 +161,29 @@ namespace FrontEnd.Web.Mvc.Controllers
             {
                 return RedirectToAction("PendahuluanWawancara", "Ujian", new { noPendaftaran = model.NoPendaftaran, target = model.Target });
             }
+        }
+        public IActionResult TentukanKelas()
+        {
+            var listSiswa = _siswaService.GetAllSiswaNotYetGetKelas();
+            var model = new TentukanKelasModel();
+            model.ListSiswaDitentukan = listSiswa.Select(x => new SiswaDitentukan()
+            {
+                JalurPendaftaranSucces = x.CalonSiswa.ListAkunPendaftaran[0].JalurPendaftaran,
+                NoPendaftaranSucces = x.CalonSiswa.ListAkunPendaftaran[0].NoPendaftaran,
+                NamaLengkap = x.CalonSiswa.NamaLengkap,
+                Nis = x.Nis
+            }).ToList();
+            return View(model);
+        }
+        public IActionResult GetAnggotaKelas(int id)
+        {
+            var anggota = _kelasService.GetMemberKelas(id);
+            var model = anggota.Select(x => new AnggotaKelas()
+            {
+                NamaLengkap = x.CalonSiswa.NamaLengkap,
+                Nis = x.Nis
+            }).ToList();
+            return Json(model);
         }
     }
 }

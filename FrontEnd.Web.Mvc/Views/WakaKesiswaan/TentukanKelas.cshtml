@@ -1,0 +1,52 @@
+﻿@model TentukanKelasModel
+@{
+    ViewBag.Title = "Tentukan Kelas";
+}
+
+@if (Model.ListSiswaDitentukan.Count() < 1)
+{
+    <div>Semua siswa sudah mendapat kelas</div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">List siswa yang belum mendapat kelas</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" width="100%" cellspacing="0" cellpadding="5">
+                    <thead class="table-warning text-dark">
+                        <tr>
+                            <th><b>No               </b></th>
+                            <th><b>Nomor Induk Siswa</b></th>
+                            <th><b>Nama Lengkap     </b></th>
+                            <th><b>Jalur Pendaftaran</b></th>
+                            <th><b>Hasil Wawancara  </b></th>
+                            <th><b>Aksi            </b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var siswa in Model.ListSiswaDitentukan)
+                        {
+                            int i = 1;
+                            <tr>
+                                <td>@i</td>
+                                <td>@siswa.Nis</td>
+                                <td>@siswa.NamaLengkap</td>
+                                <td>@siswa.JalurPendaftaranSucces</td>
+                                <td><a href="#">Lihat</a></td>
+                                <td>
+                                    <a href="#">
+                                        Tentukan
+                                    </a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}

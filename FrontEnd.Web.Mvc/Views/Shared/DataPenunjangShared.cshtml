@@ -1,0 +1,37 @@
+﻿@model KelolaDataPenunjangModel
+
+<div>
+    <h3><b>Penunjang</b></h3>
+    <table class="table-borderless">
+        <tr>
+            <td><label asp-for="@Model.Pembiaya"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Pembiaya</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.StatusTempatTinggal"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.StatusTempatTinggal</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.DayaListrik"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.DayaListrik</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.JarakTempuh"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.JarakTempuh Km</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.WaktuTempuh"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.WaktuTempuh Menit</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Transportasi"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Transportasi</label></td>
+        </tr>
+    </table>
+</div>

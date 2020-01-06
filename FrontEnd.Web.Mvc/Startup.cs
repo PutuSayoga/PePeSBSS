@@ -42,13 +42,14 @@ namespace FrontEnd.Web.Mvc
                 _ => new DbConnectionHelper(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<ISecurityRelate, SecurityRelateHelper>();
             services.AddScoped<IStaffSma, StaffSmaService>();
-            services.AddScoped<ISoalPenerimaan, SoalPenerimaanService>();
+            services.AddScoped<ISoal, SoalPenerimaanService>();
             services.AddScoped<IPendaftaran, PendaftaranService>();
             services.AddScoped<ICalonSiswa, CalonSiswaService>();
             services.AddScoped<IUjian, UjianService>();
-            services.AddScoped<ISeleksiPenerimaan, SeleksiPenerimaanService>();
+            services.AddScoped<ISeleksi, SeleksiService>();
             services.AddScoped<ISiswa, SiswaService>();
             services.AddScoped<IKelas, KelasService>();
+            services.AddScoped<INotif, ZensivaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

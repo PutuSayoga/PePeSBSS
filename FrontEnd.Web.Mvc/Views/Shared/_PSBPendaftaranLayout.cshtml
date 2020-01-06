@@ -36,7 +36,7 @@
             </li>
             <li class="nav-item nav-link">
                 <a class="nav-link" asp-controller="PsbPendaftaran" asp-action="Index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-bookmark"></i>
                     <span>Halaman Utama</span>
                 </a>
             </li>
@@ -44,13 +44,13 @@
             <li class="sidebar-heading">Daftar Baru</li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="PsbPendaftaran" asp-action="DaftarBaru">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-sticky-note"></i>
                     <span>Daftar Baru</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="PsbPendaftaran" asp-action="ListDaftarBaru">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-eye"></i>
                     <span>List Calon Siswa</span>
                 </a>
             </li>
@@ -58,13 +58,13 @@
             <li class="sidebar-heading">Daftar Ulang</li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="PsbPendaftaran" asp-action="DaftarUlang">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-sticky-note"></i>
                     <span>Daftar Ulang</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="PsbPendaftaran" asp-action="ListDaftarUlang">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-eye"></i>
                     <span>List Daftar Ulang</span>
                 </a>
             </li>
@@ -123,6 +123,12 @@
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
         <script src="~/lib/startbootstrap-sb-admin-2/js/sb-admin-2.min.js" type="text/javascript"></script>
     </environment>
+    <script>
+    @if (ViewBag.Pesan != null)
+    {
+        @: alert("@ViewBag.Pesan");
+    }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

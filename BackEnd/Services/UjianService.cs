@@ -12,15 +12,15 @@ namespace BackEnd.Services
     public class UjianService : IUjian
     {
         private readonly IDbConnectionHelper _connectionHelper;
-        private readonly ISoalPenerimaan _soalService;
-        public UjianService(IDbConnectionHelper connectionHelper, ISoalPenerimaan soalPenerimaanService, IPendaftaran pendaftaranService)
+        private readonly ISoal _soalService;
+        public UjianService(IDbConnectionHelper connectionHelper, ISoal soalPenerimaanService, IPendaftaran pendaftaranService)
         {
             _connectionHelper = connectionHelper;
             _soalService = soalPenerimaanService;
         }
 
         #region Not Interface Implementation
-        public void UpdateFinishStatusUjian(int akunId, int soalId)
+        private void UpdateFinishStatusUjian(int akunId, int soalId)
         {
             string sqlQuery = @"UPDATE Ujian SET IsSelesai=1 WHERE AkunPendaftaranId = @AkunPendaftaranId AND SoalId = @SoalId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -29,7 +29,7 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQuery, param: new { AkunPendaftaranId = akunId, SoalId = soalId });
             }
         }
-        public void CheckUjian(int akunId, int soalId)
+        private void CheckUjian(int akunId, int soalId)
         {
             var soal = _soalService.GetDetailSoal(soalId);
             var kunciJawaban = soal.ListPertanyaan.ToDictionary(x => x.Id, y => y.Jawaban.ToString());
@@ -50,7 +50,7 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQuery, param: listHasilUjian);
             }
         }
-        public List<HasilTes> GetHasilUjian(int akunId, int soalId)
+        private List<HasilTes> GetHasilUjian(int akunId, int soalId)
         {
             string sqlQuery = @"SELECT * FROM HasilTes WHERE AkunPendaftaranId=@AkunPendaftaranId AND SoalId=@SoalId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -63,7 +63,7 @@ namespace BackEnd.Services
                 return listHasilTes;
             }
         }
-        public void RecapHasilUjian(int akunPendaftaranId, int soalId)
+        private void RecapHasilUjian(int akunPendaftaranId, int soalId)
         {
             var listHasilUjian = GetHasilUjian(akunPendaftaranId, soalId);
             var kategori = _soalService.GetSimpleSoal(soalId).Kategori;
@@ -101,7 +101,7 @@ namespace BackEnd.Services
             double skor = (double)jawabanBenar * (100.0 / (double)jumlahPertanyaan);
             return Math.Round(skor, 2);
         }
-        public void UpdateStatusSudahUjian(int akunId)
+        private void UpdateStatusSudahUjian(int akunId)
         {
             string sqlUpdateStatus = @"UPDATE AkunPendaftaran SET Status = 'Sudah Ujian' WHERE Id = @AkunId";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -110,7 +110,7 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlUpdateStatus, param: new { AkunId = akunId });
             }
         }
-        public string GetJalurPendaftaran(string noPendaftaran)
+        private string GetJalurPendaftaran(string noPendaftaran)
         {
             string sqlQuery = $"SELECT JalurPendaftaran FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -120,7 +120,7 @@ namespace BackEnd.Services
                 return jalurPendaftaran;
             }
         }
-        public void SaveNewUjian(Ujian newData)
+        private void SaveNewUjian(Ujian newData)
         {
             string sqlQuery = @"INSERT INTO Ujian(AkunPendaftaranId, SoalId, WaktuBerakhir) 
                 VALUES(@AkunPendaftaranId, @SoalId, @WaktuBerakhir)";
@@ -130,7 +130,7 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlQuery, param: newData);
             }
         }
-        public void SaveNewAnswers(List<HasilTes> listJawaban)
+        private void SaveNewAnswers(List<HasilTes> listJawaban)
         {
             string sqlQuery = @"INSERT INTO HasilTes(SoalId, PertanyaanId, AkunPendaftaranId, Jawaban) 
                                 VALUES(@SoalId, @PertanyaanId, @AkunPendaftaranId, @Jawaban)";
@@ -141,7 +141,6 @@ namespace BackEnd.Services
             }
         }
         #endregion
-
 
         public void SaveAnswerAkademik(HasilTes jawaban)
         {

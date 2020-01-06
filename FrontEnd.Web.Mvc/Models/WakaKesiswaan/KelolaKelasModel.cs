@@ -22,11 +22,11 @@ namespace FrontEnd.Web.Mvc.Models.WakaKesiswaan
         public string Kategori { get; set; }
         [Display(Name ="Tingkat", Prompt ="Tingkatan kelas")]
         [Required(ErrorMessage ="Tingkat kelas tidak boleh kosong")]
-        public int Tingkat { get; set; }
+        public byte Tingkat { get; set; }
         [Display(Name ="Maksimal Siswa", Prompt ="Jumlah maksimal siswa kelas ini")]
         [Required(ErrorMessage ="Jumlah maksimal siswa tidak boleh kosong")]
-        [Range(0, int.MaxValue, ErrorMessage ="jumlah maksimal siswa tidak boleh negatif")]
-        public int MaxSiswa { get; set; }
-        public int JumlahSiswa { get; set; }
+        [Range(1, byte.MaxValue)]
+        public byte? MaxSiswa { get; set; }
+        public byte? JumlahSiswa { get; set; }
     }
 }

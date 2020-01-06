@@ -31,7 +31,7 @@ namespace BackEnd.Services
                 connection.Execute(sql: sqlInsertCalonSiswa, param: newCalonSiswa);
             }
         }
-        public void InsertSiswa(Siswa newSiswa)
+        private void InsertSiswa(Siswa newSiswa)
         {
             string sqlInsertSiswa = @"INSERT INTO Siswa(CalonSiswaId, TanggalMasuk, Nis, Status) 
                 VALUES(@CalonSiswaId, @TanggalMasuk, @Nis, @Status)";
@@ -56,7 +56,7 @@ namespace BackEnd.Services
                 InsertAkademikLama(newAkun.CalonSiswaId, newAkun.CalonSiswa.AkademikTerakhir.NamaSekolah);
             }
         }
-        public void InsertAkademikLama(int calonSiswaId, string namaSekolah)
+        private void InsertAkademikLama(int calonSiswaId, string namaSekolah)
         {
             string sqlQuery = @"INSERT INTO AkademikTerakhir(CalonSiswaId, NamaSekolah) VALUES(@CalonSiswaId, @NamaSekolah)";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -86,7 +86,7 @@ namespace BackEnd.Services
                 return noPendaftaran;
             }
         }
-        public Siswa CreateSiswa(AkunPendaftaran akun)
+        private Siswa CreateSiswa(AkunPendaftaran akun)
         {
             var siswa = new Siswa()
             {
@@ -97,7 +97,7 @@ namespace BackEnd.Services
             };
             return siswa;
         }
-        public string CreateNis()
+        private string CreateNis()
         {
             string sqlCreateNis = @"SELECT MAX(Nis)+1 FROM Siswa";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -107,7 +107,7 @@ namespace BackEnd.Services
                 return nis;
             }
         }
-        public void UpdateStatusDaftarUlang(int akunId)
+        private void UpdateStatusDaftarUlang(int akunId)
         {
             string sqlReRegist = @"UPDATE AkunPendaftaran SET Status = 'Daftar Ulang' WHERE Id = @Id";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -153,7 +153,6 @@ namespace BackEnd.Services
 
             return akunPendaftaranId;
         }
-
         public int GetAkunPendaftaranId(string noPedaftaran)
         {
             string sqlGetAkunId = @"SELECT Id FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
@@ -165,7 +164,6 @@ namespace BackEnd.Services
                 return akunId;
             } 
         }
-        
         public void ReRegist(int akunId)
         {
             UpdateStatusDaftarUlang(akunId);
@@ -173,7 +171,6 @@ namespace BackEnd.Services
             var newSiswa = CreateSiswa(akunPendaftaran);
             InsertSiswa(newSiswa);
         }
-
         public AkunPendaftaran GetAkunPendaftaran(int akunId)
         {
             string sqlGetDetailAkun = @"SELECT ap.*, cs.Nik, cs.Nisn, cs.NamaLengkap 
@@ -201,7 +198,6 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public List<AkunPendaftaran> GetAllAkunPendaftaran()
         {
             string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, ap.Status, cs.NamaLengkap 
@@ -226,13 +222,12 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public List<AkunPendaftaran> GetAllDaftarUlang()
         {
             string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, cs.NamaLengkap, csat.NamaSekolah
                 FROM AkunPendaftaran ap FULL JOIN CalonSiswa cs ON ap.CalonSiswaId = cs.Id
                 FULL JOIN AkademikTerakhir csat ON cs.Id = csat.CalonSiswaId
-                WHERE ap.status = 'Daftar Ulang'";
+                WHERE ap.status = 'Daftar Ulang' AND ap.JalurPendaftaran != 'Mutasi'";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
             {
                 connection.Open();
@@ -254,7 +249,6 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public List<AkunPendaftaran> GetAllAkunPendaftaranMutasi()
         {
             string sqlQuery = @"SELECT ap.Id, ap.NoPendaftaran, ap.JalurPendaftaran, ap.Status, cs.NamaLengkap, csat.NamaSekolah 
@@ -281,7 +275,6 @@ namespace BackEnd.Services
                 return result;
             }
         }
-
         public AkunPendaftaran SearchAkunPendaftaran(string noPendaftaran)
         {
             int akunId = GetAkunPendaftaranId(noPendaftaran);

@@ -1,0 +1,41 @@
+﻿@model KelolaDataRaporModel
+
+<div>
+    <h3><b>Rapor</b></h3>
+    @if (Model.ListRapor.Length < 1)
+    {
+        @: -
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-info text-dark">
+                    <tr>
+                        <th>Mata Pelajaran</th>
+                        <th>Semester 1</th>
+                        <th>Semester 2</th>
+                        <th>Semester 3</th>
+                        <th>Semester 4</th>
+                        <th>Semester 5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < @Model.ListRapor.Length; i++)
+                    {
+                        <tr>
+                            <td><label>@Model.ListRapor[i].MataPelajaran</label></td>
+                            <td align="center"><label>@Model.ListRapor[i].Semester1</label></td>
+                            <td align="center"><label>@Model.ListRapor[i].Semester2</label></td>
+                            <td align="center"><label>@Model.ListRapor[i].Semester3</label></td>
+                            <td align="center"><label>@Model.ListRapor[i].Semester4</label></td>
+                            <td align="center"><label>@Model.ListRapor[i].Semester5</label></td>
+                            <td align="center"><label>@Model.ListRapor[i].Semester5</label></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

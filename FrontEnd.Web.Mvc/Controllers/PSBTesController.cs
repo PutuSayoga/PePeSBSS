@@ -13,8 +13,8 @@ namespace FrontEnd.Web.Mvc.Controllers
     //[Authorize]
     public class PsbTesController : Controller
     {
-        private readonly ISeleksiPenerimaan _seleksiPenerimaanService;
-        public PsbTesController(ISeleksiPenerimaan seleksiPenerimaanService, IPendaftaran pendaftaranService)
+        private readonly ISeleksi _seleksiPenerimaanService;
+        public PsbTesController(ISeleksi seleksiPenerimaanService, IPendaftaran pendaftaranService)
         {
             _seleksiPenerimaanService = seleksiPenerimaanService;
         }
@@ -26,7 +26,7 @@ namespace FrontEnd.Web.Mvc.Controllers
 
         public IActionResult SeleksiJalurKhusus()
         {
-            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Khusus");
+            var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Khusus");
             var model = new SeleksiModel()
             {
                 ListAkun = listAkun.Select(x => new AkunSeleksi()
@@ -42,12 +42,20 @@ namespace FrontEnd.Web.Mvc.Controllers
                     IsLolos = x.Rekap.IsLolos
                 }).ToList()
             };
+            ViewBag.Pesan = TempData["Pesan"] as string;
 
             return View(model);
         }
+        [HttpPost]
+        public IActionResult SeleksiJalurKhusus(string noPendaftaran, bool isLolos)
+        {
+            string result = _seleksiPenerimaanService.UpdateStatusPendaftar(noPendaftaran, isLolos);
+            TempData["Pesan"] = $"Berhasil seleksi, {result}";
+            return RedirectToAction(nameof(SeleksiJalurKhusus));
+        }
         public IActionResult SeleksiJalurReguler()
         {
-            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Reguler");
+            var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Reguler");
             var model = new SeleksiModel()
             {
                 ListAkun = listAkun.Select(x => new AkunSeleksi()
@@ -64,46 +72,74 @@ namespace FrontEnd.Web.Mvc.Controllers
                 .OrderByDescending(x => x.SkorAkhir)
                 .ToList()
             };
+            ViewBag.Pesan = TempData["Pesan"] as string;
 
-            return View(model);
-        }
-        public IActionResult SeleksiJalurMitra()
-        {
-            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Mitra");
-            var model = new SeleksiModel()
-            {
-                ListAkun = listAkun.Select(x => new AkunSeleksi()
-                {
-                    Id = x.Id,
-                    NamaLengkap = x.CalonSiswa.NamaLengkap,
-                    JalurPendaftaran = x.JalurPendaftaran,
-                    NoPendaftaran = x.NoPendaftaran
-                }).ToList()
-            };
-            return View(model);
-        }
-        public IActionResult SeleksiJalurPrestasi()
-        {
-            var listAkun = _seleksiPenerimaanService.GetAllFinishUjianWithJalur("Prestasi");
-            var model = new SeleksiModel()
-            {
-                ListAkun = listAkun.Select(x => new AkunSeleksi()
-                {
-                    Id = x.Id,
-                    NamaLengkap = x.CalonSiswa.NamaLengkap,
-                    JalurPendaftaran = x.JalurPendaftaran,
-                    NoPendaftaran = x.NoPendaftaran
-                }).ToList()
-            };
             return View(model);
         }
         [HttpPost]
-        public IActionResult Seleksi(int id, bool isLolos)
+        public IActionResult SeleksiJalurReguler(int banyakLolos, int total)
         {
-            _seleksiPenerimaanService.UpdateSelection(id, isLolos);
-            return RedirectToAction(nameof(SeleksiJalurKhusus));
+            if (banyakLolos < 0)
+            {
+                TempData["Pesan"] = "Nilai yang dimasukkan tidak boleh negatif";
+            }
+            else if (total < banyakLolos)
+            {
+                TempData["Pesan"] = "Jumlah peserta lebih sedikit dari banyak siswa yang diinginkan";
+            }
+            else
+            {
+                _seleksiPenerimaanService.UpdateStatusReguler(banyakLolos);
+                TempData["Pesan"] = "Berhasil menyeleksi, data akan diekspor menjadi excel";
+            }
+            return RedirectToAction(nameof(SeleksiJalurReguler));
         }
-
+        public IActionResult SeleksiJalurMitra()
+        {
+            var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Mitra");
+            var model = new SeleksiModel()
+            {
+                ListAkun = listAkun.Select(x => new AkunSeleksi()
+                {
+                    Id = x.Id,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
+                    JalurPendaftaran = x.JalurPendaftaran,
+                    NoPendaftaran = x.NoPendaftaran
+                }).ToList()
+            };
+            ViewBag.Pesan = TempData["Pesan"] as string;
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult SeleksiJalurMitra(string noPendaftaran, bool isLolos)
+        {
+            string result = _seleksiPenerimaanService.UpdateStatusPendaftar(noPendaftaran, isLolos);
+            TempData["Pesan"] = $"Berhasil seleksi, {result}";
+            return RedirectToAction(nameof(SeleksiJalurMitra));
+        }
+        public IActionResult SeleksiJalurPrestasi()
+        {
+            var listAkun = _seleksiPenerimaanService.GetAllWithJalur("Prestasi");
+            var model = new SeleksiModel()
+            {
+                ListAkun = listAkun.Select(x => new AkunSeleksi()
+                {
+                    Id = x.Id,
+                    NamaLengkap = x.CalonSiswa.NamaLengkap,
+                    JalurPendaftaran = x.JalurPendaftaran,
+                    NoPendaftaran = x.NoPendaftaran
+                }).ToList()
+            };
+            ViewBag.Pesan = TempData["Pesan"] as string;
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult SeleksiJalurPrestasi(string noPendaftaran, bool isLolos)
+        {
+            string result = _seleksiPenerimaanService.UpdateStatusPendaftar(noPendaftaran, isLolos);
+            TempData["Pesan"] = $"Berhasil seleksi, {result}";
+            return RedirectToAction(nameof(SeleksiJalurPrestasi));
+        }
         public IActionResult TestWawancara()
         {
             return View();

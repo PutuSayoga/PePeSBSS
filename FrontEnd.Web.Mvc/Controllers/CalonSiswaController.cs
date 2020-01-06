@@ -26,7 +26,37 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         public IActionResult Biodata()
         {
+            ViewBag.Pesan = TempData["Pesan"] as string;
+            
+            var dataDiri = new KelolaDataDiriModel();
+            var dataAkademik = new KelolaDataAkademikTerakhir();
+            var dataRapor = new KelolaDataRaporModel();
+            var dataPrestasi = new KelolaDataPrestasiModel();
+            var dataOrangTua = new KelolaDataOrangTuaModel();
+            var dataPenunjang = new KelolaDataPenunjangModel();
+
+            var akunDataDiri = _calonSiswaService.GetDetailDiri(User.Identity.Name);
+            var akunDataAkademik = _calonSiswaService.GetDetailAkademikTerakhir(User.Identity.Name);
+            var akunRapor = _calonSiswaService.GetDetailRapor(User.Identity.Name);
+            var akunPrestasi = _calonSiswaService.GetDetailPrestasi(User.Identity.Name);
+            var akunOrangTua = _calonSiswaService.GetDetailPenanggungJawab(User.Identity.Name);
+            var akunPenunjang = _calonSiswaService.GetDetailPenunjang(User.Identity.Name);
+
+            MapDataDiri(ref dataDiri, akunDataDiri);
+            MapDataAkademik(ref dataAkademik, akunDataAkademik);
+            MapDataRapor(ref dataRapor, akunRapor);
+            MapDataPrestasi(ref dataPrestasi, akunPrestasi);
+            MapDataOrangTua(ref dataOrangTua, akunOrangTua);
+            MapDataPenunjang(ref dataPenunjang, akunPenunjang);
+
             var model = new BiodataModel();
+            model.DataDiri = dataDiri;
+            model.DataAkademikTerakhir = dataAkademik;
+            model.DataRapor = dataRapor;
+            model.DataPrestasi = dataPrestasi;
+            model.DataOrangTua = dataOrangTua;
+            model.DataPenunjang = dataPenunjang;
+
             return View(model);
         }
         public IActionResult HasilSeleksi()
@@ -39,16 +69,292 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
             return View(model);
         }
+
         [HttpGet]
         public IActionResult KelolaDataDiri()
         {
             var akun = _calonSiswaService.GetDetailDiri(User.Identity.Name);
-            var model = new KelolaDataDiriModel()
+            var model = new KelolaDataDiriModel();
+            MapDataDiri(ref model, akun);
+
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult KelolaDataAkademikTerakhir()
+        {
+            var akun = _calonSiswaService.GetDetailAkademikTerakhir(User.Identity.Name);
+            var model = new KelolaDataAkademikTerakhir();
+            MapDataAkademik(ref model, akun);
+
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult KelolaDataRapor()
+        {
+            var akun = _calonSiswaService.GetDetailRapor(User.Identity.Name);
+            var model = new KelolaDataRaporModel();
+            MapDataRapor(ref model, akun);
+
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult KelolaDataPrestasi()
+        {
+            var akun = _calonSiswaService.GetDetailPrestasi(User.Identity.Name);
+            var model = new KelolaDataPrestasiModel();
+            MapDataPrestasi(ref model, akun);
+
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult KelolaDataOrangTua()
+        {
+            var akun = _calonSiswaService.GetDetailPenanggungJawab(User.Identity.Name);
+            var model = new KelolaDataOrangTuaModel();
+            MapDataOrangTua(ref model, akun);
+
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult KelolaDataPenunjang()
+        {
+            var akun = _calonSiswaService.GetDetailPenunjang(User.Identity.Name);
+            var model = new KelolaDataPenunjangModel();
+            MapDataPenunjang(ref model, akun);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult KelolaDataDiri(KelolaDataDiriModel model)
+        {
+            if (!ModelState.IsValid)
             {
-                JalurPendaftaran = akun.JalurPendaftaran,
-                NoPendaftaran = akun.NoPendaftaran,
-                NamaLengkap = akun.CalonSiswa.NamaLengkap
+                TempData["Pesan"] = "Data tidak valid";
+                return RedirectToAction(nameof(KelolaDataDiri));
+            }
+            else
+            {
+                string namaLengkap = model.NamaLengkap;
+                string noPendaftaran = User.Identity.Name;
+                var newData = new DataDiri()
+                {
+                    Agama = model.Agama,
+                    Alamat = model.Alamat,
+                    AnakKe = model.AnakKe,
+                    BeratBadan = model.BeratBadan,
+                    CitaCita = model.CitaCita,
+                    DusunDesaLurah = model.DusunDesaLurah,
+                    Email = model.Email,
+                    GolDarah = model.GolDarah,
+                    Hobi = model.Hobi,
+                    IsPerempuan = model.IsPerempuan,
+                    JumlahSaudara = model.JumlahSaudara,
+                    Kecamatan = model.Kecamatan,
+                    KelainanJasmani = model.KelainanJasmani,
+                    KodePos = model.KodePos,
+                    KotaKabupaten = model.KotaKabupaten,
+                    NamaPanggilan = model.NamaPanggilan,
+                    NoHp = model.NoHp,
+                    NoTelp = model.NoTelp,
+                    RiwayatSakit = model.RiwayatSakit,
+                    Rt = model.Rt,
+                    Rw = model.Rw,
+                    StatusDalamKeluarga = model.StatusDalamKeluarga,
+                    TanggalLahir = model.TanggalLahir,
+                    TempatLahir = model.TempatLahir,
+                    TinggiBadan = model.TinggiBadan
+                };
+                _calonSiswaService.SaveDataDiri(noPendaftaran, namaLengkap, newData);
+                TempData["Pesan"] = "Data berhasil disimpan";
+                return RedirectToAction(nameof(Biodata));
+            }
+        }
+        [HttpPost]
+        public IActionResult KelolaDataAkademikTerakhir(KelolaDataAkademikTerakhir model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = "Data tidak valid";
+                return RedirectToAction(nameof(KelolaDataAkademikTerakhir));
+            }
+            else
+            {
+                string noPendaftaran = User.Identity.Name;
+                var newData = new AkademikTerakhir()
+                {
+                    AlamatSekolah = model.AlamatSekolah,
+                    JenisSekolah = model.JenisSekolah,
+                    NamaSekolah = model.NamaSekolah,
+                    NoPesertaUn = model.NoPesertaUn,
+                    NoSeriIjazah = model.NoSeriIjazah,
+                    NoSeriSkhun = model.NoSeriSkhun,
+                    StatusSekolah = model.StatusSekolah
+                };
+                _calonSiswaService.SaveDataAkademikTerakhir(noPendaftaran, newData);
+                TempData["Pesan"] = "Data berhasil disimpan";
+                return RedirectToAction(nameof(Biodata));
+            }
+        }
+        [HttpPost]
+        public IActionResult KelolaDataRapor(KelolaDataRaporModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = "Data tidak valid";
+                return RedirectToAction(nameof(KelolaDataRapor));
+            }
+            else
+            {
+                string noPendaftaran = User.Identity.Name;
+                var newData = new List<Rapor>();
+                for (int i = 0; i < model.ListRapor.Length; i++)
+                {
+                    newData.Add(new Rapor()
+                    {
+                        MataPelajaran = model.ListRapor[i].MataPelajaran,
+                        Semester1 = model.ListRapor[i].Semester1,
+                        Semester2 = model.ListRapor[i].Semester2,
+                        Semester3 = model.ListRapor[i].Semester3,
+                        Semester4 = model.ListRapor[i].Semester4,
+                        Semester5 = model.ListRapor[i].Semester5,
+                    });
+                }
+                _calonSiswaService.SaveDataRapor(noPendaftaran, newData);
+                TempData["Pesan"] = "Data berhasil disimpan";
+                return RedirectToAction(nameof(Biodata));
+            }
+        }
+        [HttpPost]
+        public IActionResult KelolaDataPrestasi(KelolaDataPrestasiModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = "Data tidak valid";
+                return RedirectToAction(nameof(KelolaDataPrestasi));
+            }
+            else
+            {
+                string noPendaftaran = User.Identity.Name;
+                var newData = new Prestasi()
+                {
+                    Jenis = model.Jenis,
+                    NamaKejuaraan = model.NamaKejuaraan,
+                    Penyelenggara = model.Penyelenggara,
+                    Peringkat = model.Peringkat,
+                    Tahun = model.Tanggal,
+                    Tingkat = model.Tingkat
+                };
+                _calonSiswaService.SaveDataPrestasi(noPendaftaran, newData);
+                TempData["Pesan"] = "Data berhasil disimpan";
+                return RedirectToAction(nameof(Biodata));
+            }
+        }
+        [HttpPost]
+        public IActionResult KelolaDataOrangTua(KelolaDataOrangTuaModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = "Data tidak valid";
+                return RedirectToAction(nameof(KelolaDataOrangTua));
+            }
+            else
+            {
+                string noPendaftaran = User.Identity.Name;
+                var newData = new List<Penanggungjawab>()
+            {
+                // Ayah
+                new Penanggungjawab()
+                {
+                    Agama = model.AgamaAyah,
+                    Alamat = model.AlamatAyah,
+                    Email = model.EmailAyah,
+                    Keterangan = model.KeteranganAyah,
+                    NamaLengkap = model.NamaLengkapAyah,
+                    NoHp = model.NoHpAyah,
+                    NoTelp = model.NoTelpAyah,
+                    Pekerjaan = model.PekerjaanAyah,
+                    PendidikanTerakhir = model.PendidikanTerakhirAyah,
+                    Penghasilan = model.PenghasilanAyah,
+                    Sebagai = "Ayah",
+                    StatusDalamKeluarga = model.StatusDalamKeluargaAyah,
+                    TanggalLahir = model.TanggalLahirAyah,
+                    TempatLahir = model.TempatLahirAyah
+                },
+                // Ibu
+                new Penanggungjawab()
+                {
+                    Agama = model.AgamaIbu,
+                    Alamat = model.AlamatIbu,
+                    Email = model.EmailIbu,
+                    Keterangan = model.KeteranganIbu,
+                    NamaLengkap = model.NamaLengkapIbu,
+                    NoHp = model.NoHpIbu,
+                    NoTelp = model.NoTelpIbu,
+                    Pekerjaan = model.PekerjaanIbu,
+                    PendidikanTerakhir = model.PendidikanTerakhirIbu,
+                    Penghasilan = model.PenghasilanIbu,
+                    Sebagai = "Ibu",
+                    StatusDalamKeluarga = model.StatusDalamKeluargaIbu,
+                    TanggalLahir = model.TanggalLahirIbu,
+                    TempatLahir = model.TempatLahirIbu
+                }
             };
+                if (model.NamaLengkapWali != null)
+                {
+                    // Wali
+                    newData.Add(new Penanggungjawab()
+                    {
+                        Agama = model.AgamaWali,
+                        Alamat = model.AlamatWali,
+                        Email = model.EmailWali,
+                        NamaLengkap = model.NamaLengkapWali,
+                        NoHp = model.NoHpWali,
+                        NoTelp = model.NoTelpWali,
+                        Pekerjaan = model.PekerjaanWali,
+                        PendidikanTerakhir = model.PendidikanTerakhirWali,
+                        Penghasilan = model.PenghasilanWali,
+                        Sebagai = "Wali",
+                        TanggalLahir = model.TanggalLahirWali,
+                        TempatLahir = model.TempatLahirWali
+                    });
+                }
+                _calonSiswaService.SaveDataPenanggunjawab(noPendaftaran, newData);
+                TempData["Pesan"] = "Data berhasil disimpan";
+                return RedirectToAction(nameof(Biodata));
+            }
+        }
+        [HttpPost]
+        public IActionResult KelolaDataPenunjang(KelolaDataPenunjangModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["Pesan"] = "Data tidak valid";
+                return RedirectToAction(nameof(KelolaDataPenunjang));
+            }
+            else
+            {
+                string noPendaftaran = User.Identity.Name;
+                var newData = new Penunjang()
+                {
+                    DayaListrik = model.DayaListrik,
+                    JarakTempuh = model.JarakTempuh,
+                    Pembiaya = model.Pembiaya,
+                    StatusTempatTinggal = model.StatusTempatTinggal,
+                    Transportasi = model.Transportasi,
+                    WaktuTempuh = model.WaktuTempuh
+                };
+                _calonSiswaService.SaveDataPenunjang(noPendaftaran, newData);
+                TempData["Pesan"] = "Data berhasil disimpan";
+                return RedirectToAction(nameof(Biodata));
+            }
+        }
+
+        private void MapDataDiri(ref KelolaDataDiriModel model, AkunPendaftaran akun)
+        {
+            model.JalurPendaftaran = akun.JalurPendaftaran;
+            model.NoPendaftaran = akun.NoPendaftaran;
+            model.NamaLengkap = akun.CalonSiswa.NamaLengkap;
             if (akun.CalonSiswa.DataDiri != null)
             {
                 model.Agama = akun.CalonSiswa.DataDiri.Agama;
@@ -77,14 +383,9 @@ namespace FrontEnd.Web.Mvc.Controllers
                 model.TempatLahir = akun.CalonSiswa.DataDiri.TempatLahir;
                 model.TinggiBadan = akun.CalonSiswa.DataDiri.TinggiBadan;
             }
-
-            return View(model);
         }
-        [HttpGet]
-        public IActionResult KelolaDataAkademikTerakhir()
+        private void MapDataAkademik(ref KelolaDataAkademikTerakhir model, AkunPendaftaran akun)
         {
-            var akun = _calonSiswaService.GetDetailAkademikTerakhir(User.Identity.Name);
-            var model = new KelolaDataAkademikTerakhir();
             if (akun.CalonSiswa.AkademikTerakhir != null)
             {
                 model.AlamatSekolah = akun.CalonSiswa.AkademikTerakhir.AlamatSekolah;
@@ -95,13 +396,9 @@ namespace FrontEnd.Web.Mvc.Controllers
                 model.NoSeriSkhun = akun.CalonSiswa.AkademikTerakhir.NoSeriSkhun;
                 model.StatusSekolah = akun.CalonSiswa.AkademikTerakhir.StatusSekolah;
             }
-            return View(model);
         }
-        [HttpGet]
-        public IActionResult KelolaDataRapor()
+        private void MapDataRapor(ref KelolaDataRaporModel model, AkunPendaftaran akun)
         {
-            var akun = _calonSiswaService.GetDetailRapor(User.Identity.Name);
-            var model = new KelolaDataRaporModel();
             if (akun.CalonSiswa.ListNilaiRapor != null)
             {
                 model.ListRapor[0] = akun.CalonSiswa.ListNilaiRapor
@@ -237,13 +534,9 @@ namespace FrontEnd.Web.Mvc.Controllers
                     })
                     .FirstOrDefault();
             }
-            return View(model);
         }
-        [HttpGet]
-        public IActionResult KelolaDataPrestasi()
+        private void MapDataPrestasi(ref KelolaDataPrestasiModel model, AkunPendaftaran akun)
         {
-            var akun = _calonSiswaService.GetDetailPrestasi(User.Identity.Name);
-            var model = new KelolaDataPrestasiModel();
             if (akun.CalonSiswa.Prestasi != null)
             {
                 model.Jenis = akun.CalonSiswa.Prestasi.Jenis;
@@ -253,13 +546,9 @@ namespace FrontEnd.Web.Mvc.Controllers
                 model.Tanggal = akun.CalonSiswa.Prestasi.Tahun;
                 model.Tingkat = akun.CalonSiswa.Prestasi.Tingkat;
             }
-            return View(model);
         }
-        [HttpGet]
-        public IActionResult KelolaDataOrangTua()
+        private void MapDataOrangTua(ref KelolaDataOrangTuaModel model, AkunPendaftaran akun)
         {
-            var akun = _calonSiswaService.GetDetailPenanggungJawab(User.Identity.Name);
-            var model = new KelolaDataOrangTuaModel();
             if (akun.CalonSiswa.ListPenanggungjawab != null)
             {
                 var ayah = akun.CalonSiswa.ListPenanggungjawab
@@ -318,13 +607,9 @@ namespace FrontEnd.Web.Mvc.Controllers
                     model.TempatLahirWali = wali.TempatLahir;
                 }
             }
-            return View(model);
         }
-        [HttpGet]
-        public IActionResult KelolaDataPenunjang()
+        private void MapDataPenunjang(ref KelolaDataPenunjangModel model, AkunPendaftaran akun)
         {
-            var akun = _calonSiswaService.GetDetailPenunjang(User.Identity.Name);
-            var model = new KelolaDataPenunjangModel();
             if (akun.CalonSiswa.Penunjang != null)
             {
                 model.DayaListrik = akun.CalonSiswa.Penunjang.DayaListrik;
@@ -334,184 +619,6 @@ namespace FrontEnd.Web.Mvc.Controllers
                 model.Transportasi = akun.CalonSiswa.Penunjang.Transportasi;
                 model.WaktuTempuh = akun.CalonSiswa.Penunjang.WaktuTempuh;
             }
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult KelolaDataDiri(KelolaDataDiriModel model)
-        {
-            string namaLengkap = model.NamaLengkap;
-            string noPendaftaran = User.Identity.Name;
-            var newData = new DataDiri()
-            {
-                Agama = model.Agama,
-                Alamat = model.Alamat,
-                AnakKe = model.AnakKe,
-                BeratBadan = model.BeratBadan,
-                CitaCita = model.CitaCita,
-                DusunDesaLurah = model.DusunDesaLurah,
-                Email = model.Email,
-                GolDarah = model.GolDarah,
-                Hobi = model.Hobi,
-                IsPerempuan = model.IsPerempuan,
-                JumlahSaudara = model.JumlahSaudara,
-                Kecamatan = model.Kecamatan,
-                KelainanJasmani = model.KelainanJasmani,
-                KodePos = model.KodePos,
-                KotaKabupaten = model.KotaKabupaten,
-                NamaPanggilan = model.NamaPanggilan,
-                NoHp = model.NoHp,
-                NoTelp = model.NoTelp,
-                RiwayatSakit = model.RiwayatSakit,
-                Rt = model.Rt,
-                Rw = model.Rw,
-                StatusDalamKeluarga = model.StatusDalamKeluarga,
-                TanggalLahir = model.TanggalLahir,
-                TempatLahir = model.TempatLahir,
-                TinggiBadan = model.TinggiBadan
-            };
-            _calonSiswaService.SaveDataDiri(noPendaftaran, namaLengkap, newData);
-            TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(Biodata));
-        }
-        [HttpPost]
-        public IActionResult KelolaDataAkademikTerakhir(KelolaDataAkademikTerakhir model)
-        {
-            string noPendaftaran = User.Identity.Name;
-            var newData = new AkademikTerakhir()
-            {
-                AlamatSekolah = model.AlamatSekolah,
-                JenisSekolah = model.JenisSekolah,
-                NamaSekolah = model.NamaSekolah,
-                NoPesertaUn = model.NoPesertaUn,
-                NoSeriIjazah = model.NoSeriIjazah,
-                NoSeriSkhun = model.NoSeriSkhun,
-                StatusSekolah = model.StatusSekolah
-            };
-            _calonSiswaService.SaveDataAkademikTerakhir(noPendaftaran, newData);
-            TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(Biodata));
-        }
-        [HttpPost]
-        public IActionResult KelolaDataRapor(KelolaDataRaporModel model)
-        {
-            string noPendaftaran = User.Identity.Name;
-            var newData = new List<Rapor>();
-            for(int i = 0; i<model.ListRapor.Length; i++)
-            {
-                newData.Add(new Rapor()
-                {
-                    MataPelajaran = model.ListRapor[i].MataPelajaran,
-                    Semester1 = model.ListRapor[i].Semester1,
-                    Semester2 = model.ListRapor[i].Semester2,
-                    Semester3 = model.ListRapor[i].Semester3,
-                    Semester4 = model.ListRapor[i].Semester4,
-                    Semester5 = model.ListRapor[i].Semester5,
-                });
-            }
-            _calonSiswaService.SaveDataRapor(noPendaftaran, newData);
-            TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(Biodata));
-        }
-        [HttpPost]
-        public IActionResult KelolaDataPrestasi(KelolaDataPrestasiModel model)
-        {
-            string noPendaftaran = User.Identity.Name;
-            var newData = new Prestasi()
-            {
-                Jenis = model.Jenis,
-                NamaKejuaraan = model.NamaKejuaraan,
-                Penyelenggara = model.Penyelenggara,
-                Peringkat = model.Peringkat,
-                Tahun = model.Tanggal,
-                Tingkat = model.Tingkat
-            };
-            _calonSiswaService.SaveDataPrestasi(noPendaftaran, newData);
-            TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(Biodata));
-        }
-        [HttpPost]
-        public IActionResult KelolaDataOrangTua(KelolaDataOrangTuaModel model)
-        {
-            string noPendaftaran = User.Identity.Name;
-            var newData = new List<Penanggungjawab>()
-            {
-                // Ayah
-                new Penanggungjawab()
-                {
-                    Agama = model.AgamaAyah,
-                    Alamat = model.AlamatAyah,
-                    Email = model.EmailAyah,
-                    Keterangan = model.KeteranganAyah,
-                    NamaLengkap = model.NamaLengkapAyah,
-                    NoHp = model.NoHpAyah,
-                    NoTelp = model.NoTelpAyah,
-                    Pekerjaan = model.PekerjaanAyah,
-                    PendidikanTerakhir = model.PendidikanTerakhirAyah,
-                    Penghasilan = model.PenghasilanAyah,
-                    Sebagai = "Ayah",
-                    StatusDalamKeluarga = model.StatusDalamKeluargaAyah,
-                    TanggalLahir = model.TanggalLahirAyah,
-                    TempatLahir = model.TempatLahirAyah
-                },
-                // Ibu
-                new Penanggungjawab()
-                {
-                    Agama = model.AgamaIbu,
-                    Alamat = model.AlamatIbu,
-                    Email = model.EmailIbu,
-                    Keterangan = model.KeteranganIbu,
-                    NamaLengkap = model.NamaLengkapIbu,
-                    NoHp = model.NoHpIbu,
-                    NoTelp = model.NoTelpIbu,
-                    Pekerjaan = model.PekerjaanIbu,
-                    PendidikanTerakhir = model.PendidikanTerakhirIbu,
-                    Penghasilan = model.PenghasilanIbu,
-                    Sebagai = "Ibu",
-                    StatusDalamKeluarga = model.StatusDalamKeluargaIbu,
-                    TanggalLahir = model.TanggalLahirIbu,
-                    TempatLahir = model.TempatLahirIbu
-                }
-            };
-            if (model.NamaLengkapWali != null)
-            {
-                // Wali
-                newData.Add(new Penanggungjawab()
-                {
-                    Agama = model.AgamaWali,
-                    Alamat = model.AlamatWali,
-                    Email = model.EmailWali,
-                    NamaLengkap = model.NamaLengkapWali,
-                    NoHp = model.NoHpWali,
-                    NoTelp = model.NoTelpWali,
-                    Pekerjaan = model.PekerjaanWali,
-                    PendidikanTerakhir = model.PendidikanTerakhirWali,
-                    Penghasilan = model.PenghasilanWali,
-                    Sebagai = "Wali",
-                    TanggalLahir = model.TanggalLahirWali,
-                    TempatLahir = model.TempatLahirWali
-                });
-            }
-            _calonSiswaService.SaveDataPenanggunjawab(noPendaftaran, newData);
-            TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(Biodata));
-        }
-        [HttpPost]
-        public IActionResult KelolaDataPenunjang(KelolaDataPenunjangModel model)
-        {
-            string noPendaftaran = User.Identity.Name;
-            var newData = new Penunjang()
-            {
-                DayaListrik = model.DayaListrik,
-                JarakTempuh = model.JarakTempuh,
-                Pembiaya = model.Pembiaya,
-                StatusTempatTinggal = model.StatusTempatTinggal,
-                Transportasi = model.Transportasi,
-                WaktuTempuh = model.WaktuTempuh
-            };
-            _calonSiswaService.SaveDataPenunjang(noPendaftaran, newData);
-            TempData["Pesan"] = "Berhasil menyimpan";
-            return RedirectToAction(nameof(Biodata));
         }
     }
 }

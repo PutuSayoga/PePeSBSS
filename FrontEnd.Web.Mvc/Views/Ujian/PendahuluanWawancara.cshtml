@@ -6,18 +6,28 @@
         <h6 class="m-0 font-weight-bold text-primary">Peraturan & Keterangan</h6>
     </div>
     <div class="card-body">
-        <div>
-            <label asp-for="SoalWawancara.Jalur"></label>:<label>Jalur @Model.SoalWawancara.Jalur</label>
-        </div>
-        <div>
-            <label asp-for="SoalWawancara.JumlahPertanyaan"></label>:<label>@Model.SoalWawancara.JumlahPertanyaan pertanyaan</label>
-        </div>
-        <div>
-            <label asp-for="SoalWawancara.Kategori"></label>:<label>@Model.SoalWawancara.Kategori</label>
-        </div>
-        <div>
-            <label asp-for="SoalWawancara.Deskripsi"></label>:<label>@Model.SoalWawancara.Deskripsi</label>
-        </div>
+        <table class="table-borderless">
+            <tr>
+                <td><label asp-for="SoalWawancara.Jalur"></label></td>
+                <td><label> : </label></td>
+                <td><label>Jalur @Model.SoalWawancara.Jalur</label></td>
+            </tr>
+            <tr>
+                <td><label asp-for="SoalWawancara.JumlahPertanyaan"></label></td>
+                <td><label> : </label></td>
+                <td><label>Jalur @Model.SoalWawancara.JumlahPertanyaan pertanyaan</label></td>
+            </tr>
+            <tr>
+                <td><label asp-for="SoalWawancara.Kategori"></label></td>
+                <td><label> : </label></td>
+                <td><label>Jalur @Model.SoalWawancara.Kategori</label></td>
+            </tr>
+            <tr>
+                <td><label asp-for="SoalWawancara.Deskripsi"></label></td>
+                <td><label> : </label></td>
+                <td><label>Jalur @Model.SoalWawancara.Deskripsi</label></td>
+            </tr>
+        </table>
         <a class="btn btn-primary" asp-controller="Ujian" asp-action="Wawancara" 
            asp-route-soalId="@Model.SoalWawancara.Id" asp-route-noPendaftaran="@Model.NoPendaftaran">Mulai Wawancara</a>
     </div>

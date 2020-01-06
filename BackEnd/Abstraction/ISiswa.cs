@@ -8,10 +8,11 @@ namespace BackEnd.Abstraction
     public interface ISiswa
     {
         List<Siswa> GetAllSiswa();
-        List<Siswa> GetAllMutasiKeluar();
-        void NewMutasiKeluar(MutasiKeluar mutasi);
-        MutasiKeluar GetMutasiKeluar(int id);
-        Siswa SearchSiswa(string nis);
         Siswa GetDetailSiswa(int id);
+        List<Siswa> GetAllMutasiKeluar();
+        MutasiKeluar GetMutasiKeluar(int id);
+        void NewMutasiKeluar(MutasiKeluar mutasi);
+        Siswa SearchSiswaForMutasiKeluar(string nis);
+        List<Siswa> GetAllSiswaNotYetGetKelas();
     }
 }

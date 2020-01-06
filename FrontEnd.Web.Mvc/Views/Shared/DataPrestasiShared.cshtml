@@ -1,0 +1,37 @@
+﻿@model KelolaDataPrestasiModel
+
+<div>
+    <h3><b>Prestasi</b></h3>
+    <table class="table-borderless">
+        <tr>
+            <td><label asp-for="@Model.NamaKejuaraan"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NamaKejuaraan</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Jenis"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Jenis</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Tingkat"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Tingkat</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Peringkat"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Peringkat</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Tanggal"></label></td>
+            <td><label> : </label></td>
+            <td><label>@(Model.Tanggal.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("id-ID")))</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Penyelenggara"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Penyelenggara</label></td>
+        </tr>
+    </table>
+</div>

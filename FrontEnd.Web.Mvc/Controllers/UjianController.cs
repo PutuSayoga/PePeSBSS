@@ -16,10 +16,10 @@ namespace FrontEnd.Web.Mvc.Controllers
     [Authorize]
     public class UjianController : Controller
     {
-        private readonly ISoalPenerimaan _soalPenerimaanService;
+        private readonly ISoal _soalPenerimaanService;
         private readonly IPendaftaran _pendaftaranService;
         private readonly IUjian _ujianService;
-        public UjianController(ISoalPenerimaan soalPenerimaanService, IPendaftaran pendaftaranService, IUjian ujianService)
+        public UjianController(ISoal soalPenerimaanService, IPendaftaran pendaftaranService, IUjian ujianService)
         {
             _ujianService = ujianService;
             _pendaftaranService = pendaftaranService;
@@ -33,11 +33,24 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
 
         [Authorize(Roles = "Calon Siswa")]
-        public IActionResult MulaiMengerjakanAkademik(int soalId)
+        public IActionResult MulaiMengerjakanAkademik(int soalId, string kategori)
         {
             int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            _ujianService.StartUjianAkademik(akunId, soalId);
-            return RedirectToAction(nameof(JawabSoalAkademik), new { soalId });
+            bool? isDone = _ujianService.IsDone(akunId, soalId);
+            if (isDone == null)
+            {
+                _ujianService.StartUjianAkademik(akunId, soalId);
+                return RedirectToAction(nameof(JawabSoalAkademik), new { soalId });
+            }
+            else if ((bool)isDone)
+            {
+                TempData["Pesan"] = "Sudah dikerjakan";
+                return RedirectToAction(nameof(PendahuluanAkademik), new { kategori });
+            }
+            else
+            {
+                return RedirectToAction(nameof(JawabSoalAkademik), new { soalId });
+            }
         }
         
         [Authorize(Roles = "Calon Siswa")]
@@ -46,6 +59,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             int akunId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             int soalPengerjaanId = _ujianService.GetSoalPengerjaanAkademikId(User.Identity.Name, kategori);
             bool? isDone = _ujianService.IsDone(akunId, soalPengerjaanId);
+            ViewBag.Pesan = TempData["Pesan"] as string;
             if (isDone == null)
             {
                 var soal = _soalPenerimaanService.GetSimpleSoal(soalPengerjaanId);
@@ -70,6 +84,7 @@ namespace FrontEnd.Web.Mvc.Controllers
             }
         }
         
+        [HttpGet]
         [Authorize(Roles = "Calon Siswa")]
         public IActionResult SelesaiUjianAkademik()
         {

@@ -54,7 +54,7 @@
                         class="btn btn-warning text-white">
                     Cetak
                 </button>
-                @if (User.IsInRole("Psb Pendaftaran"))
+                @if (User.IsInRole("PSB Pendaftaran"))
                 {
                     <a asp-controller="PsbPendaftaran" asp-action="ListDaftarBaru" class="btn btn-secondary">Selesai</a>
                 }

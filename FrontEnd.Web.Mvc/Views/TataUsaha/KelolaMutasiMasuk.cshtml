@@ -80,7 +80,7 @@
                                     }
                                     else if (akun.Status.Equals("Daftar Ulang"))
                                     {
-                                        <p class="text-dark">Sudah Daftar Ulang</p>
+                                        <p class="text-dark">Sudah Menjadi Siswa</p>
                                     }
                                 </td>
                             </tr>
@@ -141,13 +141,3 @@
         </div>
     </div>
 </div>
-
-
-@section Scripts{
-    <script>
-    @if (ViewBag.Pesan != null)
-    {
-        @: alert("@ViewBag.Pesan");
-    }
-    </script>
-}

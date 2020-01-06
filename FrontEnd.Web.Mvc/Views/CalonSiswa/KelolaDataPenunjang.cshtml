@@ -1,89 +1,89 @@
 ﻿@model KelolaDataPenunjangModel
-@{ 
+@{
     ViewBag.Title = "Data Penunjang";
 }
-    <div class="col-11">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Form data penunjang</h6>
-            </div>
-            <div class="card-body">
-                <div asp-validation-summary="All" class="alert-danger text-danger mb-4"></div>
-                <form asp-controller="CalonSiswa" asp-action="KelolaDataPenunjang" method="post">
-                    <div class="form-group row">
-                        <div class="col-lg-3 col-form-label">
-                            <label asp-for="Pembiaya"></label>
-                            <span class="text-danger">*</span>
-                        </div>
-                        <div class="col">
-                            <select asp-for="Pembiaya" class="form-control" value="@Model.Pembiaya">
-                                <option value="Orang Tua" selected>Orang Tua</option>
-                                <option value="Wali">Wali</option>
-                                <option value="Sendiri">Sendiri</option>
-                            </select>
-                            <span asp-validation-for="Pembiaya" class="text-danger"></span>
-                        </div>
+<div class="col-11">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Form data penunjang</h6>
+        </div>
+        <div class="card-body">
+            <div asp-validation-summary="All" class="alert-danger text-danger mb-4"></div>
+            <form asp-controller="CalonSiswa" asp-action="KelolaDataPenunjang" method="post">
+                <div class="form-group row">
+                    <div class="col-lg-3 col-form-label">
+                        <label asp-for="Pembiaya"></label>
+                        <span class="text-danger">*</span>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-lg-3 col-form-label">
-                            <label asp-for="StatusTempatTinggal"></label>
-                        </div>
-                        <div class="col-lg-5">
-                            <select asp-for="StatusTempatTinggal" value="@Model.StatusTempatTinggal" class="custom-select form-control mr-sm-2">
-                                <option value="Rumah sendiri" selected>Rumah sendiri</option>
-                                <option value="Rumah Kos">Rumah kos</option>
-                                <option value="Kontrakan">Rumah Kontrak</option>
-                            </select>
-                        </div>
+                    <div class="col">
+                        <select asp-for="Pembiaya" class="form-control" value="@Model.Pembiaya">
+                            <option value="Orang Tua" selected>Orang Tua</option>
+                            <option value="Wali">Wali</option>
+                            <option value="Sendiri">Sendiri</option>
+                        </select>
+                        <span asp-validation-for="Pembiaya" class="text-danger"></span>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-lg-3 col-form-label">
-                            <label asp-for="DayaListrik"></label>
-                        </div>
-                        <div class="col-lg-5">
-                            <input asp-for="DayaListrik" class="form-control" />
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-3 col-form-label">
+                        <label asp-for="StatusTempatTinggal"></label>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-lg-3 col-form-label">
-                            <label asp-for="JarakTempuh"></label>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="input-group">
-                                <input asp-for="JarakTempuh" class="form-control" type="number"/>
-                                <div class="input-group-append">
-                                    <a class="text-white btn bg-secondary">Km</a>
-                                </div>
+                    <div class="col-lg-5">
+                        <select asp-for="StatusTempatTinggal" value="@Model.StatusTempatTinggal" class="custom-select form-control mr-sm-2">
+                            <option value="Rumah sendiri" selected>Rumah sendiri</option>
+                            <option value="Rumah Kos">Rumah kos</option>
+                            <option value="Kontrakan">Rumah Kontrak</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-3 col-form-label">
+                        <label asp-for="DayaListrik"></label>
+                    </div>
+                    <div class="col-lg-5">
+                        <input asp-for="DayaListrik" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-3 col-form-label">
+                        <label asp-for="JarakTempuh"></label>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="input-group">
+                            <input asp-for="JarakTempuh" class="form-control" type="number" />
+                            <div class="input-group-append">
+                                <a class="text-white btn bg-secondary">Km</a>
                             </div>
-                            <span asp-validation-for="JarakTempuh" class="text-danger"></span>
                         </div>
+                        <span asp-validation-for="JarakTempuh" class="text-danger"></span>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-lg-3 col-form-label">
-                            <label asp-for="WaktuTempuh"></label>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="input-group">
-                                <input asp-for="WaktuTempuh" class="form-control" />
-                                <div class="input-group-append">
-                                    <a class="text-white btn bg-secondary">Menit</a>
-                                </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-3 col-form-label">
+                        <label asp-for="WaktuTempuh"></label>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="input-group">
+                            <input asp-for="WaktuTempuh" class="form-control" />
+                            <div class="input-group-append">
+                                <a class="text-white btn bg-secondary">Menit</a>
                             </div>
-                            <span asp-validation-for="WaktuTempuh" class="text-danger"></span>
                         </div>
+                        <span asp-validation-for="WaktuTempuh" class="text-danger"></span>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-lg-3 col-form-label">
-                            <label asp-for="Transportasi"></label>
-                        </div>
-                        <div class="col-lg-7">
-                            <input asp-for="Transportasi" class="form-control" />
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-3 col-form-label">
+                        <label asp-for="Transportasi"></label>
                     </div>
-                    <div class="my-1 fa-pull-right">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    <div class="col-lg-7">
+                        <input asp-for="Transportasi" class="form-control" />
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="my-1 fa-pull-right">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>

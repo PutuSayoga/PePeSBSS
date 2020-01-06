@@ -8,12 +8,14 @@ namespace BackEnd.Abstraction
     public interface IKelas
     {
         List<Kelas> GetAllKelas();
-        void AddSiswaToKelas(int calonSiswaId);
-        void DeleteSiswaFromKelas();
-        void CreateNewKelas();
-        void UpdateKelas();
-        void DeleteKelas();
-        void GetDetailKelas();
-
+        void CreateNewKelas(Kelas newData);
+        void UpdateKelas(Kelas updateData);
+        void DeleteKelas(int idKelas);
+        Kelas GetDetailKelas(int idSiswa);
+        void AddSiswaToKelas(int idSiswa, int idKelas);
+        void DeleteSiswaFromKelas(int idSiswa);
+        void SetPath();
+        void AutoMapKelas();
+        List<Siswa> GetMemberKelas(int idKelas);
     }
 }

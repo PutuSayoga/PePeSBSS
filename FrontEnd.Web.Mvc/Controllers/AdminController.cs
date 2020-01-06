@@ -15,9 +15,9 @@ namespace FrontEnd.Web.Mvc.Controllers
     public class AdminController : Controller
     {
         private readonly IStaffSma _staffServices;
-        private readonly ISoalPenerimaan _soalService;
+        private readonly ISoal _soalService;
         private readonly ISiswa _siswaService;
-        public AdminController(IStaffSma staffServices, ISoalPenerimaan soalService, ISiswa siswaService)
+        public AdminController(IStaffSma staffServices, ISoal soalService, ISiswa siswaService)
         {
             _staffServices = staffServices;
             _soalService = soalService;
@@ -307,7 +307,6 @@ namespace FrontEnd.Web.Mvc.Controllers
             };
             return View(model);
         }
-
         [HttpPost]
         public IActionResult TambahPertanyaanAkademik(CrudPertanyaanAkademikModel model)
         {

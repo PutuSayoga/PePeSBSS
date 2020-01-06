@@ -1,0 +1,173 @@
+﻿@model KelolaDataOrangTuaModel
+
+<div>
+    <h3><b>Orang Tua & Wali</b></h3>
+    <table class="table-borderless">
+        <tr>
+            <td><h4 class="mt-2">Data Ayah</h4></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NamaLengkapAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NamaLengkapAyah</label></td>
+        </tr>
+        <tr>
+            <td><label>Tempat, Tanggal Lahir</label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.TempatLahirAyah, @(Model.TanggalLahirAyah?.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("id-ID")))</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.AlamatAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.AlamatAyah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.AgamaAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.AgamaAyah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PendidikanTerakhirAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PendidikanTerakhirAyah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PekerjaanAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PekerjaanAyah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PenghasilanAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PenghasilanAyah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NoHpAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NoHpAyah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.EmailAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.EmailAyah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.StatusDalamKeluargaAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.StatusDalamKeluargaAyah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.KeteranganAyah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.KeteranganAyah</label></td>
+        </tr>
+
+        <tr>
+            <td><h4 class="mt-2">Data Ibu</h4></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NamaLengkapIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NamaLengkapIbu</label></td>
+        </tr>
+        <tr>
+            <td><label>Tempat, Tanggal Lahir</label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.TempatLahirIbu, @(Model.TanggalLahirIbu?.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("id-ID")))</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.AlamatIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.AlamatIbu</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.AgamaIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.AgamaIbu</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PendidikanTerakhirIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PendidikanTerakhirIbu</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PekerjaanIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PekerjaanIbu</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PenghasilanIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PenghasilanIbu</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NoHpIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NoHpIbu</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.EmailIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.EmailIbu</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.StatusDalamKeluargaIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.StatusDalamKeluargaIbu</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.KeteranganIbu"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.KeteranganIbu</label></td>
+        </tr>
+
+        <tr>
+            <td><h4 class="mt-2">Data Wali</h4></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NamaLengkapWali"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NamaLengkapWali</label></td>
+        </tr>
+        <tr>
+            <td><label>Tempat, Tanggal Lahir</label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.TempatLahirWali, @(Model.TanggalLahirWali?.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("id-ID")))</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.AlamatWali"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.AlamatWali</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.AgamaWali"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.AgamaWali</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PendidikanTerakhirWali"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PendidikanTerakhirWali</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PekerjaanWali"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PekerjaanWali</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.PenghasilanWali"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.PenghasilanWali</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NoHpWali"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NoHpWali</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.EmailWali"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.EmailWali</label></td>
+        </tr>
+    </table>
+</div>

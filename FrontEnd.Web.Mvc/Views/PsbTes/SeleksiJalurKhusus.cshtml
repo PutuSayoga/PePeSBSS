@@ -53,9 +53,9 @@
                                     <a href="#">Lihat</a>
                                 </td>
                                 <td class="text-center">
-                                    <form asp-controller="PsbTes" asp-action="Seleksi">
-                                        <input type="hidden" name="id" value="@akun.Id" />
-                                        <input type="hidden" name="isLolos" value="@akun.IsLolos" />
+                                    <form asp-controller="PsbTes" asp-action="SeleksiJalurKhusus">
+                                        <input type="hidden" name="noPendaftaran" value="@akun.NoPendaftaran" />
+                                        <input type="hidden" name="isLolos" value="@(akun.IsLolos.ToString())" />
                                         <button class="btn btn-primary" type="submit">Perbarui Status</button>
                                     </form>
                                 </td>

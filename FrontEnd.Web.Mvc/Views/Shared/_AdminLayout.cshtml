@@ -35,15 +35,15 @@
             </li>
             <li class="nav-item nav-link">
                 <a class="nav-link" asp-controller="Admin" asp-action="Index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-bookmark"></i>
                     <span>Halaman Utama</span>
                 </a>
             </li>
             <li><hr class="sidebar-divider" /></li>
             <li class="sidebar-heading">Siswa</li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Admin" asp-action="DaftarSiswa">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                <a class="nav-link" asp-controller="Admin" asp-action="ListDaftarSiswa">
+                    <i class="fas fa-fw fa-eye"></i>
                     <span>Daftar Siswa</span>
                 </a>
             </li>
@@ -51,19 +51,19 @@
             <li class="sidebar-heading">Soal</li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Admin" asp-action="KelolaSoalAkademik">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-paperclip"></i>
                     <span>Kelola Soal Akademik</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Admin" asp-action="KelolaSoalWawancara">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-paperclip"></i>
                     <span>Kelola Soal Wawancara</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Admin" asp-action="PengaturanSoal">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-ruler"></i>
                     <span>Pengaturan Soal</span>
                 </a>
             </li>
@@ -71,7 +71,7 @@
             <li class="sidebar-heading">Staff SMA</li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="Admin" asp-action="KelolaStaff">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-person-booth"></i>
                     <span>Kelola Staff</span>
                 </a>
             </li>
@@ -129,6 +129,12 @@
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
         <script src="~/lib/startbootstrap-sb-admin-2/js/sb-admin-2.min.js" type="text/javascript"></script>
     </environment>
+    <script>
+    @if (ViewBag.Pesan != null)
+    {
+        @: alert("@ViewBag.Pesan");
+    }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

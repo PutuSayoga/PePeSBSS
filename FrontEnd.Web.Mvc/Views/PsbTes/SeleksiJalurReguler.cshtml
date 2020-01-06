@@ -18,9 +18,11 @@
                 <p>
                     <a class="text-dark"><b>Calon siswa lolos sampai peringkat</b></a>
                     <div class="form-inline">
-                        <input class="form-control col-2 mr-2" />
+                        <input name="banyakLolos" type="number" class="form-control col-2 mr-2" required/>
+                        <input name="total" type="hidden" value="@Model.ListAkun.Count" />
                         <button type="submit" class="btn btn-primary">Seleksi</button>
                     </div>
+                    <span class="text-danger"></span>
                 </p>
             </form>
             <div class="table-responsive">

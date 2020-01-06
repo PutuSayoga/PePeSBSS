@@ -48,6 +48,7 @@ namespace FrontEnd.Web.Mvc.Controllers
 
             return RedirectToAction(nameof(LoginCalonSiswa));
         }
+        
         [HttpGet]
         public IActionResult LoginCalonSiswa(string returnUrl)
         {
@@ -71,6 +72,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 bool isLogInSuccess = _calonSiswaService.IsLogin(model.NoPendaftaran, model.Password);
                 if (!isLogInSuccess)
                 {
+                    ViewBag.Pesan = "Kombinasi nomor pendaftaran dan password salah";
                     return View();
                 }
                 else
@@ -121,6 +123,7 @@ namespace FrontEnd.Web.Mvc.Controllers
                 bool isLogIn = _staffSmaService.IsLogin(model.Username, model.Password, model.Role);
                 if (!isLogIn)
                 {
+                    ViewBag.Pesan = "Kombinasi login sebagai, username, dan password salah";
                     return View();
                 }
                 else
@@ -135,12 +138,10 @@ namespace FrontEnd.Web.Mvc.Controllers
                     HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         userPrincipal);
-
                     if (returnUrl != null)
                     {
                         return Redirect(returnUrl);
                     }
-
                     return RedirectToAction(nameof(Index));
                 }
             }

@@ -35,7 +35,7 @@
             </li>
             <li class="nav-item nav-link">
                 <a class="nav-link" asp-controller="TataUsaha" asp-action="Index">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-bookmark"></i>
                     <span>Halaman Utama</span>
                 </a>
             </li>
@@ -43,21 +43,21 @@
             <li class="sidebar-heading">Mutasi</li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="TataUsaha" asp-action="KelolaMutasiMasuk">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-pencil-alt"></i>
                     <span>Kelola Mutasi Masuk</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" asp-controller="TataUsaha" asp-action="KelolaMutasiKeluar">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-eraser"></i>
                     <span>Kelola Mutasi Keluar</span>
                 </a>
             </li>
             <li><hr class="sidebar-divider" /></li>
             <li class="sidebar-heading">Siswa</li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="TataUsaha" asp-action="DaftarSiswa">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                <a class="nav-link" asp-controller="TataUsaha" asp-action="ListDaftarSiswa">
+                    <i class="fas fa-fw fa-eye"></i>
                     <span>Daftar Siswa</span>
                 </a>
             </li>
@@ -115,6 +115,12 @@
         <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
         <script src="~/lib/startbootstrap-sb-admin-2/js/sb-admin-2.min.js" type="text/javascript"></script>
     </environment>
+    <script>
+    @if (ViewBag.Pesan != null)
+    {
+        @: alert("@ViewBag.Pesan");
+    }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

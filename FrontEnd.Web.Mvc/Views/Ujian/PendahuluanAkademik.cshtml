@@ -21,19 +21,32 @@ else
             <h6 class="m-0 font-weight-bold text-primary">Peraturan & Keterangan</h6>
         </div>
         <div class="card-body">
-            <div>
-                <label asp-for="BatasWaktu"></label>:<label>@Model.BatasWaktu menit</label>
-            </div>
-            <div>
-                <label asp-for="JumlahPertanyaan"></label>:<label>@Model.JumlahPertanyaan pertanyaan</label>
-            </div>
-            <div>
-                <label asp-for="Kategori"></label>:<label>@Model.Kategori</label>
-            </div>
-            <div>
-                <label asp-for="Deskripsi"></label>:<label>@Model.Deskripsi</label>
-            </div>
-            <a asp-controller="Ujian" asp-action="MulaiMengerjakanAkademik" asp-route-soalId="@Model.Id" class="btn btn-primary">Mulai Mengerjakan</a>
+            <table class="table-borderless">
+                <tr>
+                    <td><label asp-for="BatasWaktu"></label></td>
+                    <td><label> : </label></td>
+                    <td><label>@Model.BatasWaktu menit</label></td>
+                </tr>
+                <tr>
+                    <td><label asp-for="JumlahPertanyaan"></label></td>
+                    <td><label> : </label></td>
+                    <td><label>@Model.JumlahPertanyaan pertanyaan</label></td>
+                </tr>
+                <tr>
+                    <td><label asp-for="Kategori"></label></td>
+                    <td><label> : </label></td>
+                    <td><label>@Model.Kategori</label></td>
+                </tr>
+                <tr>
+                    <td><label asp-for="Deskripsi"></label></td>
+                    <td><label> : </label></td>
+                    <td><label>@Model.Deskripsi</label></td>
+                </tr>
+            </table>
+            <a asp-controller="Ujian" asp-action="MulaiMengerjakanAkademik" asp-route-soalId="@Model.Id" 
+               asp-route-kategori="@Model.Kategori" class="btn btn-primary">
+                Mulai Mengerjakan
+            </a>
         </div>
     </div>
 }

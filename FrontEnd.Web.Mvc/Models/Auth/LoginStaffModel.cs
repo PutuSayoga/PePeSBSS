@@ -15,7 +15,7 @@ namespace FrontEnd.Web.Mvc.Models.Auth
         [Display(Name = "Password", Prompt = "Masukkan password anda")]
         public string Password { get; set; }
         [Required]
-        [Display(Name = "Peran", Prompt = "Pilih peran")]
+        [Display(Name = "Login Sebagai", Prompt = "Pilih peran")]
         public string Role { get; set; }
     }
 }

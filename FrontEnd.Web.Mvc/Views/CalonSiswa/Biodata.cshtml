@@ -24,31 +24,24 @@
     <div class="card-body">
         <div class="tab-content">
             <div id="DataDiri" class="tab-pane fade active show">
-                <h3>Data Diri</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                @{await Html.RenderPartialAsync("DataDiriShared", Model.DataDiri);}
             </div>
             <div id="DataAkademikTerakhir" class="tab-pane fade">
-                <h3>Akademik terakhir</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                @{await Html.RenderPartialAsync("DataAkademikShared", Model.DataAkademikTerakhir);}
             </div>
             <div id="DataPrestasi" class="tab-pane fade">
-                <h3>Prestasi</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                @{await Html.RenderPartialAsync("DataPrestasiShared", Model.DataPrestasi);}
             </div>
             <div id="DataRapor" class="tab-pane fade">
-                <h3>Rapor</h3>
-                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                @{await Html.RenderPartialAsync("DataRaporShared", Model.DataRapor);}
             </div>
             <div id="DataOrangTua" class="tab-pane fade">
-                <h3>Orang Tua/Wali</h3>
-                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                @{await Html.RenderPartialAsync("DataOrangTuaShared", Model.DataOrangTua);}
             </div>
             <div id="DataPenunjang" class="tab-pane fade">
-                <h3>Penunjang</h3>
-                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                @{await Html.RenderPartialAsync("DataPenunjangShared", Model.DataPenunjang);}
             </div>
         </div>
     </div>
 </div>
-
 

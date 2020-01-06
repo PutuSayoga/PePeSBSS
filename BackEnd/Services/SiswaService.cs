@@ -12,10 +12,15 @@ namespace BackEnd.Services
     public class SiswaService : ISiswa
     {
         private readonly IDbConnectionHelper _connectionHelper;
-        public SiswaService(IDbConnectionHelper connectionHelper)
-            => _connectionHelper = connectionHelper;
+        private readonly IKelas _kelasService;
+        public SiswaService(IDbConnectionHelper connectionHelper, IKelas kelasService)
+        {
+            _connectionHelper = connectionHelper;
+            _kelasService = kelasService;
+        }
 
-        public void NewMutasiKeluar(MutasiKeluar mutasi)
+        #region Not Interface Implementation
+        private void MutasiKeluar(MutasiKeluar mutasi)
         {
             string sqlInsertMutasi = @"INSERT INTO MutasiKeluar(SiswaId, Tujuan, Alasan, TanggalKeluar) 
                 VALUES(@SiswaId, @Tujuan, @Alasan, @TanggalKeluar)";
@@ -40,7 +45,13 @@ namespace BackEnd.Services
                 }
             }
         }
+        #endregion
 
+        public void NewMutasiKeluar(MutasiKeluar dataMutasi)
+        {
+            MutasiKeluar(dataMutasi);
+            _kelasService.DeleteSiswaFromKelas(dataMutasi.SiswaId);
+        }
         public List<Siswa> GetAllSiswa()
         {
             string sqlQuery = @"SELECT s.*, cs.NamaLengkap, dd.IsPerempuan, k.NamaKelas 
@@ -65,13 +76,34 @@ namespace BackEnd.Services
                 return listSiswa;
             }
         }
-
+        public List<Siswa> GetAllSiswaNotYetGetKelas()
+        {
+            string sqlQuery = @"SELECT s.*, cs.NamaLengkap, ap.JalurPendaftaran, ap.NoPendaftaran 
+                FROM Siswa s JOIN CalonSiswa cs ON s.CalonSiswaId = cs.Id
+                FULL JOIN AkunPendaftaran ap ON s.CalonSiswaId = ap.CalonSiswaId 
+                WHERE s.Status = 'Aktif' AND s.KelasId IS NULL AND ap.Status = 'Daftar Ulang'";
+            using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
+            {
+                connection.Open();
+                var listSiswa = connection.Query<Siswa, CalonSiswa, AkunPendaftaran, Siswa>(
+                    sql: sqlQuery,
+                    map: (s, cs, ap) =>
+                    {
+                        s.CalonSiswa = cs;
+                        s.CalonSiswa.ListAkunPendaftaran = new List<AkunPendaftaran>();
+                        s.CalonSiswa.ListAkunPendaftaran.Add(ap);
+                        return s;
+                    },
+                    splitOn: "NamaLengkap, JalurPendaftaran")
+                    .ToList();
+                return listSiswa;
+            }
+        }
         public MutasiKeluar GetMutasiKeluar(int id)
         {
             throw new NotImplementedException();
         }
-
-        public Siswa SearchSiswa(string nis)
+        public Siswa SearchSiswaForMutasiKeluar(string nis)
         {
             string sqlQuery = @"SELECT s.Id, s.Nis, cs.NamaLengkap, k.NamaKelas 
                 FROM Siswa s JOIN CalonSiswa cs ON s.CalonSiswaId = cs.Id
@@ -94,12 +126,10 @@ namespace BackEnd.Services
                 return listSiswa;
             }
         }
-
         public Siswa GetDetailSiswa(int id)
         {
             throw new NotImplementedException();
         }
-
         public List<Siswa> GetAllMutasiKeluar()
         {
             string sqlQuery = @"SELECT s.Nis, s.Id, mk.Tujuan, mk.Alasan, mk.TanggalKeluar, cs.NamaLengkap

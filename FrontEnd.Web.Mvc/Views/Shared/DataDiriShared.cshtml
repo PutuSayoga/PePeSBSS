@@ -1,0 +1,156 @@
+﻿@model KelolaDataDiriModel
+
+<div>
+    <h3><b>Data Diri</b></h3>
+    <table class="table-borderless">
+        <tr>
+            <td><label asp-for="@Model.NamaLengkap"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NamaLengkap</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NoPendaftaran"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NoPendaftaran</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.JalurPendaftaran"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.JalurPendaftaran</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NamaPanggilan"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NamaPanggilan</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.IsPerempuan"></label></td>
+            <td><label> : </label></td>
+            <td>
+                @if (@Model.IsPerempuan)
+                {
+                    <label>Perempuan</label>
+                }
+                else
+                {
+                    <label>Laki-laki</label>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td><label>Tempat, <label asp-for="TanggalLahir"></label></label></td>
+            <td><label> : </label></td>
+            <td>
+                <label>
+                    @Model.TempatLahir, @(Model.TanggalLahir.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("id-ID")))
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Agama"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Agama</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Alamat"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Alamat</label></td>
+        </tr>
+        <tr>
+            <td><label>a. <label asp-for="Rt"></label>/<label asp-for="Rw"></label></label></td>
+            <td><label> : </label></td>
+            <td>
+                @if (Model.Rt != null || Model.Rw != null)
+                {
+                    <label>@Model.Rt / @Model.Rw</label>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td><label>b. <label asp-for="@Model.DusunDesaLurah"></label></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.DusunDesaLurah</label></td>
+        </tr>
+        <tr>
+            <td><label>c. <label asp-for="@Model.Kecamatan"></label></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Kecamatan</label></td>
+        </tr>
+        <tr>
+            <td><label>d. <label asp-for="@Model.KotaKabupaten"></label></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.KotaKabupaten</label></td>
+        </tr>
+        <tr>
+            <td><label>e. <label asp-for="@Model.KodePos"></label></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.KodePos</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NoTelp"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NoTelp</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.NoHp"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.NoHp</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Email"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Email</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.AnakKe"></label></td>
+            <td><label> : </label></td>
+            <td>
+
+                @if (Model.AnakKe != null || Model.JumlahSaudara != null)
+                {
+                    <label>@Model.AnakKe dari @(Model.JumlahSaudara + 1) bersaudara</label>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.StatusDalamKeluarga"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.StatusDalamKeluarga</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.TinggiBadan"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.TinggiBadan Cm</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.BeratBadan"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.BeratBadan Kg</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.GolDarah"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.GolDarah</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.CitaCita"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.CitaCita</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.Hobi"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.Hobi</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.RiwayatSakit"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.RiwayatSakit</label></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.KelainanJasmani"></label></td>
+            <td><label> : </label></td>
+            <td><label>@Model.KelainanJasmani</label></td>
+        </tr>
+    </table>
+</div>

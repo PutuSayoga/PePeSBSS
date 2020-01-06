@@ -20,7 +20,7 @@ namespace BackEnd.Services
         }
 
         #region Not Interface Implementation
-        public int GetCalonSiswaId(string noPendaftaran)
+        private int GetCalonSiswaId(string noPendaftaran)
         {
             string sqlQuery = @"SELECT CalonSiswaId FROM AkunPendaftaran WHERE NoPendaftaran = @NoPendaftaran";
             using (var connection = new SqlConnection(_connectionHelper.GetConnectionString()))
@@ -31,7 +31,7 @@ namespace BackEnd.Services
                 return calonSiswaId;
             }
         }
-        public bool CekExist(int calonSiswaId, string table, string additionalValue = "")
+        private bool CekExist(int calonSiswaId, string table, string additionalValue = "")
         {
             bool exist;
             string sqlQuery;
@@ -65,7 +65,6 @@ namespace BackEnd.Services
                 return akun;
             }
         }
-
         public AkunPendaftaran GetDetailAkademikTerakhir(string noPendaftaran)
         {
             string sqlQuery = @"SELECT ap.JalurPendaftaran, ap.NoPendaftaran, cs.*, at.* 
@@ -208,7 +207,6 @@ namespace BackEnd.Services
                 }
             }
         }
-
         public bool IsLogin(string noPendaftaran, string password)
         {
             string sqlQuery = @"SELECT NoPendaftaran FROM AkunPendaftaran 
@@ -223,7 +221,6 @@ namespace BackEnd.Services
                 return result != null;
             }
         }
-
         public void SaveDataAkademikTerakhir(string noPendaftaran, AkademikTerakhir newData)
         {
             newData.CalonSiswaId = GetCalonSiswaId(noPendaftaran);

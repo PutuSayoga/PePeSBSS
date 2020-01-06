@@ -42,24 +42,21 @@
                                 <td>@kelas.NamaKelas</td>
                                 <td>@kelas.Kategori</td>
                                 <td>@kelas.Tingkat</td>
-                                <td>@kelas.JumlahSiswa</td>
-                                <td>
-                                    <form asp-controller="WakaKesiswaan" asp-action="HapusKelas" asp-route-id="@kelas.Id"
+                                <td>@kelas.JumlahSiswa dari @kelas.MaxSiswa</td>
+                                <td class="">
+                                    <form asp-controller="WakaKesiswaan" asp-action="HapusKelas" asp-route-id="@kelas.Id" asp-route-nama="@kelas.NamaKelas"
                                           method="post" class="delete-button mt-1">
                                         <button type="submit" onclick="return confirm('Apa anda yakin ingin menghapus kelas @kelas.NamaKelas?')"
                                                 class="btn btn-danger">
                                             Hapus
                                         </button>
                                     </form>
-                                    <button onclick="UbahKelas(@kelas.Id)" data-toggle="modal" class="btn btn-warning">
+                                    <button onclick="UbahKelas('@kelas.Id')" data-toggle="modal" class="btn btn-warning">
                                         Ubah
                                     </button>
-                                    <button data-target="#ModalAnggotaSiswa" data-toggle="modal" class="btn btn-info">
+                                    <button onclick="AnggotaKelas('@kelas.NamaKelas', '@kelas.Id')" data-toggle="modal" class="btn btn-info">
                                         Anggota
                                     </button>
-                                    <a asp-controller="WakaKesiswaan" asp-action="TambahSiswa" asp-route-id="@kelas.Id" class="btn btn-success">
-                                        Tentukan
-                                    </a>
                                 </td>
                             </tr>
                         }
@@ -84,13 +81,13 @@
                     <div class="form-group">
                         <label asp-for="CrudKelas.NamaKelas" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <input asp-for="CrudKelas.NamaKelas" class="form-control" />
+                        <input asp-for="CrudKelas.NamaKelas" id="Create_CrudKelas.NamaKelas" class="form-control" />
                         <span asp-validation-for="CrudKelas.NamaKelas" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CrudKelas.Kategori" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <select asp-for="CrudKelas.Kategori" class="form-control">
+                        <select asp-for="CrudKelas.Kategori" id="Create_CrudKelas.Kategori" class="form-control">
                             <option selected></option>
                             <option value="IPA">IPA</option>
                             <option value="IPS">IPS</option>
@@ -100,7 +97,7 @@
                     <div class="form-group">
                         <label asp-for="CrudKelas.Tingkat" class="col-form-label"></label>
                         <span class="text-danger">*</span>
-                        <select asp-for="CrudKelas.Tingkat" class="form-control">
+                        <select asp-for="CrudKelas.Tingkat" id="Create_CrudKelas.Tingkat" class="form-control">
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
@@ -109,12 +106,9 @@
                     </div>
                     <div class="form-group mb-3">
                         <label asp-for="CrudKelas.MaxSiswa" class="col-form-label"></label>
-                        <label class="text-danger">**</label>
-                        <input asp-for="CrudKelas.MaxSiswa" class="form-control" />
+                        <label class="text-danger">*</label>
+                        <input asp-for="CrudKelas.MaxSiswa" id="Create_CrudKelas.MaxSiswa" class="form-control" />
                         <span asp-validation-for="CrudKelas.MaxSiswa" class="text-danger"></span>
-                    </div>
-                    <div>
-                        <span class="text-danger">**</span>) Jika 0 kelas tersebut tidak memiliki jumlah maksimal
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
@@ -137,6 +131,10 @@
                     <span class="sr-only">Loading...</span>
                 </div>
                 <form class="form" method="post" asp-controller="WakaKesiswaan" asp-action="UbahKelas">
+                    <div>
+                        <input asp-for="CrudKelas.Id" hidden />
+                        <input asp-for="CrudKelas.JumlahSiswa" hidden />
+                    </div>
                     <div class="form-group">
                         <label asp-for="CrudKelas.NamaKelas" class="col-form-label"></label>
                         <span class="text-danger">*</span>
@@ -165,12 +163,9 @@
                     </div>
                     <div class="form-group mb-3">
                         <label asp-for="CrudKelas.MaxSiswa" class="col-form-label"></label>
-                        <label class="text-danger">**</label>
+                        <label class="text-danger">*</label>
                         <input asp-for="CrudKelas.MaxSiswa" class="form-control" />
                         <span asp-validation-for="CrudKelas.MaxSiswa" class="text-danger"></span>
-                    </div>
-                    <div>
-                        <span class="text-danger">**</span>) Jika 0 kelas tersebut tidak memiliki jumlah maksimal
                     </div>
                     <div class="my-1 fa-pull-right">
                         <button class="btn border" data-dismiss="modal">Batal</button>
@@ -181,48 +176,75 @@
         </div>
     </div>
 </div>
-<div id="ModalAnggotaSiswa" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
-    <div class="modal-dialog">
+<div id="ModalAnggotaKelas" data-keyboard="false" data-backdrop="static" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Anggota Kelas</h4>
+                <h4 class="modal-title">-</h4>
                 <button class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
-                <div>
-                    no | Nis | nama lengkap
+                <div class="table-responsive">
+                    <table class="table table-borderless" width="100%" cellspacing="0">
+                        <thead class="text-dark border-bottom">
+                            <tr>
+                                <th><b>No           </b></th>
+                                <th><b>Nis          </b></th>
+                                <th><b>Nama Lengkap </b></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
 @section Scripts{
     <script>
-    @if (ViewBag.Pesan != null)
-    {
-        @: alert("@ViewBag.Pesan");
-    }
+        //Ajax ubah kelas
+        function UbahKelas(id) {
+            $("#ModalUbahKelas .form").hide();
+            $("#ModalUbahKelas .spinner-border").show();
+            $('#ModalUbahKelas').modal();
 
-    //Ajax ubah soal
-    function UbahSoalAkademikModal(id) {
-        $("#ModalUbahKelas .form").hide();
-        $("#ModalUbahKelas .spinner-border").show();
-        $('#ModalUbahKelas').modal();
+            $.get(`/WakaKesiswaan/RincianKelas/${id}`, (data) => {
+                $("#ModalUbahKelas .form").show();
+                $("#ModalUbahKelas .spinner-border").hide();
+                $('#ModalUbahKelas .form [name="CrudKelas.Id"]').val(data.id);
+                $('#ModalUbahKelas .form [name="CrudKelas.JumlahSiswa"]').val(data.jumlahSiswa);
+                $('#ModalUbahKelas .form [name="CrudKelas.NamaKelas"]').val(data.namaKelas);
+                $('#ModalUbahKelas .form [name="CrudKelas.Kategori"]').val(data.kategori);
+                $('#ModalUbahKelas .form [name="CrudKelas.Tingkat"]').val(data.tingkat);
+                $('#ModalUbahKelas .form [name="CrudKelas.MaxSiswa"]').val(data.maxSiswa);
+            });
+        }
 
-        $.get(`/WakaKesiswaan/UbahKelas/${id}`, (data) => {
-            $("#ModalUbahKelas .form").show();
-            $("#ModalUbahKelas .spinner-border").hide();
-            $('#ModalUbahKelas .form [name="CrudKelas.Id"]').val(data.id);
-            $('#ModalUbahKelas .form [name="CrudKelas.NamaKelas"]').val(data.namaKelas);
-            $('#ModalUbahKelas .form [name="CrudKelas.Kategori"]').val(data.kategori);
-            $('#ModalUbahKelas .form [name="CrudKelas.Tingkat"]').val(data.tingkat);
-            $('#ModalUbahKelas .form [name="CrudKelas.MaxSiswa"]').val(data.maxSiswa);
-        });
-    }
+        //Ajax get anggota
+        function AnggotaKelas(namaKelas, idKelas) {
+            $("#ModalAnggotaKelas .modal-title").text(namaKelas);
+            $("#ModalAnggotaKelas .table-responsive").hide();
+            $("#ModalAnggotaKelas .spinner-border").show();
+            $('#ModalAnggotaKelas').modal();
+
+            $.get(`/WakaKesiswaan/GetAnggotaKelas/${idKelas}`, function (data) {
+                var content = '';
+                for (var i = 0; i < data.length; i++) {
+                    content += '<tr>';
+                    content += '<td align="center">' + (i + 1) + '</td>';
+                    content += '<td align="center">' + data[i].nis + '</td>';
+                    content += '<td align="center">' + data[i].namaLengkap + '</td>';
+                    content += '</tr>';
+                }
+                $("#ModalAnggotaKelas .table tbody").html(content);
+                $("#ModalAnggotaKelas .table-responsive").show();
+                $("#ModalAnggotaKelas .spinner-border").hide();
+            });
+        }
     </script>
 }

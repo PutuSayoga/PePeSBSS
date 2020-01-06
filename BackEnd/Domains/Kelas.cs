@@ -8,7 +8,7 @@ namespace BackEnd.Domains
         public int Id { get; set; }
         public string NamaKelas { get; set; }
         public string Kategori { get; set; }
-        public byte? Tingkat { get; set; }
+        public byte Tingkat { get; set; }
         public byte? MaxSiswa { get; set; }
         public byte? JumlahSiswa { get; set; }
 
