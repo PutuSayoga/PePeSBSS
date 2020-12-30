@@ -399,7 +399,7 @@ namespace FrontEnd.Web.Mvc.Controllers
         }
         private void MapDataRapor(ref KelolaDataRaporModel model, AkunPendaftaran akun)
         {
-            if (akun.CalonSiswa.ListNilaiRapor != null)
+            if (akun.CalonSiswa.ListNilaiRapor.Count != 0)
             {
                 model.ListRapor[0] = akun.CalonSiswa.ListNilaiRapor
                     .Where(x => x.MataPelajaran.Equals("Pendidikan Agama"))
@@ -533,6 +533,10 @@ namespace FrontEnd.Web.Mvc.Controllers
                         Semester5 = x.Semester5,
                     })
                     .FirstOrDefault();
+            }
+            else
+            {
+                model.ListRapor = new CrudRapor[0];
             }
         }
         private void MapDataPrestasi(ref KelolaDataPrestasiModel model, AkunPendaftaran akun)

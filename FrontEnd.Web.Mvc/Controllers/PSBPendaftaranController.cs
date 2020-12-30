@@ -130,16 +130,22 @@ namespace FrontEnd.Web.Mvc.Controllers
             var listAkun = _pendaftaranService.GetAllDaftarUlang();
             var model = new ListDaftarUlangModel()
             {
-                ListDaftarUlang = listAkun.Select(x => new AkunDaftarUlang()
-                {
-                    Id = x.Id,
-                    NoPendaftaran = x.NoPendaftaran,
-                    AsalSekolah = x.CalonSiswa.AkademikTerakhir.NamaSekolah,
-                    JalurPendaftaran = x.JalurPendaftaran,
-                    NamaLengkap = x.CalonSiswa.NamaLengkap
-                })
-                .ToList()
+                ListDaftarUlang = new List<AkunDaftarUlang>()
             };
+
+            foreach (var item in listAkun)
+            {
+                var tempAkun = new AkunDaftarUlang();
+                tempAkun.Id = item.Id;
+                tempAkun.NoPendaftaran = item.NoPendaftaran;
+                tempAkun.JalurPendaftaran = item.JalurPendaftaran;
+                if (item.CalonSiswa.AkademikTerakhir != null)
+                {
+                    tempAkun.AsalSekolah = item.CalonSiswa.AkademikTerakhir.NamaSekolah;
+                }
+                tempAkun.NamaLengkap = item.CalonSiswa.NamaLengkap;
+                model.ListDaftarUlang.Add(tempAkun);
+            }
 
             return View(model);
         }
