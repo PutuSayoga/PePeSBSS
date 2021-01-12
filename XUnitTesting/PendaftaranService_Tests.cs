@@ -20,7 +20,7 @@ namespace XUnitTesting
         public PendaftaranService_Tests(ITestOutputHelper output)
         {
             this._output = output;
-            _connectionHelper = new DbConnectionHelper("Server=DESKTOP-3QK0RTT\\LOCAL_INSTANCE; Database=SkripsiDatabase; Trusted_Connection=true");
+            _connectionHelper = new DbConnectionHelper("Server=DESKTOP-JSK4FQ3\\MOCKINSTANCE; Database=SkripsiTest; Trusted_Connection=true");
             _securityRelateHelper = new SecurityRelateHelper();
         }
 

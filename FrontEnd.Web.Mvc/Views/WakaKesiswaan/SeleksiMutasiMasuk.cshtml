@@ -54,8 +54,8 @@
                                 </td>
                                 <td class="text-center">
                                     <form asp-controller="WakaKesiswaan" asp-action="SeleksiMutasiMasuk">
-                                        <input type="hidden" name="id" value="@akun.Id" />
-                                        <input type="hidden" name="isLolos" value="@akun.IsLolos" />
+                                        <input type="hidden" name="noPendaftaran" value="@akun.NoPendaftaran" />
+                                        <input type="hidden" name="isLolos" value="@akun.IsLolos.ToString()" />
                                         <button class="btn btn-primary" type="submit">Perbarui Status</button>
                                     </form>
                                 </td>

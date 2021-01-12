@@ -18,7 +18,7 @@ namespace XUnitTesting
         {
             this.output = output;
             _connectionHelper = new DbConnectionHelper
-                ("Server=DESKTOP-3QK0RTT\\LOCAL_INSTANCE; Database=SkripsiDatabase; Trusted_Connection=true");
+                ("Server=DESKTOP-JSK4FQ3\\MOCKINSTANCE; Database=SkripsiTest; Trusted_Connection=true");
         }
 
         [Theory]

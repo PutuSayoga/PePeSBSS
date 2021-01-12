@@ -122,7 +122,7 @@ namespace XUnitTesting
         }
 
         [Theory]
-        [InlineData("pl41nT3xt")]
+        [InlineData("12345")]
         [InlineData("@qAdje4wd")]
         [InlineData("Qwertsa12")]
         public void Encrypt_ChangePlainText(string plainText)

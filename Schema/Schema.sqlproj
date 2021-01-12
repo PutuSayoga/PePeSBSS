@@ -86,8 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema.publish.xml" />
-    <None Include="SchemaTest.publish.xml" />
-    <None Include="SidangSkripsi.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Schema.refactorlog" />

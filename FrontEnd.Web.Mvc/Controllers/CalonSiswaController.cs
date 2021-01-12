@@ -534,10 +534,10 @@ namespace FrontEnd.Web.Mvc.Controllers
                     })
                     .FirstOrDefault();
             }
-            else
-            {
-                model.ListRapor = new CrudRapor[0];
-            }
+            //else
+            //{
+            //    model.ListRapor = new CrudRapor[0];
+            //}
         }
         private void MapDataPrestasi(ref KelolaDataPrestasiModel model, AkunPendaftaran akun)
         {

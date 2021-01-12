@@ -3,7 +3,7 @@
 	SoalId INT NULL,
 	PertanyaanId INT NULL,
 	AkunPendaftaranId INT NULL,
-	Jawaban VARCHAR(255) NULL,
+	Jawaban TEXT NULL,
 	IsBenar BIT NULL,
 	CONSTRAINT [FK_HasilTesToPertanyaan]
 		FOREIGN KEY (SoalId, PertanyaanId) REFERENCES Pertanyaan(SoalId, Id),
