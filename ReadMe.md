@@ -1,3 +1,5 @@
+Aplikasi pengelolaan penerimaan siswa (PePeS) berbasis web. Aplikasi ini bertujuan untuk mempermudah proses penerimaan siswa khususnya pada saat penerimaan siswa baru. PePeS memiliki beberapa modul, yaitu: modul penerimaan siswa, pengelolaan soal, ujian online, seleksi, dan pengeloaan staff. 
+
 cara menjalankan:
 1. publish schema & ubah launchSettings.json sesuai kebutuhan
 2. tambahkan data admin pada table staff dengan password: DpImMkNOrsU=   =>  12345
