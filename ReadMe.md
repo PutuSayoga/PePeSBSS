@@ -18,3 +18,15 @@ NoPendaftaran   Pass            JalurPendaftaran    Status
 ==== ini untuk auto generate NoPendaftaran (NoPendaftaran terakhir+1) ====
 
 5. {localHost}/Auth/LoginStaff untuk login sebagai staff
+
+Demo
+Calon Siswa:
+https://pepes-webapp.azurewebsites.net/Auth/LoginCalonSiswa
+https://pepes-webapp.azurewebsites.net/Ujian
+
+Staff:
+https://pepes-webapp.azurewebsites.net/Auth/LoginStaff
+
+role: admin
+username: admin
+pass: 12345

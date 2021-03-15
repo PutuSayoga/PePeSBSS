@@ -5,6 +5,7 @@
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
+    <UserSecretsId>4c187c13-d8e4-405a-b758-32da55dd26f0</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,14 @@
   <ItemGroup>
     <Folder Include="wwwroot\lib\Quixlab\plugins\jqvmap\js\maps\" />
     <Folder Include="wwwroot\lib\Quixlab\plugins\summernote\css\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
